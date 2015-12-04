@@ -4,15 +4,16 @@ angular.module('whiteboard.canvas', [])
     $scope.board = {};
 
     var socket_connect = function (room) {
-      return io('localhost:4000', {
-          query: 'r_var='+room
+      return io('localhost:3000', {
+          query: 'r_var=' + room
       });
     }
 
     var random_room = Math.floor((Math.random() * 10) + 1);
-    var socket      = socket_connect(random_room);
+    var socket = socket_connect(random_room);
 
     socket.emit('chat message', 'hello room #'+random_room);
+
 
     Canvas.getBoard()
       .then(function (board) {

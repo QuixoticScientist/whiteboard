@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var io = require('socket.io').listen(4000);
+var http = require('http');
 var handle = require('./request-handler');
 var bodyParser = require('body-parser');
 
@@ -12,24 +12,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/getToken', handle.getToken);
 app.get('/getBoard', handle.getBoard);
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || '3000';
+app.set('port', port);
 
-app.listen(port, function () {
-  console.log('Server is listening')
-});
+var server = http.createServer(app);
+var io = require('./sockets')(server);
 
-io.on('connection', function (socket) {
-  var room = socket.handshake['query']['r_var'];
+server.listen(port);
 
-  socket.join(room);
-  console.log('user joined room #'+room);
-
-  socket.on('disconnect', function() {
-    socket.leave(room)
-    console.log('user disconnected');
-  });
-
-  socket.on('chat message', function(msg){
-    io.to(room).emit('chat message', msg);
-  });
-});
+module.exports = app;

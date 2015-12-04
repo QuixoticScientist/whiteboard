@@ -13,9 +13,11 @@ angular.module('whiteboard', ['ngRoute'])
       requireBase: false
     });
 }])
-.controller('BoardCtrl', ['$route', '$routeParams', '$location',
-  function($route, $routeParams, $location) {
-    this.$route = $route;
-    this.$location = $location;
-    this.$routeParams = $routeParams;
-}]);
+.controller('BoardCtrl', function ($scope) {
+  $scope.canvasClick = function () {
+    console.log('Clicked a Canvas!')
+  };
+  $scope.circleClick = function () {
+    console.log('Clicked a Circle?')
+  };
+});

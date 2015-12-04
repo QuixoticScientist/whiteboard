@@ -13,6 +13,7 @@
   },
   "devDependencies": {},
   "scripts": {
+    "server": "node-inspector & nodemon --debug ./server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

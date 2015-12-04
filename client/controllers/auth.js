@@ -6,8 +6,13 @@ angular.module('whiteboard.auth', [])
       $window.localStorage.setItem('token', token);
     };
 
-    var retrieveToken = function (token) {
-      return $window.localStorage.getItem('token');
+    var retrieveToken = function () {
+      return $http({
+        method: 'GET', 
+        url: '/getToken'
+      }).then(function (res) {
+        return res.data.token;
+      })
     };
 
     var isAuth = function () {

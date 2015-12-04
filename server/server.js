@@ -7,8 +7,8 @@ app.use(express.static(__dirname + '/../client'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/signup', handle.signupUser);
-
+app.get('/getToken', handle.getToken);
+app.get('/getBoard', handle.getBoard);
 
 var port = process.env.PORT || 3000;
 

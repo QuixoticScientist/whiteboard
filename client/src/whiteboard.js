@@ -2,6 +2,11 @@
 var paper = Raphael(document.getElementById("paper"), 320, 200);
 paper.$el = $('#paper svg');
 
+var canvasX = paper.$el.position().left;
+var canvasY = paper.$el.position().top;
+
+document.onselectstart = function () { return false; };
+
 paper.$el.on('mousedown', function (e) {
   startShape(e);
 });
@@ -11,14 +16,14 @@ paper.$el.on('mouseup', function () {
 
 //initialize test variables
 paper.tool = {
-  name: "createCircle",
+  name: "createRectangle",
   fill: "red"
 };
 
 var startShape = function (e) {
   //clientX/clientY measure from element; compare with screenX/screenY
-  var initX = e.clientX;
-  var initY = e.clientY;
+  var initX = e.clientX - canvasX;
+  var initY = e.clientY - canvasY;
   var shape = newShape(initX, initY);
   
   paper.$el.on('mousemove', function (e) {
@@ -27,7 +32,7 @@ var startShape = function (e) {
       'path': changeLine,
       'rect': changeRectangle
     };
-    shapeHandlers[shape.type](shape, e.clientX, e.clientY, initX, initY);
+    shapeHandlers[shape.type](shape, e.clientX - canvasX, e.clientY - canvasY, initX, initY);
     if (paper.tool.fill) {
       shape.attr("fill", paper.tool.fill);
     }

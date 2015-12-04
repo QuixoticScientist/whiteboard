@@ -19,5 +19,17 @@ app.listen(port, function () {
 });
 
 io.on('connection', function (socket) {
-  socket.emit('test', { id: socket.id, data: 'testing'});
+  var room = socket.handshake['query']['r_var'];
+
+  socket.join(room);
+  console.log('user joined room #'+room);
+
+  socket.on('disconnect', function() {
+    socket.leave(room)
+    console.log('user disconnected');
+  });
+
+  socket.on('chat message', function(msg){
+    io.to(room).emit('chat message', msg);
+  });
 });

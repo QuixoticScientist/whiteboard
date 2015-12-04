@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "description": "whiteboard",
   "main": "server/server.js",
-  "dependencies": {},
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "jwt-simple": "^0.4.0",
+    "kerberos": "0.0.17",
+    "mongoose": "^4.2.9"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

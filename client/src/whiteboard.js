@@ -10,7 +10,10 @@ paper.$el.on('mouseup', function () {
 });
 
 //initialize test variables
-paper.tool = "createCircle";
+paper.tool = {
+  name: "createCircle",
+  fill: "red"
+};
 
 var startShape = function (e) {
   //clientX/clientY measure from element; compare with screenX/screenY
@@ -25,6 +28,9 @@ var startShape = function (e) {
       'rect': changeRectangle
     };
     shapeHandlers[shape.type](shape, e.clientX, e.clientY, initX, initY);
+    if (paper.tool.fill) {
+      shape.attr("fill", paper.tool.fill);
+    }
   })
 };
 
@@ -75,5 +81,5 @@ function newShape (initX, initY) {
     }
   };
   
-  return shapeConstructors[paper.tool](initX, initY);
+  return shapeConstructors[paper.tool.name](initX, initY);
 }

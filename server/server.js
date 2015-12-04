@@ -5,6 +5,7 @@ var handle = require('./request-handler');
 var bodyParser = require('body-parser');
 
 app.use(express.static(__dirname + '/../client'));
+app.use(express.static(__dirname + '/lib'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -18,5 +19,5 @@ app.listen(port, function () {
 });
 
 io.on('connection', function (socket) {
-  socket.emit('test', { data: 'testing'});
+  socket.emit('test', { id: socket.id, data: 'testing'});
 });

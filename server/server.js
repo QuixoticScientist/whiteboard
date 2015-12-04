@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var io = require('socket.io').listen(4000);
 var handle = require('./request-handler');
 var bodyParser = require('body-parser');
 
@@ -14,4 +15,8 @@ var port = process.env.PORT || 3000;
 
 app.listen(port, function () {
   console.log('Server is listening')
+});
+
+io.on('connection', function (socket) {
+  socket.emit('test', { data: 'testing'});
 });

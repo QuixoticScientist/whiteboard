@@ -1,4 +1,8 @@
 .DS_Store
 node_modules
+
+# Bower
 bower_components
+client/lib
+
 sandbox.js

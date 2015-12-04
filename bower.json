@@ -1,0 +1,26 @@
+{
+  "name": "whiteboard",
+  "description": "whiteboard",
+  "main": "server/server.js",
+  "authors": [
+    "Christian Everett <ceverett@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/nahash411/whiteboard",
+  "moduleType": [
+    "es6",
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "~1.4.8",
+    "bootstrap": "~3.3.6"
+  }
+}

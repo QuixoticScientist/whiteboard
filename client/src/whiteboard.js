@@ -1,24 +1,29 @@
 //NOTE: Does not work w/ app as-is, only documenting logic written in codeshare.io
-var paper = Raphael(document.getElementById("paper"), 320, 200);
+var paper = Raphael(document.getElementById("paper"), 700, 400);
 paper.$el = $('#paper svg');
 
 var canvasX = paper.$el.position().left;
 var canvasY = paper.$el.position().top;
+var endSnaps = [];
 
+//bug-fix for chrome cursor turning to text cursor on drag
 document.onselectstart = function () { return false; };
 
 paper.$el.on('mousedown', function (e) {
   startShape(e);
 });
-paper.$el.on('mouseup', function () {
-  paper.$el.off('mousemove');
-});
 
 //initialize test variables
 paper.tool = {
-  name: "createRectangle",
+  name: "createCircle",
   fill: "red"
 };
+$('#tool').on('click', function () {
+  if (paper.tool.name === 'createCircle') paper.tool.name = 'createLine';
+  else if (paper.tool.name === 'createLine') paper.tool.name = 'createRectangle';
+  else if (paper.tool.name === 'createRectangle') paper.tool.name = 'createCircle';
+  console.log(paper.tool.name)
+})
 
 var startShape = function (e) {
   //clientX/clientY measure from element; compare with screenX/screenY
@@ -36,11 +41,47 @@ var startShape = function (e) {
     if (paper.tool.fill) {
       shape.attr("fill", paper.tool.fill);
     }
-  })
+  });
+  paper.$el.on('mouseup', function () {
+    createSnaps(shape);
+    console.log(endSnaps);
+    paper.$el.off('mousemove');
+    paper.$el.off('mouseup');
+  });
 };
+
+function createSnaps (shape) {
+  if (shape.type === 'rect') {
+    var x = shape.attr('x');
+    var y = shape.attr('y');
+    var width = shape.attr('width');
+    var height = shape.attr('height');
+    var cardinalSnaps = [
+      [x, y],
+      [x + width, y],
+      [x, y + height],
+      [x + width, y + height]
+    ];
+    cardinalSnaps.forEach(function (snap) {
+      endSnaps.push(snap);
+    });
+  }
+}
+
+function snapToPoints (points, x, y, tol) {
+  for (var i = 0; i < points.length; i++) {
+    if (Math.abs(x - points[i][0]) <= tol && Math.abs(y - points[i][1] <= tol)) {
+      return points[i];
+    }
+  }
+  return [x, y];
+}
 
 function changeLine (shape, x, y, initX, initY) {
   //"M10,20L30,40"
+  var coords = snapToPoints(endSnaps, x, y, 15);
+  x = coords[0];
+  y = coords[1];
   var linePathOrigin = "M" + String(initX) + "," + String(initY);
   var linePathEnd = "L" + String(x) + "," + String(y);
   shape.attr('path', linePathOrigin + linePathEnd);

@@ -101,6 +101,21 @@ function createSnaps (shape) {
     endPoint = [path[1][1], path[1][2]];
     midPoint = [startPoint[0] + (endPoint[0] - startPoint[0]) / 2, startPoint[1] + (endPoint[1] - startPoint[1]) / 2];
     endSnaps.push(startPoint, midPoint, endPoint);
+  } else if (shape.type === 'circle') {
+    var cx = shape.attr('cx');
+    var cy = shape.attr('cy');
+    var r = shape.attr('r');
+    var centerSnap = [cx, cy];
+    cardinalSnaps = [
+      [cx + r, cy],
+      [cx - r, cy],
+      [cx, cy + r],
+      [cx, cy - r]
+    ];
+    endSnaps.push(centerSnap);
+    cardinalSnaps.forEach(function (snap) {
+      endSnaps.push(snap);
+    });
   }
 }
 

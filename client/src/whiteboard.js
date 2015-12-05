@@ -59,19 +59,26 @@ function createSnaps (shape) {
     var y = shape.attr('y');
     var width = shape.attr('width');
     var height = shape.attr('height');
-    var cardinalSnaps = [
+    var cornerSnaps = [
       [x, y],
       [x + width, y],
       [x, y + height],
       [x + width, y + height]
     ];
+    var cardinalSnaps = [
+      [x + width / 2, y],
+      [x, y + height / 2],
+      [x + width, y + height / 2],
+      [x + width / 2, y + height],
+    ];
+    cornerSnaps.forEach(function (snap) {
+      endSnaps.push(snap);
+    });
     cardinalSnaps.forEach(function (snap) {
       endSnaps.push(snap);
     });
   } else if (shape.type === 'path') {
-    //"M10,20L30,40"
     var path = shape.attr('path');
-    //replace with RegEx later, this is just a hack
     startPoint = [path[0][1], path[0][2]];
     endPoint = [path[1][1], path[1][2]];
     endSnaps.push(startPoint, endPoint);

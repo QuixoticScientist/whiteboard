@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.board', [])
-.factory('Board', function () {
+.factory('Board', function (Snap) {
   var board = {};
   
   board.$el;
@@ -19,6 +19,7 @@ angular.module('whiteboard.services.board', [])
     });
     
     this.$el.on('mouseup', function () {
+      Snap.createSnaps(self.lastShape);
       self.$el.off('mousemove');
     });
     

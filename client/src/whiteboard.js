@@ -28,7 +28,8 @@ paper.tool = {
 $('#tool').on('click', function () {
   if (paper.tool.name === 'createCircle') paper.tool.name = 'createLine';
   else if (paper.tool.name === 'createLine') paper.tool.name = 'createRectangle';
-  else if (paper.tool.name === 'createRectangle') paper.tool.name = 'createCircle';
+  else if (paper.tool.name === 'createRectangle') paper.tool.name = 'createText';
+  else if (paper.tool.name === 'createText') paper.tool.name = 'createCircle';
   console.log('Tool selected: ', paper.tool.name);
 });
 $('#snaptrigger').on('click', toggleSnap);
@@ -55,7 +56,8 @@ var startShape = function (e) {
     var shapeHandlers = {
       'circle': changeCircle,
       'path': changeLine,
-      'rect': changeRectangle
+      'rect': changeRectangle,
+      'text': changeText,
     };
     shapeHandlers[shape.type](shape, e.clientX - canvasX, e.clientY - canvasY, initX, initY);
     if (paper.tool.fill) {
@@ -168,6 +170,13 @@ function changeRectangle (shape, cursorX, cursorY, initX, initY) {
   });
 }
 
+function changeText (shape, x, y, initX, initY) {
+  shape.attr({
+    x: x,
+    y: y
+  });
+};
+
 function newShape (initX, initY) {
   // force tool to be createLine for testing
   var shapeConstructors = {
@@ -179,6 +188,9 @@ function newShape (initX, initY) {
     },
     'createRectangle': function (x,y) {
       return paper.rect(x, y, 0, 0);
+    },
+    'createText': function (x,y) {
+      return paper.text(x, y, 'Hello, world!');
     }
   };
   

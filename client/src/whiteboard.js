@@ -29,6 +29,9 @@ var startShape = function (e) {
   //clientX/clientY measure from element; compare with screenX/screenY
   var initX = e.clientX - canvasX;
   var initY = e.clientY - canvasY;
+  var coords = snapToPoints(endSnaps, initX, initY, 15);
+  initX = coords[0];
+  initY = coords[1];
   var shape = newShape(initX, initY);
   
   paper.$el.on('mousemove', function (e) {
@@ -65,6 +68,13 @@ function createSnaps (shape) {
     cardinalSnaps.forEach(function (snap) {
       endSnaps.push(snap);
     });
+  } else if (shape.type === 'path') {
+    //"M10,20L30,40"
+    var path = shape.attr('path');
+    //replace with RegEx later, this is just a hack
+    startPoint = [path[0][1], path[0][2]];
+    endPoint = [path[1][1], path[1][2]];
+    endSnaps.push(startPoint, endPoint);
   }
 }
 

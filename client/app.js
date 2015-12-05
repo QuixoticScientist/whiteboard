@@ -17,12 +17,4 @@ angular.module('whiteboard', [
       enabled: true,
       requireBase: false
     });
-}])
-// .controller('BoardCtrl', function ($scope, Draw) {
-//   $scope.canvasClick = function () {
-//     console.log('Clicked a Canvas!')
-//   };
-//   $scope.circleClick = function () {
-//     console.log('Clicked a Circle?')
-//   };
-// });
+}]);

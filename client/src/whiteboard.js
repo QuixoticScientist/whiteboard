@@ -29,10 +29,18 @@ $('#tool').on('click', function () {
   if (paper.tool.name === 'createCircle') paper.tool.name = 'createLine';
   else if (paper.tool.name === 'createLine') paper.tool.name = 'createRectangle';
   else if (paper.tool.name === 'createRectangle') paper.tool.name = 'createCircle';
-  console.log(paper.tool.name)
+  console.log('Tool selected: ', paper.tool.name);
 });
+$('#snaptrigger').on('click', toggleSnap);
+$('#colortrigger').on('click', toggleColor);
 
-$('#snaptrigger').on('click', toggleSnap)
+function toggleColor () {
+  if (paper.tool.fill === 'red') paper.tool.fill = 'blue';
+  else if (paper.tool.fill === 'blue') paper.tool.fill = 'green';
+  else if (paper.tool.fill === 'green') paper.tool.fill = 'red';
+  console.log('Color selected: ', paper.tool.fill);
+
+}
 
 var startShape = function (e) {
   //clientX/clientY measure from element; compare with screenX/screenY
@@ -91,7 +99,7 @@ function createSnaps (shape) {
     var path = shape.attr('path');
     startPoint = [path[0][1], path[0][2]];
     endPoint = [path[1][1], path[1][2]];
-    midPoint = [(endPoint[0] - startPoint[0]) / 2, (endPoint[1] - startPoint[1]) / 2]
+    midPoint = [startPoint[0] + (endPoint[0] - startPoint[0]) / 2, startPoint[1] + (endPoint[1] - startPoint[1]) / 2];
     endSnaps.push(startPoint, midPoint, endPoint);
   }
 }
@@ -146,7 +154,7 @@ function newShape (initX, initY) {
   // force tool to be createLine for testing
   var shapeConstructors = {
     'createCircle': function (x, y) {
-      return paper.circle(x,y,0);
+      return paper.circle(x, y, 0);
     },
     'createLine': function (x, y) {
       return paper.path("M" + String(x) + "," + String(y));

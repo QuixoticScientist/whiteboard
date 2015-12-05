@@ -48,6 +48,10 @@ var roomsManager = {
     socket.join(currentRoomName);
     rooms[currentRoomName].members.push(socket.id);
     console.log('Current room has ' + rooms[currentRoomName].members.length + ' members');
+  },
+
+  getMemberIndex: function (socket) {
+    return this.getRoom(socket.room).members.indexOf(socket.id);
   }
 
 }

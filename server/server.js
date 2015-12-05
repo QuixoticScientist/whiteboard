@@ -37,6 +37,15 @@ app.get('/:id', handle.getBoard, function (req, res) {
 
   res.status(200).send('Board emitted to socket');
 });
-server.listen(port);
 
-module.exports = app;
+var start = function () {
+  server.listen(port);
+};
+
+var end = function () {
+  server.close();
+};
+
+exports.start = start;
+exports.end = end;
+exports.app = app;

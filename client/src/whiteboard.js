@@ -59,13 +59,16 @@ var startShape = function (e) {
     };
     shapeHandlers[shape.type](shape, e.clientX - canvasX, e.clientY - canvasY, initX, initY);
     if (paper.tool.fill) {
-      shape.attr("fill", paper.tool.fill);
+      if (shape.type === 'path') {
+        shape.attr("stroke", paper.tool.fill);
+      } else {
+        shape.attr("fill", paper.tool.fill);
+      }
     }
   });
 
   paper.$el.on('mouseup', function () {
     createSnaps(shape);
-    console.log(endSnaps);
     paper.$el.off('mousemove');
     paper.$el.off('mouseup');
   });

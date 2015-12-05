@@ -57,11 +57,21 @@ angular.module('whiteboard.services.snap', [])
   var snapToPoints = function (points, x, y, tolerance) {
     if (!this.snapsEnabled) return [x, y];
     for (var i = 0; i < points.length; i++) {
-      if (Math.abs(x - points[i][0]) <= tolerance && Math.abs(y - points[i][1]) <= tolerance) {
-        return points[i];
+      var pointX = points[i][0];
+      var pointY = points[i][1];
+      if (Math.abs(x - pointX) <= tolerance && Math.abs(y - pointY) <= tolerance) {
+        var dist = Math.sqrt(Math.pow(x - pointX, 2) + Math.pow(y - pointY, 2));
+        if (!closest || dist < closestDist) {
+          var closest = points[i];
+          var closestDist = dist;
+        }
       }
     }
-    return [x, y];
+    if (closest) {
+      return closest;
+    } else {
+      return [x,y];
+    }
   };
 
   return {

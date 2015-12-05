@@ -1,6 +1,7 @@
 angular.module('whiteboard.services.board', [])
 .factory('Board', function () {
   var board = {};
+  
   board.$el;
   board.paper;
 
@@ -11,7 +12,7 @@ angular.module('whiteboard.services.board', [])
 
   board.attachMouseListeners = function (handler) {
     var self = this;
-    
+
     this.$el.on('mousedown', function (e) {
       console.log('click')
       handler(e);

@@ -6,8 +6,8 @@ angular.module('whiteboard.services.draw', [])
     //clientX/clientY measure from element; compare with screenX/screenY
     console.log('mousedown');
 
-    var initX = e.clientX;
-    var initY = e.clientY;
+    var initX = e.clientX - Board.canvasX;
+    var initY = e.clientY - Board.canvasY;
     var shape = newShape(initX, initY);
 
     Board.$el.on('mousemove', function (e) {

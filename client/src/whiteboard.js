@@ -6,6 +6,12 @@ var canvasX = paper.$el.position().left;
 var canvasY = paper.$el.position().top;
 var endSnaps = [];
 
+//Environment Variables
+var snapsEnabled = true;
+function toggleSnap () {
+  snapsEnabled = !snapsEnabled;
+}
+
 //bug-fix for chrome cursor turning to text cursor on drag
 document.onselectstart = function () { return false; };
 
@@ -18,12 +24,15 @@ paper.tool = {
   name: "createCircle",
   fill: "red"
 };
+
 $('#tool').on('click', function () {
   if (paper.tool.name === 'createCircle') paper.tool.name = 'createLine';
   else if (paper.tool.name === 'createLine') paper.tool.name = 'createRectangle';
   else if (paper.tool.name === 'createRectangle') paper.tool.name = 'createCircle';
   console.log(paper.tool.name)
-})
+});
+
+$('#snaptrigger').on('click', toggleSnap)
 
 var startShape = function (e) {
   //clientX/clientY measure from element; compare with screenX/screenY
@@ -45,6 +54,7 @@ var startShape = function (e) {
       shape.attr("fill", paper.tool.fill);
     }
   });
+
   paper.$el.on('mouseup', function () {
     createSnaps(shape);
     console.log(endSnaps);
@@ -81,11 +91,13 @@ function createSnaps (shape) {
     var path = shape.attr('path');
     startPoint = [path[0][1], path[0][2]];
     endPoint = [path[1][1], path[1][2]];
-    endSnaps.push(startPoint, endPoint);
+    midPoint = [(endPoint[0] - startPoint[0]) / 2, (endPoint[1] - startPoint[1]) / 2]
+    endSnaps.push(startPoint, midPoint, endPoint);
   }
 }
 
 function snapToPoints (points, x, y, tol) {
+  if (!snapsEnabled) return [x, y];
   for (var i = 0; i < points.length; i++) {
     if (Math.abs(x - points[i][0]) <= tol && Math.abs(y - points[i][1]) <= tol) {
       return points[i];

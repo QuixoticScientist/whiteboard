@@ -27,10 +27,15 @@ angular.module('whiteboard.services.snap', [])
       }.bind(this));
     } else if (shape.type === 'path') {
       var path = shape.attr('path');
-      startPoint = [path[0][1], path[0][2]];
-      endPoint = [path[1][1], path[1][2]];
-      midPoint = [startPoint[0] + (endPoint[0] - startPoint[0]) / 2, startPoint[1] + (endPoint[1] - startPoint[1]) / 2];
-      this.endSnaps.push(startPoint, midPoint, endPoint);
+      if (path[1]) {
+        startPoint = [path[0][1], path[0][2]];
+        endPoint = [path[1][1], path[1][2]];
+        midPoint = [startPoint[0] + (endPoint[0] - startPoint[0]) / 2, startPoint[1] + (endPoint[1] - startPoint[1]) / 2];
+        this.endSnaps.push(startPoint, midPoint, endPoint);
+      } else {
+        //this line has no length, delete it
+        shape.remove();
+      }
     } else if (shape.type === 'circle') {
       var cx = shape.attr('cx');
       var cy = shape.attr('cy');

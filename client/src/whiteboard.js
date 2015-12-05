@@ -70,7 +70,7 @@ function createSnaps (shape) {
 
 function snapToPoints (points, x, y, tol) {
   for (var i = 0; i < points.length; i++) {
-    if (Math.abs(x - points[i][0]) <= tol && Math.abs(y - points[i][1] <= tol)) {
+    if (Math.abs(x - points[i][0]) <= tol && Math.abs(y - points[i][1]) <= tol) {
       return points[i];
     }
   }

@@ -14,14 +14,34 @@ exports.getToken = function (req, res) {
   res.json({token: token});
 };
 
-exports.getBoard = function (req, res) {
-  // Board.find({endpoint: req.data.endpoint})
-  //    .exec(function (err, board) {
-  //      if(err) {
-  //       res.send(500, err);
-  //      } else {
-  //       res.json(board);
-  //      }
-  //    });
+exports.getBoard = function (req, res, next) {
+  Board.findOne({ endpoint: req.params.id })
+     .exec(function (err, board) {
+       if(err) {
+        res.send(500, err);
+       } else {
+        if (!board) {
+          // if no board found, create new board, save to database, and send to middleware
+          var newBoard = new Board({
+            endpoint: req.params.id
+          });
+
+          newBoard.save(function (err, board) {
+            if (err) {
+              throw new Error(err);
+            } else {
+              req.board = board;
+              next();
+            }
+          });
+
+        } else {
+          // if board found, send to middleware
+          req.board = JSON.stringify(board);
+          next();
+        }
+        // res.json(board);
+       }
+     });
   console.log('board');
 };

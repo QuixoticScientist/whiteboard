@@ -5,7 +5,7 @@ angular.module('whiteboard.canvas', [])
 
     var socket_connect = function (room) {
       return io('localhost:3000', {
-          query: 'r_var=' + room
+          query: 'board=' + room
       });
     }
 

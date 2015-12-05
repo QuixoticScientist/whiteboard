@@ -16,7 +16,7 @@ var port = process.env.PORT || '3000';
 app.set('port', port);
 
 var server = http.createServer(app);
-var io = require('./sockets')(server);
+var io = require('./sockets')(server, { serveClient: true });
 
 app.get('/:id', handle.getBoard, function (req, res) {
   var board = req.board;

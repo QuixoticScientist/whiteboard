@@ -34,6 +34,7 @@ var roomsManager = {
   },
 
   addMember: function (socket) {
+    // create board if it hasn't already been created
     if (!currentRoomName) {
       currentRoomName = utils.generateRandomId(5);
       rooms[currentRoomName] = new Room();

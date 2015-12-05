@@ -2,6 +2,7 @@ angular.module('whiteboard', [
   'whiteboard.board',
   'whiteboard.services.board',
   'whiteboard.services.draw',
+  'whiteboard.services.snap',
   'whiteboard.services.auth',
   'whiteboard.services.token',
   'ngRoute'

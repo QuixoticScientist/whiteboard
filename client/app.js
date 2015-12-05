@@ -1,4 +1,9 @@
-angular.module('whiteboard', ['ngRoute'])
+angular.module('whiteboard', [
+  'whiteboard.board',
+  'whiteboard.services.board',
+  'whiteboard.services.draw',
+  'ngRoute'
+])
 .config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider
@@ -13,11 +18,11 @@ angular.module('whiteboard', ['ngRoute'])
       requireBase: false
     });
 }])
-.controller('BoardCtrl', function ($scope) {
-  $scope.canvasClick = function () {
-    console.log('Clicked a Canvas!')
-  };
-  $scope.circleClick = function () {
-    console.log('Clicked a Circle?')
-  };
-});
+// .controller('BoardCtrl', function ($scope, Draw) {
+//   $scope.canvasClick = function () {
+//     console.log('Clicked a Canvas!')
+//   };
+//   $scope.circleClick = function () {
+//     console.log('Clicked a Circle?')
+//   };
+// });

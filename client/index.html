@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en" ng-app="whiteboard">
 <head>
   <meta charset="UTF-8">
@@ -8,7 +9,6 @@
   <h1>Whiteboard</h1>
   <!-- Insert Navbar Later -->
   <div ng-view></div>
-  <div id="paper"></div>
 
   <script>
     document.onselectstart = function () { return false; };
@@ -28,5 +28,6 @@
   <script src="./controllers/board.js"></script>
   
   <script src="./app.js"></script>
+
 </body>
 </html>

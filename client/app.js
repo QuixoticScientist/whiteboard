@@ -1,4 +1,5 @@
 angular.module('whiteboard', [
+  'btford.socket-io',
   'whiteboard.board',
   'whiteboard.services.board',
   'whiteboard.services.draw',

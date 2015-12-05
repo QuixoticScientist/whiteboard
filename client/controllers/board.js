@@ -7,13 +7,12 @@ angular.module('whiteboard.board', [])
   Board.attachMouseListeners(Draw.startShape);
   // Store some data in the Board factory
   
-
   Board.canvasX = Board.$el.position().left;
   Board.canvasY = Board.$el.position().top;
-  
+
   // Select tool
   Board.tool = {
-    name: "createRectangle",
+    name: "createLine",
     fill: "red"
   };
 });

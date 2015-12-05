@@ -10,12 +10,23 @@
   <!-- Insert Navbar Later -->
   <div ng-view></div>
 
+  <script>
+    document.onselectstart = function () { return false; };
+  </script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
-  <script src="./app.js"></script>
+
+  <script src="lib/raphael-min.js"></script>
+  <!-- Angular SERVICES -->
+  <script src="services/draw.js"></script>
+  <script src="services/board.js"></script>
+  <!-- Angular CONTROLLERS -->
+  <script src="controllers/board.js"></script>
   <!-- <script src="./controllers/auth.js"></script>
   <script src="./controllers/canvas.js"></script>
   <script src="./routes.js"></script> -->
+  <script src="./app.js"></script>
 
 </body>
 </html>

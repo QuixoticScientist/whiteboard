@@ -3,7 +3,6 @@ var utils = require('./utils/util');
 var rooms = {};
 
 var Room = function () {
-  this.boardInProgress = false;
   this.board = null;
   this.members = [];
 };
@@ -24,21 +23,18 @@ var roomsManager = {
     var roomName = socket.room;
     var room = this.getRoom(roomName);
 
-    if (room && room.boardInProgress) {
-      // TODO: room.game.killSnake(this.getPlayerIndex(socket));
-    } else {
+    if (room) {
       //remove a player from the room if the game has not started.
-      if (!room) {
-        return;
-      }
-
       room.members = room.members.filter(function(member) {
         return member !== socket.id;
       });
+    } else {
+      return;
     }
   },
 
   addMember: function (socket) {
+    // create board if it hasn't already been created
     if (!currentRoomName) {
       currentRoomName = utils.generateRandomId(5);
       rooms[currentRoomName] = new Room();
@@ -48,6 +44,10 @@ var roomsManager = {
     socket.join(currentRoomName);
     rooms[currentRoomName].members.push(socket.id);
     console.log('Current room has ' + rooms[currentRoomName].members.length + ' members');
+  },
+
+  getMemberIndex: function (socket) {
+    return this.getRoom(socket.room).members.indexOf(socket.id);
   }
 
 }

@@ -40,7 +40,6 @@ exports.getBoard = function (req, res, next) {
           req.board = JSON.stringify(board);
           next();
         }
-        // res.json(board);
        }
      });
   console.log('board');

@@ -1,22 +1,33 @@
 <!DOCTYPE html>
+
 <html lang="en" ng-app="whiteboard">
 <head>
   <meta charset="UTF-8">
-  <title>Fuck Charts</title>
-  <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.7/socket.io.min.js"></script>
-  <script src="./lib/angular/angular.min.js"></script>
-  <script src="./lib/angular-route/angular-route.min.js"></script>
+  <title>Whiteboard</title>
 </head>
 <body>
-  <header>
-    <span><h1>Fuck Charts</h1> </span>
-  </header>
-
+  <h1>Whiteboard</h1>
+  <!-- Insert Navbar Later -->
   <div ng-view></div>
 
-  <script src="./controllers/auth.js"></script>
-  <script src="./controllers/canvas.js"></script>
-  <script src="./routes.js"></script>
+  <script>
+    document.onselectstart = function () { return false; };
+  </script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
+
+  <script src="./lib/raphael-min.js"></script>
+  <!-- Angular SERVICES -->
+  <script src="./services/draw.js"></script>
+  <script src="./services/board.js"></script>
+  <script src="./services/token.js"></script>
+  <script src="./services/auth.js"></script>
+  <!-- Angular CONTROLLERS -->
+  <script src="./controllers/board.js"></script>
+  <!--<script src="./controllers/canvas.js"></script>
+  <script src="./routes.js"></script> -->
+  <script src="./app.js"></script>
+
 </body>
 </html>

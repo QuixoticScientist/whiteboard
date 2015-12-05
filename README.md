@@ -82,4 +82,6 @@ While node is running, visit the locally running server at [127.0.0.1:3000](127.
 
 ### Testing
 
-[to come]
+```sh
+npm test
+```

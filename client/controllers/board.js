@@ -10,9 +10,15 @@ angular.module('whiteboard.board', [])
   Board.canvasX = Board.$el.position().left;
   Board.canvasY = Board.$el.position().top;
 
-  // Select tool
+  // Only for dev purposes, to remove!
   Board.tool = {
     name: "createLine",
     fill: "red"
   };
+
+  $('.toolbar').on('change', function () {
+    //console.log($(this))
+    Board.tool.name = $(this).find('option:selected').val();
+  });
+  
 });

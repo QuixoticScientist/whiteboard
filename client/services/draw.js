@@ -1,66 +1,74 @@
 angular.module('whiteboard.services.draw', [])
 .factory('Draw', function (Board, Snap) {
+  var shapeHandlers = {
+    'circle': changeCircle,
+    'path': changeLine,
+    'rect': changeRectangle,
+    'text': changeText
+  };
+
+  var throttleEnabled = true;
+  var throttleDelay = 100;
+  var incrementer = 0;
+
+  //unique id, fetched from server
+  var clientID = 'TESTUSER';
+  var drawnShapes = {};
+
+  if (throttleEnabled) {
+    shapeHandlers = _.mapObject(shapeHandlers, function (fn) {
+      return _.throttle(fn, throttleDelay);
+    });
+  }
 
   //console.log(Draw.tool)
-  var startShape = function (e) {
-    //clientX/clientY measure from element; compare with screenX/screenY
-    console.log('mousedown');
-
+  var drawShape = function (e) {
     var initX = e.clientX - Board.canvasX;
     var initY = e.clientY - Board.canvasY;
     var coords = Snap.snapToPoints(Snap.endSnaps, initX, initY, Snap.tolerance);
     initX = coords[0];
     initY = coords[1];
-    var shape = newShape(initX, initY);
-    Board.lastShape = shape;
+    var id = clientID + ':' + incrementer++;
+    Board.lastShapeId = id;
+    createShape(Board.tool.name, initX, initY, id);
+  };
 
-    var throttleEnabled = true;
-    var throttleDelay = 0;
-
-    var shapeHandlers = {
-      'circle': changeCircle,
-      'path': changeLine,
-      'rect': changeRectangle,
-      'text': changeText
+  var newShape = function (tool, initX, initY) {
+    var shapeConstructors = {
+      'createCircle': function (x, y) {return Board.paper.circle(x, y, 0);},
+      'createLine': function (x, y) {return Board.paper.path("M" + String(x) + "," + String(y));},
+      'createRectangle': function (x,y) {return Board.paper.rect(x, y, 0, 0);},
+      'createText': function (x,y) {return Board.paper.text(x, y, 'Hello, world!');}
     };
-    if (throttleEnabled) {
-      shapeHandlers = _.mapObject(shapeHandlers, function (fn) {
-        return _.throttle(fn, throttleDelay);
-      });
-    }
+    return shapeConstructors[tool](initX, initY);
+  };
+
+  var createShape = function (tool, initX, initY, uniqueId) {
+    //clientX/clientY measure from element; compare with screenX/screenY
+    var shape = newShape(tool, initX, initY);
+    drawnShapes[uniqueId] = shape;
+    shape.uniqueId = uniqueId;
+    shape.initX = initX;
+    shape.initY = initY;
 
     Board.$el.on('mousemove', function (e) {
-      shapeHandlers[shape.type](shape, e.clientX - Board.canvasX, e.clientY - Board.canvasY, initX, initY);
-      
-      if (Board.tool.fill) {
-        if (shape.type === 'path') {
-          shape.attr("stroke", Board.tool.fill);
-        } else {
-          shape.attr("fill", Board.tool.fill);
-        }
-      }
+      mouseMove(uniqueId, e.clientX, e.clientY, initX, initY);
     });
   };
 
-  var newShape = function (initX, initY) {
-
-    var shapeConstructors = {
-      'createCircle': function (x, y) {
-        return Board.paper.circle(x, y, 0);
-      },
-      'createLine': function (x, y) {
-        return Board.paper.path("M" + String(x) + "," + String(y));
-      },
-      'createRectangle': function (x,y) {
-        return Board.paper.rect(x, y, 0, 0);
-      },
-      'createText': function (x,y) {
-        return Board.paper.text(x, y, 'Hello, world!');
+  function mouseMove (shapeId, x, y, initX, initY) {
+    var shape = drawnShapes[shapeId];
+    shapeHandlers[shape.type](shape, x - Board.canvasX, y - Board.canvasY, initX, initY);
+      
+    if (Board.tool.fill) {
+      if (shape.type === 'path') {
+        shape.attr("stroke", Board.tool.fill);
+      } else {
+        shape.attr("fill", Board.tool.fill);
       }
-    };
-
-    return shapeConstructors[Board.tool.name](initX, initY);
-  };
+      shape.attr("stroke-width", 5);
+    }
+  }
 
   function changeLine (shape, x, y, initX, initY) {
     //"M10,20L30,40"
@@ -80,7 +88,7 @@ angular.module('whiteboard.services.draw', [])
     shape.attr('r', newRadius);
   };
 
-  var changeRectangle = function (shape, cursorX, cursorY, initX, initY) {
+  function changeRectangle (shape, cursorX, cursorY, initX, initY) {
     var width = cursorX - initX;
     var height = cursorY - initY;
     if (width < 0) {
@@ -99,7 +107,7 @@ angular.module('whiteboard.services.draw', [])
     });
   };
 
-  var changeText = function (shape, x, y, initX, initY) {
+  function changeText (shape, x, y, initX, initY) {
     shape.attr({
       x: x,
       y: y
@@ -107,7 +115,8 @@ angular.module('whiteboard.services.draw', [])
   };
 
   return {
-    startShape: startShape,
+    drawShape: drawShape,
+    createShape: createShape,
     newShape: newShape,
     changeLine: changeLine,
     changeCircle: changeCircle,

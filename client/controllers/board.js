@@ -4,7 +4,7 @@ angular.module('whiteboard.board', [])
   // Create new board 
   Board.createBoard('board-container', 400, 300);
   // start listening to mouse events
-  Board.attachMouseListeners(Draw.startShape);
+  Board.attachMouseListeners(Draw.drawShape);
   // Store some data in the Board factory
   
   Board.canvasX = Board.$el.position().left;

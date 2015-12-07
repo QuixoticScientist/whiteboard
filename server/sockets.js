@@ -1,5 +1,6 @@
 var socketio = require('socket.io');
 var rooms = require('./rooms');
+var Board = require('./db/models/board');
 
 module.exports = function(server) {
 
@@ -11,6 +12,17 @@ module.exports = function(server) {
 
     socket.on('roomId', function (data) {
       rooms.addMember(socket, data.roomId);
+    });
+
+    socket.on('new board', function (data) {
+      var newBoard = new Board(data);
+      newBoard.save(function (err, board) {
+        if (err) {
+          throw new Error(err);
+        } else {
+          console.log(board);
+        }
+      });
     });
 
     socket.on('disconnect', function () {

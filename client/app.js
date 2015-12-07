@@ -14,8 +14,9 @@ angular.module('whiteboard', [
     $routeProvider
       .when('/', {
         resolve: {
-          'check': function (Auth, $location) {
+          'something': function (Sockets, Auth, $location) {
             var roomId = Auth.generateRandomId(5);
+            Sockets.emit('roomId', {roomId: roomId});
             $location.path('/' + roomId);
           }
         }

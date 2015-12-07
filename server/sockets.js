@@ -9,6 +9,10 @@ module.exports = function(server) {
 
   io.on('connection', function (socket) {
 
+    socket.on('roomId', function (data) {
+      console.log(data);
+    });
+
     socket.on('disconnect', function () {
       rooms.handleMemberDisconnect(socket);
     });

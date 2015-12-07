@@ -2,7 +2,7 @@ angular.module('whiteboard.board', [])
 
 .controller('BoardCtrl', function ($scope, Board, Draw, Sockets) {
   // Create new board 
-  Board.createBoard('board-container', 400, 300);
+  Board.createBoard('board-container', 400, 300, Sockets);
   // start listening to mouse events
   Board.attachMouseListeners(Draw.drawShape);
   // Store some data in the Board factory

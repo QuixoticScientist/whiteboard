@@ -5,9 +5,10 @@ angular.module('whiteboard.services.board', [])
   board.$el;
   board.paper;
 
-  board.createBoard = function (appendTo, width, height) {
+  board.createBoard = function (appendTo, width, height, Sockets) {
     this.paper = Raphael(document.getElementById(appendTo), width, height);
     this.$el = $('#' + appendTo + ' svg');
+    Sockets.emit('new board', this);
   };
 
   board.attachMouseListeners = function (handler) {

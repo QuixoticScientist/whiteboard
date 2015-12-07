@@ -26,9 +26,7 @@ angular.module('whiteboard.services.draw', [])
     var id = clientID + ':' + incrementer++;
     Board.lastShapeId = id;
 
-    var initX = e.clientX - Board.canvasX;
-    var initY = e.clientY - Board.canvasY;
-    var coords = Snap.snapToPoints(Snap.endSnaps, initX, initY, Snap.tolerance);
+    var coords = Snap.snapToPoints(initX, initY);
     initX = coords[0];
     initY = coords[1];
     createShape(Board.tool.name, initX, initY, id);
@@ -124,4 +122,5 @@ angular.module('whiteboard.services.draw', [])
     changeRectangle: changeRectangle,
     changeText: changeText
   };
-})
+
+});

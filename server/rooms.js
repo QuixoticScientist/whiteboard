@@ -1,4 +1,5 @@
 var utils = require('./utils/util');
+var client = require('./db/config');
 
 var rooms = {};
 

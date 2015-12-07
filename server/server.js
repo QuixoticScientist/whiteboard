@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var favicon = require('serve-favicon');
 var http = require('http');
 var handle = require('./request-handler');
 var bodyParser = require('body-parser');
@@ -8,6 +9,7 @@ app.use(express.static(__dirname + '/../client'));
 app.use(express.static(__dirname + '/lib'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(favicon(__dirname + '/favicon.ico'));
 
 app.get('/getToken', handle.getToken);
 // app.get('/getBoard', handle.getBoard);
@@ -48,6 +50,8 @@ var start = function () {
 var end = function () {
   server.close();
 };
+
+start();
 
 exports.start = start;
 exports.end = end;

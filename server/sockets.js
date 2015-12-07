@@ -10,7 +10,7 @@ module.exports = function(server) {
   io.on('connection', function (socket) {
 
     socket.on('disconnect', function () {
-      rooms.handlePlayerDisconnect(socket);
+      rooms.handleMemberDisconnect(socket);
     });
 
     // send socket rooms ready for handling

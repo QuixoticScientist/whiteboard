@@ -22,10 +22,22 @@ angular.module('whiteboard.services.auth', [])
     $window.localStorage.removeItem('token');
   };
 
+  var generateRandomId = function (length) {
+    var id = "";
+    var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < length; i++) {
+      id += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    return id;
+  };
+
   return {
     isAuth: isAuth,
     logoutUser: logoutUser,
     storeToken: storeToken,
-    retrieveToken: retrieveToken
+    retrieveToken: retrieveToken,
+    generateRandomId: generateRandomId
   };
 });

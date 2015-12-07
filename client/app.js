@@ -13,6 +13,14 @@ angular.module('whiteboard', [
   function($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .when('/', {
+        resolve: {
+          'check': function (Auth, $location) {
+            var roomId = Auth.generateRandomId(5);
+            $location.path('/' + roomId);
+          }
+        }
+      })
+      .when('/:id', {
         templateUrl: 'views/board.html',
         controller: 'BoardCtrl',
         controllerAs: 'board',
@@ -36,4 +44,3 @@ angular.module('whiteboard', [
     }
   });
 });
-

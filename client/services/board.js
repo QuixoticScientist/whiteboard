@@ -8,6 +8,7 @@ angular.module('whiteboard.services.board', [])
   board.createBoard = function (appendTo, width, height, Sockets) {
     this.paper = Raphael(document.getElementById(appendTo), width, height);
     this.$el = $('#' + appendTo + ' svg');
+    this.roomId = window.location.pathname.slice(1);
     Sockets.emit('new board', this);
   };
 

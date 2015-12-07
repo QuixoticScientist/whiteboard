@@ -1,6 +1,7 @@
 angular.module('whiteboard', [
   'btford.socket-io',
-  'whiteboard.board',
+  //'whiteboard.board',
+  //'whiteboard.directives.board',
   'whiteboard.services.board',
   'whiteboard.services.draw',
   'whiteboard.services.snap',
@@ -23,8 +24,8 @@ angular.module('whiteboard', [
       })
       .when('/:id', {
         templateUrl: 'views/board.html',
-        controller: 'BoardCtrl',
-        controllerAs: 'board',
+        // controller: 'BoardCtrl',
+        //controllerAs: 'board',
         authenticate: true
       });
 

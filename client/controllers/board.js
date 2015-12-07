@@ -1,6 +1,6 @@
 angular.module('whiteboard.board', [])
 
-.controller('BoardCtrl', function ($scope, Board, Draw) {
+.controller('BoardCtrl', function ($scope, Board, Draw, Sockets) {
   // Create new board 
   Board.createBoard('board-container', 400, 300);
   // start listening to mouse events
@@ -21,4 +21,14 @@ angular.module('whiteboard.board', [])
     Board.tool.name = $(this).find('option:selected').val();
   });
   
+  Sockets.on('echo', function () {
+    console.log('Echo received from server')
+  });
+  Sockets.on('createShape', function (data) {
+    Draw.createShape(data.tool.name, data.initX, data.initY, data.uniqueId);
+  });
+  Sockets.on('changeShape', function (data) {
+    Draw.createShape(data.tool.name, data.initX, data.initY, data.uniqueId);
+  });
+
 });

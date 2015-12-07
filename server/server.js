@@ -18,6 +18,9 @@ app.set('port', port);
 var server = http.createServer(app);
 var io = require('./sockets')(server, { serveClient: true });
 
+// setInterval(function () {
+//   io.emit('echo');
+// }, 500);
 io.on('connection', function (socket) {
   io.on('echo', function (data) {
     socket.emit('echo', data);

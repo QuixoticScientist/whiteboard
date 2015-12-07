@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.draw', [])
-.factory('Draw', function (Board, Snap) {
+.factory('Draw', function (Board, Snap, Sockets) {
   var shapeHandlers = {
     'circle': changeCircle,
     'path': changeLine,
@@ -13,7 +13,7 @@ angular.module('whiteboard.services.draw', [])
 
   //unique id, fetched from server
   var clientID = 'TESTUSER';
-  var drawnShapes = {};
+  Board.onEditShapes = {};
 
   if (throttleEnabled) {
     shapeHandlers = _.mapObject(shapeHandlers, function (fn) {
@@ -23,13 +23,14 @@ angular.module('whiteboard.services.draw', [])
 
   //console.log(Draw.tool)
   var drawShape = function (e) {
+    var id = clientID + ':' + incrementer++;
+    Board.lastShapeId = id;
+
     var initX = e.clientX - Board.canvasX;
     var initY = e.clientY - Board.canvasY;
     var coords = Snap.snapToPoints(Snap.endSnaps, initX, initY, Snap.tolerance);
     initX = coords[0];
     initY = coords[1];
-    var id = clientID + ':' + incrementer++;
-    Board.lastShapeId = id;
     createShape(Board.tool.name, initX, initY, id);
   };
 
@@ -46,7 +47,7 @@ angular.module('whiteboard.services.draw', [])
   var createShape = function (tool, initX, initY, uniqueId) {
     //clientX/clientY measure from element; compare with screenX/screenY
     var shape = newShape(tool, initX, initY);
-    drawnShapes[uniqueId] = shape;
+    Board.onEditShapes[uniqueId] = shape;
     shape.uniqueId = uniqueId;
     shape.initX = initX;
     shape.initY = initY;
@@ -57,7 +58,7 @@ angular.module('whiteboard.services.draw', [])
   };
 
   function mouseMove (shapeId, x, y, initX, initY) {
-    var shape = drawnShapes[shapeId];
+    var shape = Board.onEditShapes[shapeId];
     shapeHandlers[shape.type](shape, x - Board.canvasX, y - Board.canvasY, initX, initY);
       
     if (Board.tool.fill) {

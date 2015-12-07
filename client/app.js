@@ -6,6 +6,7 @@ angular.module('whiteboard', [
   'whiteboard.services.snap',
   'whiteboard.services.auth',
   'whiteboard.services.token',
+  'whiteboard.services.sockets',
   'ngRoute'
 ])
 .config(['$routeProvider', '$locationProvider', '$httpProvider',

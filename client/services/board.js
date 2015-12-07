@@ -20,7 +20,8 @@ angular.module('whiteboard.services.board', [])
     
     this.$el.on('mouseup', function () {
       self.$el.off('mousemove');
-      Snap.createSnaps(self.lastShape);
+      var shape = self.onEditShapes[self.lastShapeId];
+      Snap.createSnaps(shape);
     });
     
   };

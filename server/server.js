@@ -6,6 +6,7 @@ var handle = require('./request-handler');
 var bodyParser = require('body-parser');
 var util = require('./utils/util');
 var rooms = require('./rooms');
+var client = require('./db/config');
 
 app.use(express.static(__dirname + '/../client'));
 app.use(express.static(__dirname + '/lib'));
@@ -21,15 +22,10 @@ app.set('port', port);
 var server = http.createServer(app);
 var io = require('./sockets')(server, { serveClient: true });
 
-
-// setInterval(function () {
-//   io.emit('echo');
-// }, 500);
-
 app.get('/:id', function (req, res) {
+  var roomId = req.params.id;
   io.on('connection', function (socket) {
-    console.log('inside')
-    rooms.addMember(socket, req.params.id);
+    rooms.addMember(socket, roomId);
   })
   res.send(200);
 });

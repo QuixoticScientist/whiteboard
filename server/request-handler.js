@@ -16,7 +16,8 @@ exports.getToken = function (req, res) {
 };
 
 exports.getBoard = function (req, res, next) {
-  db.set('board', req.params.id);
+  console.log('here')
+  client.set('board', req.params.id);
   // Board.findOne({ endpoint: req.params.id })
   //    .exec(function (err, board) {
   //      if(err) {

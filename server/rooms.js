@@ -36,7 +36,7 @@ var roomsManager = {
     if (!rooms[roomId]) {
       rooms[roomId] = new Room();
     }
-    
+
     socket.room = roomId;
     socket.join(roomId);
     rooms[roomId].members.push(socket.id);

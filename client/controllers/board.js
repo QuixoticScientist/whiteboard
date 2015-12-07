@@ -4,22 +4,24 @@ angular.module('whiteboard.board', [])
   // Create new board 
   Board.createBoard('board-container', 400, 300, Sockets);
   // start listening to mouse events
-  Board.attachMouseListeners(Draw.drawShape);
+
+  //Board.attachMouseListeners(Draw.startShape);
+
   // Store some data in the Board factory
   
-  Board.canvasX = Board.$el.position().left;
-  Board.canvasY = Board.$el.position().top;
+  //Board.canvasX = Board.$el.position().left;
+  //Board.canvasY = Board.$el.position().top;
 
   // Only for dev purposes, to remove!
-  Board.tool = {
-    name: "createLine",
-    fill: "red"
-  };
+  // Board.tool = {
+  //   name: "createLine",
+  //   fill: "red"
+  // };
 
-  $('.toolbar').on('change', function () {
+  //$('.toolbar').on('change', function () {
     //console.log($(this))
-    Board.tool.name = $(this).find('option:selected').val();
-  });
+  //   Board.tool.name = $(this).find('option:selected').val();
+  // });
   
   Sockets.on('echo', function () {
     console.log('Echo received from server')

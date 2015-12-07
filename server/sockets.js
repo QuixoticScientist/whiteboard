@@ -10,22 +10,16 @@ module.exports = function(server) {
   io.on('connection', function (socket) {
 
     socket.on('roomId', function (data) {
-      console.log(data);
+      rooms.addMember(socket, data.roomId);
     });
 
     socket.on('disconnect', function () {
       rooms.handleMemberDisconnect(socket);
     });
 
-    // send socket rooms ready for handling
-    socket.on('ready', function () {
-      rooms.addMember(socket);
-    });
-
-    rooms.addMember(socket);
+    // rooms.addMember(socket, roomId);
   });
 
   return io;
 
 };
-

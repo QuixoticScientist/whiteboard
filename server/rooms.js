@@ -1,4 +1,5 @@
 var utils = require('./utils/util');
+var client = require('./db/config');
 
 var rooms = {};
 
@@ -36,7 +37,7 @@ var roomsManager = {
     if (!rooms[roomId]) {
       rooms[roomId] = new Room();
     }
-    
+
     socket.room = roomId;
     socket.join(roomId);
     rooms[roomId].members.push(socket.id);

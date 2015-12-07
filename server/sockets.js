@@ -1,6 +1,7 @@
 var socketio = require('socket.io');
 var rooms = require('./rooms');
-var Board = require('./db/models/board');
+// var Board = require('./db/models/board');
+var client = require('./db/config');
 
 module.exports = function(server) {
 
@@ -15,14 +16,15 @@ module.exports = function(server) {
     });
 
     socket.on('new board', function (data) {
-      var newBoard = new Board(data);
-      newBoard.save(function (err, board) {
-        if (err) {
-          throw new Error(err);
-        } else {
-          console.log(board);
-        }
-      });
+      client.set('board', JSON.stringify(data));
+      // var newBoard = new Board(data);
+      // newBoard.save(function (err, board) {
+      //   if (err) {
+      //     throw new Error(err);
+      //   } else {
+      //     console.log(board);
+      //   }
+      // });
     });
 
     socket.on('disconnect', function () {

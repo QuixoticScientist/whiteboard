@@ -42,5 +42,5 @@ exports.getBoard = function (req, res, next) {
         }
        }
      });
-  console.log('board');
+  console.log('board', req.params.id);
 };

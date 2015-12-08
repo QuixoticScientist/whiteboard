@@ -18,6 +18,14 @@ module.exports = function(server) {
       client.set(data.roomId, JSON.stringify(data));
     });
 
+    socket.on('newShape', function (data) {
+      console.log(data);
+    });
+
+    socket.on('selectShapeEditor', function (data) {
+      console.log(data);
+    });
+
     socket.on('disconnect', function () {
       rooms.handleMemberDisconnect(socket);
     });

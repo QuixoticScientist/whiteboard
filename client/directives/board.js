@@ -8,8 +8,7 @@ angular.module('whiteboard')
       '<div id="board-container">' +
       '   <div wb-toolbar></div>' +
       '</div>',
-    controller: function ($scope, ShapeBuilder, ShapeEditor, Snap) {
-      console.log('!')
+    controller: function ($scope, ShapeBuilder, ShapeEditor, Snap, Broadcast) {
       $scope.paper = {}
       $scope.tool = {
         name: null,
@@ -31,6 +30,10 @@ angular.module('whiteboard')
 
         var coords = ShapeBuilder.setShape($scope.paper, mousePosition);
         $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, $scope.paper.raphaelObj, coords.initX, coords.initY);
+
+        // broadcast to server
+        Broadcast.newShape($scope.tool.name, $scope.paper.raphaelObj, coords.initX, coords.initY);
+
         $scope.selectedShape.coords = coords;
       };
       this.editShape = function (ev) {
@@ -38,7 +41,10 @@ angular.module('whiteboard')
           x: ev.clientX,
           y: ev.clientY
         };
-        ShapeEditor.selectShapeEditor($scope, mousePosition)
+        ShapeEditor.selectShapeEditor($scope, mousePosition);
+
+        // broadcast to server
+        Broadcast.selectShapeEditor($scope, mousePosition);
       };
       this.finishShape = function () {
         Snap.createSnaps($scope.selectedShape.el);
@@ -88,7 +94,6 @@ angular.module('whiteboard')
 
       scope.wbToolSelect = scope.wbToolSelect === undefined ? 'createLine' : scope.wbToolSelect;
       scope.$watch('wbToolSelect', function(newTool, prevTool) {
-        console.log(newTool);
         boardCtrl.setToolName(newTool);
       }, false);
     }

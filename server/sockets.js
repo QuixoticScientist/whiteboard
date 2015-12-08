@@ -9,8 +9,8 @@ module.exports = function(server) {
   var io = socketio.listen(server);
 
   io.on('connection', function (socket) {
-
     socket.on('roomId', function (data) {
+      console.log(data);
       rooms.addMember(socket, data.roomId);
     });
 

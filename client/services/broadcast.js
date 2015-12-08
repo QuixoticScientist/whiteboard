@@ -13,10 +13,10 @@ angular.module('whiteboard.services.broadcast', [])
     // console.log(data);
   });
 
-  Sockets.on('shapeUpdate', function (data) {
+  Sockets.on('shapeEdited', function (data) {
     // console.log(data);
   });
-  
+
   // I don't i should broadcast raphael, we will see
   var newShape = function (type, raphael, initX, initY) {
     Sockets.emit('newShape', {

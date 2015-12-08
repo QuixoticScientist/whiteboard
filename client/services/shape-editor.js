@@ -32,19 +32,31 @@ angular.module('whiteboard.services.shapeeditor', [])
   };
 
   var changeRectangle = function (shape, cursorX, cursorY, initX, initY) {
-    var width = cursorX - initX;
-    var height = cursorY - initY;
-    if (width < 0) {
-      initX = cursorX;
-      width = -width;
-    }
-    if (height < 0) {
-      initY = cursorY;
-      height = -height;
+    var coords = Snap.snapToPoints(cursorX, cursorY);
+    var left = shape.attr('x');
+    var top = shape.attr('y');
+    
+    if (cursorX < initX && cursorY < initY) {
+      left = coords[0];
+      top = coords[1];
+      width = initX - left;
+      height = initY - top;
+    } else if (cursorX < initX) {
+      left = coords[0];
+      top = initY;
+      width = initX - left;
+      height = coords[1] - initY;
+    } else if (cursorY < initY) {
+      top = coords[1];
+      width = coords[0] - initX;
+      height = initY - top;
+    } else {
+      width = coords[0] - initX;
+      height = coords[1] - initY;
     }
     shape.attr({
-      x: initX,
-      y: initY,
+      x: left,
+      y: top,
       width: width,
       height: height
     });

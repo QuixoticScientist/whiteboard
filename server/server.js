@@ -23,11 +23,7 @@ var server = http.createServer(app);
 var io = require('./sockets')(server, { serveClient: true });
 
 app.get('/:id', function (req, res) {
-  var roomId = req.params.id;
-  io.on('connection', function (socket) {
-    rooms.addMember(socket, roomId);
-  })
-  res.send(200);
+  res.sendfile('client/index.html');
 });
 
 var start = function () {

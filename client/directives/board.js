@@ -49,6 +49,7 @@ angular.module('whiteboard')
       this.finishShape = function () {
         Snap.createSnaps($scope.selectedShape.el);
         $scope.selectedShape = {};
+        Broadcast.completeShape();
       }
 
     },

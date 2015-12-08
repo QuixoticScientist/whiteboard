@@ -18,26 +18,25 @@ module.exports = function(server) {
 
     socket.on('newShape', function (data) {
       _.extend(board[socket.id], data);
+      board[socket.id].coords = [];
       socket.to(this.room).emit('shapeCreated', board);
     });
 
     socket.on('editShape', function (data) {
-      console.log(data);
+      board[socket.id].coords.push(data.coords);
+      socket.to(this.room).emit('shapeUpdate', board);
     });
 
     socket.on('completeShape', function (data) {
       console.log(data);
+      // try to get shape
+        // if it isn't in redis, create it
     });
 
     socket.on('roomId', function (data) {
       console.log(data);
       rooms.addMember(socket, data.roomId);
     });
-
-    // socket.on('new board', function (data) {
-    //   client.set(data.roomId, JSON.stringify(data));
-    // });
-
 
     socket.on('disconnect', function () {
       rooms.handleMemberDisconnect(socket);

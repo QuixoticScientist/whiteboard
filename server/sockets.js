@@ -28,9 +28,10 @@ module.exports = function(server) {
     });
 
     socket.on('completeShape', function (data) {
-      console.log(data);
-      // try to get shape
-        // if it isn't in redis, create it
+      console.log(board[socket.id]);
+      client.lrange(socket.id, 0, -1, function (reply) {
+        client.rpush([socket.id, JSON.stringify(board[socket.id])]);
+      });
     });
 
     socket.on('roomId', function (data) {

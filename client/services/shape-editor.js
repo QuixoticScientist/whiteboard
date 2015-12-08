@@ -70,10 +70,11 @@ angular.module('whiteboard.services.shapeeditor', [])
   };
 
   var selectShapeEditor = function (tool, board, newCoords) {
-    var shape = board.selectedShape.el;
-    var coords = board.selectedShape.coords;
-    var initCoords = board.paper;
-    var fill = board.tool.fill;
+  //var selectShapeEditor = function (board, newCoords) {
+    // var shape = board.selectedShape.el;
+    // var coords = board.selectedShape.coords;
+    // var initCoords = board.paper;
+    // var fill = board.tool.fill;
 
     var shapeHandlers = {
       'circle': changeCircle,
@@ -82,15 +83,17 @@ angular.module('whiteboard.services.shapeeditor', [])
       'rectangle': changeRectangle,
       'text': changeText
     };
-    var newX = newCoords.x - initCoords.canvasX;
-    var newY = newCoords.y - initCoords.canvasY;
+
+    var newX = newCoords.x - board.initCoords.canvasX;
+    var newY = newCoords.y - board.initCoords.canvasY;
 
     shapeHandlers[tool](shape, newX, newY, coords.initX, coords.initY);
+    //shapeHandlers[board.shape.type](board.shape, newX, newY, board.coords.initX, board.coords.initY);
 
-    if (shape.type === 'path') {
-      shape.attr("stroke", fill);
+    if (board.shape.type === 'path') {
+      board.shape.attr("stroke", board.fill);
     } else {
-      shape.attr("fill", fill);
+      board.shape.attr("fill", board.fill);
     }
   };
 

@@ -36,8 +36,8 @@ angular.module('whiteboard.services.broadcast', [])
 
   });
 
-  // I don't think i should broadcast raphael, we will see
-  var newShape = function (shapeId, type, initCoords) {
+  // I don't i should broadcast raphael, we will see
+  var newShape = function (type, raphael, initX, initY) {
     Sockets.emit('newShape', {
       shapeId: shapeId,
       type: type,

@@ -5,37 +5,59 @@ var _ = require('underscore');
 
 module.exports = function(server) {
 
-  var board = {};
-
   var io = socketio.listen(server);
 
   io.on('connection', function (socket) {
 
+    // client.lrange(socket.id, 0, -1, function (err, replies) {
+    //   room['socketId'] = socket.id
+    //   room[socket.id]['shapes'] = replies || [];
+    // });
+
     socket.on('idRequest', function () {
-      board[socket.id] = {};
       socket.emit('socketId', {socketId: socket.id});
     });
 
     socket.on('newShape', function (data) {
+      shape = {};
       data['socketId'] = socket.id;
+<<<<<<< d3fe9f81ba879e423dd7f798e0d3395dce05b004
       _.extend(board[socket.id], data);
       socket.to(this.room).emit('shapeCreated', board[socket.id]);
+=======
+      _.extend(shape, data);
+      socket.to(this.room).emit('shapeCreated', shape);
+>>>>>>> working on database
     });
 
     socket.on('editShape', function (data) {
       data['socketId'] = socket.id;
+<<<<<<< d3fe9f81ba879e423dd7f798e0d3395dce05b004
       board[socket.id].newX = data.coords.initX;
       board[socket.id].newY = data.coords.initY;
       socket.to(this.room).emit('shapeEdited', data);
     });
 
     socket.on('shapeCompleted', function (data) {
+=======
+      shape.newX = data.coords.x;
+      shape.newY = data.coords.y;
+      socket.to(this.room).emit('shapeEdited', data);
+    });
+
+    socket.on('completeShape', function (data) {
+>>>>>>> working on database
       client.lrange(socket.id, 0, -1, function (reply) {
-        client.rpush([socket.id, JSON.stringify(board[socket.id])]);
+        client.rpush([socket.id, JSON.stringify(shape)]);
       });
     });
 
     socket.on('roomId', function (data) {
+<<<<<<< d3fe9f81ba879e423dd7f798e0d3395dce05b004
+=======
+      room.roomId = data.roomId;
+      console.log(data);
+>>>>>>> working on database
       rooms.addMember(socket, data.roomId);
     });
 

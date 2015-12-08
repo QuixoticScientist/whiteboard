@@ -41,10 +41,25 @@ angular.module('whiteboard')
           x: ev.clientX,
           y: ev.clientY
         };
-        ShapeEditor.selectShapeEditor($scope.tool.name, $scope, mousePosition);
 
+        var infoForClient = {
+          shape: $scope.selectedShape.el,
+          coords: $scope.selectedShape.coords,
+          initCoords: $scope.paper,
+          fill: $scope.tool.fill
+        };
+        var infoForServer = {
+          shapeId: 'test',
+          coords: $scope.selectedShape.coords,
+          initCoordsX: $scope.paper.canvasX,
+          initCoordsY: $scope.paper.canvasY,
+          fill: $scope.tool.fill
+        };
+
+        //ShapeEditor.selectShapeEditor(infoForClient, mousePosition);
+        ShapeEditor.selectShapeEditor($scope.tool.name, $scope, mousePosition);
         // broadcast to server
-        Broadcast.selectShapeEditor($scope, mousePosition);
+        Broadcast.selectShapeEditor(infoForServer, mousePosition);
       };
       this.finishShape = function () {
         Snap.createSnaps($scope.selectedShape.el);

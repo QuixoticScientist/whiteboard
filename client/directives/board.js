@@ -1,5 +1,5 @@
 angular.module('whiteboard')
-.directive('wbBoard', function () {
+.directive('wbBoard', [ 'ShapeBuilder', function (ShapeBuilder) {
   return {
     restrict: 'A',
     require: ['wbBoard'],
@@ -8,7 +8,7 @@ angular.module('whiteboard')
       '<div id="board-container">' +
       '   <div wb-toolbar></div>' +
       '</div>',
-    controller: function ($scope, ShapeBuilder, ShapeEditor, Snap, Broadcast) {
+    controller: function ($scope, ShapeEditor, Snap, Broadcast) {
       $scope.paper = {}
       $scope.tool = {
         name: null,
@@ -28,11 +28,13 @@ angular.module('whiteboard')
           y: ev.clientY
         };
 
+        $scope.selectedShape.id = ShapeBuilder.generateShapeId();
+
         var coords = ShapeBuilder.setShape($scope.paper, mousePosition);
-        $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, $scope.paper.raphaelObj, coords.initX, coords.initY);
+        $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, coords.initX, coords.initY);
 
         // broadcast to server
-        Broadcast.newShape($scope.tool.name, $scope.paper.raphaelObj, coords.initX, coords.initY);
+        Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords);
 
         $scope.selectedShape.coords = coords;
       };
@@ -49,13 +51,14 @@ angular.module('whiteboard')
           fill: $scope.tool.fill
         };
         var infoForServer = {
-          shapeId: 'test',
+          shapeId: $scope.selectedShape.id,
+          tool: $scope.tool.name,
           coords: $scope.selectedShape.coords,
-          initCoordsX: $scope.paper.canvasX,
-          initCoordsY: $scope.paper.canvasY,
+          initCoordX: $scope.paper.canvasX,
+          initCoordY: $scope.paper.canvasY,
           fill: $scope.tool.fill
         };
-
+  
         //ShapeEditor.selectShapeEditor(infoForClient, mousePosition);
         ShapeEditor.selectShapeEditor($scope.tool.name, infoForClient, mousePosition);
         // broadcast to server
@@ -69,7 +72,7 @@ angular.module('whiteboard')
 
     },
     link: function (scope, element, attrs, ctrls) {
-      scope.paper.raphaelObj = Raphael(document.getElementById('board-container'), 400, 300);
+      ShapeBuilder.raphael = Raphael(document.getElementById('board-container'), 400, 300);
 
       scope.paper.$canvas = element.find('svg');
       scope.paper.canvasX = scope.paper.$canvas.position().left;
@@ -95,7 +98,7 @@ angular.module('whiteboard')
       });
     }
   };
-})
+}])
 .directive('wbToolbar', function () {
   return {
     restrict: 'A',

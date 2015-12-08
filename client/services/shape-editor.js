@@ -62,14 +62,14 @@ angular.module('whiteboard.services.shapeeditor', [])
     });
   }
 
-  var changeText = function (shape, x, y, initX, initY) {
+  var changeText = function (shape, x, y, initX, initY ) {
     shape.attr({
       x: x,
       y: y
     });
   };
 
-  var selectShapeEditor = function (tool, board, newCoords) {
+  var selectShapeEditor = function (type, board, newCoords) {
   //var selectShapeEditor = function (board, newCoords) {
     // var shape = board.selectedShape.el;
     // var coords = board.selectedShape.coords;
@@ -88,7 +88,7 @@ angular.module('whiteboard.services.shapeeditor', [])
     var newY = newCoords.y - board.initCoords.canvasY;
 
     //shapeHandlers[tool](shape, newX, newY, coords.initX, coords.initY);
-    shapeHandlers[tool](board.shape, newX, newY, board.coords.initX, board.coords.initY);
+    shapeHandlers[type](board.shape, newX, newY, board.coords.initX, board.coords.initY);
 
     if (board.shape.type === 'path') {
       board.shape.attr("stroke", board.fill);

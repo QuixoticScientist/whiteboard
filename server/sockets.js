@@ -19,25 +19,23 @@ module.exports = function(server) {
     socket.on('newShape', function (data) {
       data['socketId'] = socket.id;
       _.extend(board[socket.id], data);
-      socket.to(this.room).emit('shapeCreated', board);
+      socket.to(this.room).emit('shapeCreated', board[socket.id]);
     });
 
     socket.on('editShape', function (data) {
       data['socketId'] = socket.id;
-      board[socket.id].newX = data.coords.x;
-      board[socket.id].newY = data.coords.y;
+      board[socket.id].newX = data.coords.initX;
+      board[socket.id].newY = data.coords.initY;
       socket.to(this.room).emit('shapeEdited', data);
     });
 
-    socket.on('completeShape', function (data) {
-      console.log(board[socket.id]);
+    socket.on('shapeCompleted', function (data) {
       client.lrange(socket.id, 0, -1, function (reply) {
         client.rpush([socket.id, JSON.stringify(board[socket.id])]);
       });
     });
 
     socket.on('roomId', function (data) {
-      console.log(data);
       rooms.addMember(socket, data.roomId);
     });
 

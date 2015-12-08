@@ -14,16 +14,12 @@ var roomsManager = {
     return rooms[roomName];
   },
 
-  deleteBoard: function (roomName) {
-    delete rooms[roomName];
-  },
-
   handleMemberDisconnect: function (socket) {
     var roomName = socket.room;
     var room = this.getRoom(roomName);
 
     if (room) {
-      //remove a player from the room if the game has not started.
+      //remove a player from the room
       room.members = room.members.filter(function(member) {
         return member !== socket.id;
       });

@@ -1,6 +1,7 @@
 angular.module('whiteboard.services.broadcast', [])
 .factory('Broadcast', function (Sockets) {
 
+
   Sockets.emit('idRequest', function () {
 
   });
@@ -17,7 +18,7 @@ angular.module('whiteboard.services.broadcast', [])
     // console.log(data);
   });
 
-  // I don't i should broadcast raphael, we will see
+  // I don't think i should broadcast raphael, we will see
   var newShape = function (type, raphael, initX, initY) {
     Sockets.emit('newShape', {
       shapeId: Math.floor(Math.random() * 100000),

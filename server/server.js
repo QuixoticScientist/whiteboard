@@ -24,12 +24,6 @@ var io = require('./sockets')(server, { serveClient: true });
 
 app.get('/:id', function (req, res) {
   res.sendfile('client/index.html');
-//   var roomId = req.params.id;
-//   console.log('hi')
-//   // io.on('connection', function (socket) {
-//     rooms.addMember(socket, roomId);
-//   // })
-//   res.send(200);
 });
 
 var start = function () {

@@ -28,8 +28,7 @@ Visit the page, currently hosted on [qswb.herokuapp.com](http://qswb.herokuapp.c
 - [AngularJS](http://angularjs.org)
 - [Node](https://nodejs.org/)
 - [Express](http://expressjs.com/)
-- [Mongodb](https://www.mongodb.org)
-- [Mongoose](http://mongoosejs.com) 
+- [Redis](http://redis.io/)
 - [Raphael](http://raphaeljs.com)
 - [Socket.io](http://socket.io/)
 - [Heroku Deployment](https://www.heroku.com/)
@@ -37,7 +36,6 @@ Visit the page, currently hosted on [qswb.herokuapp.com](http://qswb.herokuapp.c
 ## Requirements
 
 - [Node 0.10.x](https://nodejs.org/en/download/)
-- [MongoDB](https://www.mongodb.org/downloads)
 
 ## Development Process
 

@@ -1,6 +1,14 @@
 angular.module('whiteboard.services.broadcast', [])
 .factory('Broadcast', function (Sockets) {
 
+  Sockets.emit('idRequest', function () {
+
+  });
+
+  Sockets.on('socketId', function (data) {
+    console.log(data);
+  });
+
   Sockets.on('shapeUpdate', function (data) {
     console.log(data);
   });

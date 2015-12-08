@@ -170,7 +170,7 @@ angular.module('whiteboard.services.snap', [])
       }.bind(this));
     }
     this.endSnapTree = new KDTree(this.endSnaps);
-    console.log(this.endSnapTree);
+    // console.log(this.endSnapTree);
   };
 
   var snapToPoints = function (x, y) {

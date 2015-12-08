@@ -57,7 +57,7 @@ angular.module('whiteboard')
         };
 
         //ShapeEditor.selectShapeEditor(infoForClient, mousePosition);
-        ShapeEditor.selectShapeEditor($scope.tool.name, $scope, mousePosition);
+        ShapeEditor.selectShapeEditor($scope.tool.name, infoForClient, mousePosition);
         // broadcast to server
         Broadcast.selectShapeEditor(infoForServer, mousePosition);
       };

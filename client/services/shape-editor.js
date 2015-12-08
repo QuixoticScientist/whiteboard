@@ -87,8 +87,8 @@ angular.module('whiteboard.services.shapeeditor', [])
     var newX = newCoords.x - board.initCoords.canvasX;
     var newY = newCoords.y - board.initCoords.canvasY;
 
-    shapeHandlers[tool](shape, newX, newY, coords.initX, coords.initY);
-    //shapeHandlers[board.shape.type](board.shape, newX, newY, board.coords.initX, board.coords.initY);
+    //shapeHandlers[tool](shape, newX, newY, coords.initX, coords.initY);
+    shapeHandlers[tool](board.shape, newX, newY, board.coords.initX, board.coords.initY);
 
     if (board.shape.type === 'path') {
       board.shape.attr("stroke", board.fill);

@@ -37,6 +37,7 @@ angular.module('whiteboard.services.broadcast', [])
   var completeShape = function () {
     Sockets.emit('completeShape');
   };
+  
 
   return {
     newShape: newShape,

@@ -8,13 +8,14 @@ angular.module('whiteboard')
       '<div id="board-container">' +
       '   <div wb-toolbar></div>' +
       '</div>',
-    controller: function ($scope, Draw) {
+    controller: function ($scope, ShapeBuilder, ShapeEditor, Snap) {
       console.log('!')
       $scope.paper = {}
       $scope.tool = {
         name: null,
         fill: 'red'
       };
+      $scope.selectedShape = {};
 
       this.clEvent = function (ev) {
         console.log('Event: ', ev.type);
@@ -28,9 +29,21 @@ angular.module('whiteboard')
           y: ev.clientY
         };
 
-        var coords = Draw.setShape($scope.paper, mousePosition);
-        var newShape = Draw.newShape($scope.tool.name, $scope.paper.raphaelObj, coords.initX, coords.initY);
+        var coords = ShapeBuilder.setShape($scope.paper, mousePosition);
+        $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, $scope.paper.raphaelObj, coords.initX, coords.initY);
+        $scope.selectedShape.coords = coords;
       };
+      this.editShape = function (ev) {
+        mousePosition = {
+          x: ev.clientX,
+          y: ev.clientY
+        };
+        ShapeEditor.selectShapeEditor($scope, mousePosition)
+      };
+      this.finishShape = function () {
+        Snap.createSnaps($scope.selectedShape.el);
+        $scope.selectedShape = {};
+      }
 
     },
     link: function (scope, element, attrs, ctrls) {
@@ -48,8 +61,15 @@ angular.module('whiteboard')
         boardCtrl.clEvent(ev);
         boardCtrl.createShape(ev);
       });
+       scope.paper.$canvas.bind('mousemove', function (ev) {
+        boardCtrl.clEvent(ev);
+        if (scope.selectedShape.el) {
+          boardCtrl.editShape(ev);
+        }
+      });
       scope.paper.$canvas.bind('mouseup', function (ev) {
         boardCtrl.clEvent(ev);
+        boardCtrl.finishShape();
       });
     }
   };

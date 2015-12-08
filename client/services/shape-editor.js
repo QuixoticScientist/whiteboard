@@ -19,6 +19,18 @@ angular.module('whiteboard.services.shapeeditor', [])
     shape.attr('path', linePathOrigin + linePathEnd);
   };
 
+  var changePath = function (shape, x, y, initX, initY) {
+    //"M10,20L30,40"
+    // var coords = Snap.snapToPoints(x, y)
+    // x = coords[0];
+    // y = coords[1];
+
+    // var pathLength = shape.attr('path').length - 1;
+    // var linePathStart = ["M", shape.attr('path')[pathLength][1], shape.attr('path')[pathLength][2]];
+    var newPath = shape.attr('path').toString().concat('L' + x + ',' + y)
+    shape.attr('path', newPath);
+  };
+
   var changeRectangle = function (shape, cursorX, cursorY, initX, initY) {
     var width = cursorX - initX;
     var height = cursorY - initY;
@@ -45,7 +57,7 @@ angular.module('whiteboard.services.shapeeditor', [])
     });
   };
 
-  var selectShapeEditor = function (board, newCoords) {
+  var selectShapeEditor = function (tool, board, newCoords) {
     var shape = board.selectedShape.el;
     var coords = board.selectedShape.coords;
     var initCoords = board.paper;
@@ -53,14 +65,15 @@ angular.module('whiteboard.services.shapeeditor', [])
 
     var shapeHandlers = {
       'circle': changeCircle,
-      'path': changeLine,
-      'rect': changeRectangle,
+      'path': changePath,
+      'line': changeLine,
+      'rectangle': changeRectangle,
       'text': changeText
     };
     var newX = newCoords.x - initCoords.canvasX;
     var newY = newCoords.y - initCoords.canvasY;
 
-    shapeHandlers[shape.type](shape, newX, newY, coords.initX, coords.initY);
+    shapeHandlers[tool](shape, newX, newY, coords.initX, coords.initY);
 
     if (shape.type === 'path') {
       shape.attr("stroke", fill);

@@ -19,16 +19,19 @@ angular.module('whiteboard.services.shapebuilder', [])
   var newShape = function (type, raphael, initX, initY) {
 
     var shapeConstructors = {
-      'createCircle': function (x, y) {
+      'circle': function (x, y) {
         return raphael.circle(x, y, 0);
       },
-      'createLine': function (x, y) {
+      'line': function (x, y) {
         return raphael.path("M" + String(x) + "," + String(y));
       },
-      'createRectangle': function (x,y) {
+      'path': function (x, y) {
+        return raphael.path("M" + String(x) + "," + String(y));
+      },
+      'rectangle': function (x,y) {
         return raphael.rect(x, y, 0, 0);
       },
-      'createText': function (x,y) {
+      'text': function (x,y) {
         return raphael.text(x, y, 'Hello, world!');
       }
     };

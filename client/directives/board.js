@@ -41,7 +41,7 @@ angular.module('whiteboard')
           x: ev.clientX,
           y: ev.clientY
         };
-        ShapeEditor.selectShapeEditor($scope, mousePosition);
+        ShapeEditor.selectShapeEditor($scope.tool.name, $scope, mousePosition);
 
         // broadcast to server
         Broadcast.selectShapeEditor($scope, mousePosition);
@@ -92,7 +92,7 @@ angular.module('whiteboard')
     link: function (scope, element, attrs, ctrls) {
       var boardCtrl = ctrls[0];
 
-      scope.wbToolSelect = scope.wbToolSelect === undefined ? 'createLine' : scope.wbToolSelect;
+      scope.wbToolSelect = scope.wbToolSelect === undefined ? 'line' : scope.wbToolSelect;
       scope.$watch('wbToolSelect', function(newTool, prevTool) {
         boardCtrl.setToolName(newTool);
       }, false);

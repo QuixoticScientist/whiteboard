@@ -1,8 +1,7 @@
 angular.module('whiteboard.services.shapebuilder', [])
 .factory('ShapeBuilder', function (Snap) {
 
-  
-  var setShape = function (paper, mousePosition) {
+  var setShape = function (paper, mousePosition, Broadcast) {
     //clientX/clientY measure from element; compare with screenX/screenY
     var initX = mousePosition.x - paper.canvasX;
     var initY = mousePosition.y - paper.canvasY;

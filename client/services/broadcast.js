@@ -1,6 +1,10 @@
 angular.module('whiteboard.services.broadcast', [])
 .factory('Broadcast', function (Sockets) {
 
+  Sockets.on('shapeUpdate', function (data) {
+    console.log(data);
+  });
+
   // I don't i should broadcast raphael, we will see
   var newShape = function (type, raphael, initX, initY) {
     Sockets.emit('newShape', {

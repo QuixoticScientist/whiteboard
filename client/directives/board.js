@@ -17,7 +17,7 @@ angular.module('whiteboard')
       $scope.selectedShape = {};
 
       this.clEvent = function (ev) {
-        console.log('Event: ', ev.type);
+        //console.log('Event: ', ev.type);
       };
       this.setToolName = function (tool) {
         $scope.tool.name = tool;

@@ -20,7 +20,7 @@ angular.module('whiteboard')
         //console.log('Event: ', ev.type);
       };
       this.setToolName = function (tool) {
-        $scope.tool.name = tool;
+        $scope.tool.name = tool; 
       };
       this.createShape = function (ev) {
         mousePosition = {

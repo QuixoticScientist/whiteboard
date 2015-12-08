@@ -10,21 +10,17 @@ angular.module('whiteboard.services.broadcast', [])
   });
 
   Sockets.on('shapeCreated', function (data) {
-    console.log(data);
+    // console.log(data);
   });
 
   Sockets.on('shapeUpdate', function (data) {
-    console.log(data);
+    // console.log(data);
   });
-
-  Sockets.on('completeShape', function (data) {
-
-  });
-
+  
   // I don't i should broadcast raphael, we will see
   var newShape = function (type, raphael, initX, initY) {
     Sockets.emit('newShape', {
-      shapeId: 'xxyy:0123',
+      shapeId: Math.floor(Math.random() * 100000),
       type: type,
       initX: initX,
       initY: initY
@@ -44,7 +40,8 @@ angular.module('whiteboard.services.broadcast', [])
 
   return {
     newShape: newShape,
-    selectShapeEditor: selectShapeEditor
+    selectShapeEditor: selectShapeEditor,
+    completeShape: completeShape
   };
 
 });

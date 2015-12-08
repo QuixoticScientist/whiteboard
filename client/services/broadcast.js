@@ -9,13 +9,22 @@ angular.module('whiteboard.services.broadcast', [])
     console.log(data);
   });
 
+  Sockets.on('shapeCreated', function (data) {
+    console.log(data);
+  });
+
   Sockets.on('shapeUpdate', function (data) {
     console.log(data);
+  });
+
+  Socket.on('completeShape', function (data) {
+
   });
 
   // I don't i should broadcast raphael, we will see
   var newShape = function (type, raphael, initX, initY) {
     Sockets.emit('newShape', {
+      shapeId: 'xxyy:0123',
       type: type,
       //raphael: raphael,
       initX: initX,

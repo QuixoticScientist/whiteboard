@@ -2,6 +2,9 @@ angular.module('whiteboard.services.shapeeditor', [])
 .factory('ShapeEditor', function (Snap) {
 
   var changeCircle = function (shape, x, y, initX, initY) {
+    var coords = Snap.snapToPoints(x, y)
+    x = coords[0];
+    y = coords[1];
     var deltaX = x - initX;
     var deltaY = y - initY;
     var newRadius = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
@@ -21,20 +24,13 @@ angular.module('whiteboard.services.shapeeditor', [])
 
   var changePath = function (shape, x, y, initX, initY) {
     //"M10,20L30,40"
-    // var coords = Snap.snapToPoints(x, y)
-    // x = coords[0];
-    // y = coords[1];
-
-    // var pathLength = shape.attr('path').length - 1;
-    // var linePathStart = ["M", shape.attr('path')[pathLength][1], shape.attr('path')[pathLength][2]];
     var newPath = shape.attr('path').toString().concat('L' + x + ',' + y)
     shape.attr('path', newPath);
   };
 
   var changeRectangle = function (shape, cursorX, cursorY, initX, initY) {
     var coords = Snap.snapToPoints(cursorX, cursorY);
-    var left = shape.attr('x');
-    var top = shape.attr('y');
+    var left, top;
     
     if (cursorX < initX && cursorY < initY) {
       left = coords[0];
@@ -47,10 +43,13 @@ angular.module('whiteboard.services.shapeeditor', [])
       width = initX - left;
       height = coords[1] - initY;
     } else if (cursorY < initY) {
+      left = shape.attr('x');
       top = coords[1];
       width = coords[0] - initX;
       height = initY - top;
     } else {
+      left = shape.attr('x');
+      top = shape.attr('y');
       width = coords[0] - initX;
       height = coords[1] - initY;
     }

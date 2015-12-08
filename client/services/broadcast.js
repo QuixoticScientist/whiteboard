@@ -17,7 +17,7 @@ angular.module('whiteboard.services.broadcast', [])
     console.log(data);
   });
 
-  Socket.on('completeShape', function (data) {
+  Sockets.on('completeShape', function (data) {
 
   });
 
@@ -26,7 +26,6 @@ angular.module('whiteboard.services.broadcast', [])
     Sockets.emit('newShape', {
       shapeId: 'xxyy:0123',
       type: type,
-      //raphael: raphael,
       initX: initX,
       initY: initY
     });
@@ -34,10 +33,13 @@ angular.module('whiteboard.services.broadcast', [])
 
   // I don't i should broadcast the board, we will see
   var selectShapeEditor = function (board, newCoords) {
-    Sockets.emit('selectShapeEditor', {
-      //board: board,
-      newCoords: newCoords
+    Sockets.emit('editShape', {
+      coords: newCoords
     });
+  };
+
+  var completeShape = function () {
+    Sockets.emit('completeShape');
   };
 
   return {

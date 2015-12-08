@@ -1,6 +1,6 @@
 angular.module('whiteboard.services.snap', [])
 .factory('Snap', function () {
-
+  
   var createSnaps = function (shape) {
     if (shape.type === 'rect') {
       var x = shape.attr('x');
@@ -54,15 +54,15 @@ angular.module('whiteboard.services.snap', [])
     }
   };
 
-  var snapToPoints = function (points, x, y, tolerance) {
+  var snapToPoints = function (x, y) {
     if (!this.snapsEnabled) return [x, y];
-    for (var i = 0; i < points.length; i++) {
-      var pointX = points[i][0];
-      var pointY = points[i][1];
-      if (Math.abs(x - pointX) <= tolerance && Math.abs(y - pointY) <= tolerance) {
+    for (var i = 0; i < this.endSnaps.length; i++) {
+      var pointX = this.endSnaps[i][0];
+      var pointY = this.endSnaps[i][1];
+      if (Math.abs(x - pointX) <= this.tolerance && Math.abs(y - pointY) <= this.tolerance) {
         var dist = Math.sqrt(Math.pow(x - pointX, 2) + Math.pow(y - pointY, 2));
         if (!closest || dist < closestDist) {
-          var closest = points[i];
+          var closest = this.endSnaps[i];
           var closestDist = dist;
         }
       }

@@ -1,8 +1,7 @@
 angular.module('whiteboard', [
   'btford.socket-io',
-  'whiteboard.board',
-  'whiteboard.services.board',
-  'whiteboard.services.draw',
+  'whiteboard.services.shapebuilder',
+  'whiteboard.services.shapeeditor',
   'whiteboard.services.snap',
   'whiteboard.services.auth',
   'whiteboard.services.token',
@@ -23,12 +22,11 @@ angular.module('whiteboard', [
       })
       .when('/:id', {
         templateUrl: 'views/board.html',
-        controller: 'BoardCtrl',
-        controllerAs: 'board',
+
         authenticate: true
       });
 
-    //$httpProvider.interceptors.push('AttachTokens');
+    // $httpProvider.interceptors.push('AttachTokens');
 
     $locationProvider.html5Mode({
       enabled: true,

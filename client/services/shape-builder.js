@@ -25,8 +25,8 @@ angular.module('whiteboard.services.shapebuilder', [])
 
   var setShape = function (paper, mousePosition, Broadcast) {
     //clientX/clientY measure from element; compare with screenX/screenY
-    var initX = mousePosition.x - paper.canvasX;
-    var initY = mousePosition.y - paper.canvasY;
+    var initX = mousePosition.x;
+    var initY = mousePosition.y;
 
     var coords = Snap.snapToPoints(initX, initY);
     initX = coords[0];

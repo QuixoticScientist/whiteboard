@@ -4,7 +4,6 @@ var client = require('./db/config');
 var rooms = {};
 
 var Room = function () {
-  // this.members = {};
 };
 
 var roomsManager = {
@@ -18,22 +17,34 @@ var roomsManager = {
     var room = this.getRoom(roomId);
 
     console.log('Member ' + socket.id + ' is leaving room ' + roomId);
+    var roomFilter = function (room, predicate) {
+      var filteredMembers = {};
+
+      for (member in room) {
+        if (room.hasOwnProperty(member) && member !== socket.id) {
+          filteredMembers[member] = room[member];
+        }
+      }
+
+      return filteredMembers;
+    };
+
     if (room) {
       //remove a player from the room
-      room = room.filter(function(member) {
-        return member !== socket.id;
-      });
+      room = roomFilter(room);
+      rooms[roomId] = room;
     } else {
       return;
     }
   },
 
   addMember: function (socket, roomId) {
-    // create board if it hasn't already been created
+    // ensure there isn't double counting of roomIds in client side ('/roomId' and 'roomId' emit separately)
     if (roomId[0] === '/') {
       roomId = roomId.slice(1);
     }
 
+    // create board if it hasn't already been created
     if (!rooms[roomId]) {
       rooms[roomId] = new Room();
     }
@@ -41,6 +52,7 @@ var roomsManager = {
     socket.room = roomId;
     socket.join(roomId);
 
+    // add member to room based on socket id
     var socketId = socket.id;
     var obj = {};
     obj[socketId] = {};
@@ -55,12 +67,16 @@ var roomsManager = {
   },
 
   addShape: function (shape, socket) {
-    rooms[socket.room][socket.id][shape.shapeId] = shape;
-    console.log(rooms[socket.room]);
+    var shapeObj = {};
+    shapeObj['type'] = shape.type;
+    shapeObj['initCoords'] = shape.initCoords;
+
+    rooms[socket.room][socket.id][shape.shapeId] = shapeObj;
   },
 
-  editShape: function (shapeId, socket) {
-    //
+  editShape: function (shape, socket) {
+    console.log(shape.coords);
+    // rooms[socket.room][socket.id][shape.shapeId][]
   }
 
 }

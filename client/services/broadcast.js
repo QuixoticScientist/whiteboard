@@ -1,21 +1,32 @@
 angular.module('whiteboard.services.broadcast', [])
-.factory('Broadcast', function (Sockets, ShapeBuilder, ShapeEditor) {
+.factory('Broadcast', function (Sockets, ShapeBuilder, ShapeEditor, Snap) {
 
+  var socketUserId;
+
+  var getSocketId = function () {
+    return socketUserId;
+  };
+
+  var saveSocketId = function (id) {
+    socketUserId = id;
+  };
 
   Sockets.emit('idRequest', function () {});
 
   Sockets.on('socketId', function (data) {
-    Sockets.id = data.socketId;
-    console.log('Sockets (user) id: ', Sockets.id);
+    saveSocketId(data.socketId);
+    console.log('Sockets (user) id: ', getSocketId());
   });
 
   Sockets.on('shapeCreated', function (data) {
-    ShapeBuilder.storeOnEditShape(data.socketId, ShapeBuilder.newShape(data.type, data.initCoords.initX, data.initCoords.initY));
+    var newShape = ShapeBuilder.newShape(data.type, data.initCoords.initX, data.initCoords.initY);
+    newShape.id = data.shapeId;
+    ShapeBuilder.storeOnEditShape(data.socketId, newShape);
   });
 
   Sockets.on('shapeEdited', function (data) {
     var infoForClient = {
-      shape: ShapeBuilder.getOnEditShape(data.socketId, data.shapeId),
+      shape: ShapeBuilder.getOnEditShape(data.socketId, data.shapeId).el,
       coords: data.coords,
       initCoords: {
         canvasX: data.initCoordX,
@@ -27,12 +38,13 @@ angular.module('whiteboard.services.broadcast', [])
       x: data.mouseX,
       y: data.mouseY
     };
-
+    // console.log(data, infoForClient, mouseCoords)
     ShapeEditor.selectShapeEditor(data.tool, infoForClient, mouseCoords);
   });
 
   Sockets.on('shapeCompleted', function (data) {
     console.log('Completed', data)
+    Snap.createSnaps(ShapeBuilder.getOnEditShape(data.socketId, data.shapeId));
     ShapeBuilder.removeOnEditShape(data.socketId, data.shapeId);
   });
 
@@ -63,6 +75,7 @@ angular.module('whiteboard.services.broadcast', [])
   
 
   return {
+    getSocketId: getSocketId,
     newShape: newShape,
     selectShapeEditor: selectShapeEditor,
     completeShape: completeShape

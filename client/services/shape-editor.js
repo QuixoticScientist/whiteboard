@@ -82,18 +82,11 @@ angular.module('whiteboard.services.shapeeditor', [])
       'rectangle': changeRectangle,
       'text': changeText
     };
-
     var newX = newCoords.x;
     var newY = newCoords.y;
 
     //shapeHandlers[tool](shape, newX, newY, coords.initX, coords.initY);
     shapeHandlers[type](board.shape, newX, newY, board.coords.initX, board.coords.initY);
-
-    if (board.shape.type === 'path') {
-      board.shape.attr("stroke", board.fill);
-    } else {
-      board.shape.attr("fill", board.fill);
-    }
   };
 
   return {

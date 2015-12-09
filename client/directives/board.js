@@ -34,7 +34,7 @@ angular.module('whiteboard')
         $scope.selectedShape.id = ShapeBuilder.generateShapeId();
 
         var coords = ShapeBuilder.setShape($scope.paper, mousePosition);
-        $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, coords.initX, coords.initY);
+        $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, coords.initX, coords.initY, $scope.tool.fill);
 
         // broadcast to server
         Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords);
@@ -73,6 +73,16 @@ angular.module('whiteboard')
         Broadcast.completeShape();
       }
 
+      document.onkeypress = function(e) {
+        e.preventDefault();
+        var currentShape = $scope.selectedShape.el;
+        if (currentShape && currentShape.type === 'text') {
+          if (currentShape.attr('text') === 'Hello, world!') {
+            currentShape.attr('text', '');
+          }
+          currentShape.attr('text', currentShape.attr('text') + String.fromCharCode(e.keyCode));
+        }
+      };
     },
     link: function (scope, element, attrs, ctrls) {
       var sizeX = 400;
@@ -104,6 +114,8 @@ angular.module('whiteboard')
         boardCtrl.clEvent(ev);
         if (scope.tool.name === 'zoom') {
           zoom(ev);
+        } else if (scope.selectedShape.el && scope.selectedShape.el.type === 'text') {
+          boardCtrl.finishShape();
         } else {
           boardCtrl.createShape(ev);
         }
@@ -116,7 +128,7 @@ angular.module('whiteboard')
       });
       scope.paper.$canvas.bind('mouseup', function (ev) {
         boardCtrl.clEvent(ev);
-        if (scope.tool.name !== 'zoom') {
+        if (scope.tool.name !== 'zoom' && scope.selectedShape.el && scope.selectedShape.el.type !== 'text') {
           boardCtrl.finishShape();
         }
       });

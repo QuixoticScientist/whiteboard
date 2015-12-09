@@ -38,7 +38,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     };
   };
 
-  var newShape = function (type, initX, initY) {
+  var newShape = function (type, initX, initY, color) {
     var self = this;
 
     var shapeConstructors = {
@@ -59,7 +59,14 @@ angular.module('whiteboard.services.shapebuilder', [])
       }
     };
 
-    return shapeConstructors[type](initX, initY);
+    var newShape = shapeConstructors[type](initX, initY);
+    if (newShape.type === 'path') {
+      //newShape.attr("stroke", color);
+    } else {
+      //newShape.attr("fill", color);
+    }
+
+    return newShape;
   };
 
   return {

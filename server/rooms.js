@@ -84,7 +84,6 @@ var roomsManager = {
 
   editShape: function (shape, socket) {
     // add newX and newY properties to shape object
-    console.log(shape);
     var newX = shape.mouseX;
     var newY = shape.mouseY;
 

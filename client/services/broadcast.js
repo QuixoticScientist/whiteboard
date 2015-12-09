@@ -29,7 +29,6 @@ angular.module('whiteboard.services.broadcast', [])
   });
 
   Sockets.on('shapeEdited', function (data) {
-    console.log(data);
     
     var infoForClient = {
       shape: ShapeBuilder.getOnEditShape(data.socketId, data.shapeId).el,
@@ -76,7 +75,6 @@ angular.module('whiteboard.services.broadcast', [])
   };
 
   var completeShape = function (shapeId) {
-    //console.log(shapeId)
     Sockets.emit('shapeCompleted', {
       shapeId: shapeId
     });

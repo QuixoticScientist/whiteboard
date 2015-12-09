@@ -27,10 +27,10 @@ module.exports = function(server) {
 
     socket.on('editShape', function (data) {
       data['socketId'] = socket.id;
-      board[socket.id].newX = data.coords.initX;
-      board[socket.id].newY = data.coords.initY;
+      board[socket.id].newX = data.mouseX;
+      board[socket.id].newY = data.mouseY;
       socket.to(this.room).emit('shapeEdited', data);
-
+      
       rooms.editShape(data, socket);
     });
 

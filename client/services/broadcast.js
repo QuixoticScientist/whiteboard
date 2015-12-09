@@ -29,7 +29,7 @@ angular.module('whiteboard.services.broadcast', [])
   });
 
   Sockets.on('shapeEdited', function (data) {
-    console.log('Edit path:', data.mouseX, data.mouseY);
+    console.log(data);
     
     var infoForClient = {
       shape: ShapeBuilder.getOnEditShape(data.socketId, data.shapeId).el,

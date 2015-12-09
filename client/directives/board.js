@@ -66,7 +66,7 @@ angular.module('whiteboard')
         $scope.selectedShape.id = ShapeBuilder.generateShapeId();
         
         var coords = ShapeBuilder.setShape($scope.paper, mousePosition);
-        $scope.selectedShape.el = ShapeBuilder.createShape($scope.tool.name, coords.initX, coords.initY, $scope.tool.fill);
+        $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, coords.initX, coords.initY, $scope.tool.fill);
 
         // broadcast to server
         Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords);

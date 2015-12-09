@@ -55,6 +55,11 @@ var roomsManager = {
         client.set(roomId, JSON.stringify({}));
         rooms[roomId] = {};
       }
+      
+      if (!rooms[roomId]) {
+        rooms[roomId] = {};
+      }
+
       // add member to room based on socket id
       var socketId = socket.id;
       rooms[roomId][socketId] = {};
@@ -79,8 +84,9 @@ var roomsManager = {
 
   editShape: function (shape, socket) {
     // add newX and newY properties to shape object
-    var newX = shape.coords.initX;
-    var newY = shape.coords.initY;
+    console.log(shape);
+    var newX = shape.mouseX;
+    var newY = shape.mouseY;
 
     rooms[socket.room][socket.id][shape.shapeId]['newX'] = newX;
     rooms[socket.room][socket.id][shape.shapeId]['newY'] = newY;

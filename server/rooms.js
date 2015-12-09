@@ -3,8 +3,6 @@ var client = require('./db/config');
 
 var rooms = {};
 
-// var Room = function () {};
-
 var roomsManager = {
 
   getRoom: function (roomId) {
@@ -47,27 +45,27 @@ var roomsManager = {
     socket.room = roomId;
     socket.join(roomId);
 
+    var storedRoom;
     client.get(roomId, function (err, reply) {
       if (reply) {
-        rooms[roomId] = JSON.parse(reply);
+        // deal with returning reply to board for new member
+        storedRoom = JSON.parse(reply);
+        // console.log(storedRoom, 'storedRoom');
       } else {
         client.set(roomId, JSON.stringify({}));
         rooms[roomId] = {};
       }
       // add member to room based on socket id
       var socketId = socket.id;
-      var obj = {};
-      obj[socketId] = {};
       rooms[roomId][socketId] = {};
+      console.log(rooms[roomId], 'rooms[roomId]');
+      
+      var count = 0;
+      for (var member in rooms[roomId]) {
+        count++;
+      }
+      console.log('Current room ' + roomId + ' has ' + count + ' members');
     });
-
-    var count = 0;
-    // console.log(rooms, 'rooms')
-    for (var member in rooms[roomId]) {
-      count++;
-    }
-
-    console.log('Current room ' + roomId + ' has ' + count + ' members');
   },
 
   addShape: function (shape, socket) {

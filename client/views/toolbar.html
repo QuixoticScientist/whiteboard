@@ -5,9 +5,10 @@
     <option value="rectangle">Rectangle</option>
     <option value="circle">Circle</option>
     <option value="text">Text</option>
-    <option value="zoom">Zoom</option>
   </select>
   <button colorpicker type="button" colorpicker-position="top" ng-model="wbColorSelect">Change Color</button>
-  <input ng-model="wbZoomScale" placeholder="Zoom Scale">
+  <button ng-click="wbZoomScaleDown()">-</button>
+    <input ng-model="wbZoomScale" placeholder="Zoom Scale" style="width:50px;">
+  <button ng-click="wbZoomScaleUp()">+</button>
 </div>
 

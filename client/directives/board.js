@@ -29,7 +29,33 @@ angular.module('whiteboard')
 
       this.setZoomScale = function (scale) {
         $scope.paper.scalingFactor = 1 / scale;
-      }
+        this.zoom();
+      };
+
+      this.zoom = function (ev) {
+        var paper = $scope.paper;
+        
+        var originalWidth = paper.width;
+        var originalHeight = paper.height;
+
+        if (ev) {
+          var mousePosition = {
+            x: (ev.clientX - paper.canvasX) * paper.scalingFactor + paper.offsetX,
+            y: (ev.clientY - paper.canvasY) * paper.scalingFactor + paper.offsetY
+          };
+        }
+
+        paper.width = paper.sizeX * paper.scalingFactor;
+        paper.height = paper.sizeY * paper.scalingFactor;
+        if (ev) {
+          paper.offsetX = mousePosition.x - paper.width / 2;
+          paper.offsetY = mousePosition.y - paper.height / 2;
+        } else {
+          paper.offsetX = paper.offsetX + originalWidth / 2 - paper.width / 2;
+          paper.offsetY = paper.offsetY + originalHeight / 2 - paper.height / 2;
+        }
+        ShapeBuilder.raphael.setViewBox(paper.offsetX, paper.offsetY, paper.width, paper.height);
+      };
 
       this.createShape = function (ev) {
         var mousePosition = {
@@ -40,7 +66,7 @@ angular.module('whiteboard')
         $scope.selectedShape.id = ShapeBuilder.generateShapeId();
         
         var coords = ShapeBuilder.setShape($scope.paper, mousePosition);
-        $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, coords.initX, coords.initY, $scope.tool.fill);
+        $scope.selectedShape.el = ShapeBuilder.createShape($scope.tool.name, coords.initX, coords.initY, $scope.tool.fill);
 
         // broadcast to server
         Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords);
@@ -49,6 +75,7 @@ angular.module('whiteboard')
 
         ShapeBuilder.storeOnEditShape(Broadcast.getSocketId(), $scope.selectedShape);
       };
+
       this.editShape = function (ev) {
         var mousePosition = {
           x: (ev.clientX - $scope.paper.canvasX) * $scope.paper.scalingFactor + $scope.paper.offsetX,
@@ -70,7 +97,6 @@ angular.module('whiteboard')
           fill: $scope.tool.fill
         };
   
-        //ShapeEditor.selectShapeEditor(infoForClient, mousePosition);
         ShapeEditor.selectShapeEditor($scope.tool.name, infoForClient, mousePosition);
         // broadcast to server
         Broadcast.selectShapeEditor(infoForServer, mousePosition);
@@ -101,41 +127,30 @@ angular.module('whiteboard')
           var currentShape = $scope.selectedShape.el;
           if (currentShape && currentShape.type === 'text') {
             currentShape.attr('text', currentShape.attr('text').slice(0, currentShape.attr('text').length - 1));
-          } 
+          }
         }
       };
+
     },
     link: function (scope, element, attrs, ctrls) {
-      var sizeX = 400;
-      var sizeY = 400;
-      ShapeBuilder.raphael = Raphael(document.getElementById('board-container'), sizeX, sizeY);
+      scope.paper.sizeX = 400;
+      scope.paper.sizeY = 400;
+      ShapeBuilder.raphael = Raphael(document.getElementById('board-container'), scope.paper.sizeX, scope.paper.sizeY);
 
       scope.paper.$canvas = element.find('svg');
       scope.paper.canvasX = scope.paper.$canvas.position().left;
       scope.paper.canvasY = scope.paper.$canvas.position().top;
+      scope.paper.width = 400;
+      scope.paper.height = 400;
       scope.paper.offsetX = 0;
       scope.paper.offsetY = 0;
       scope.paper.scalingFactor = 1;
 
       boardCtrl = ctrls[0];
 
-      function zoom (ev) {
-        var mousePosition = {
-          x: (ev.clientX - scope.paper.canvasX) * scope.paper.scalingFactor + scope.paper.offsetX,
-          y: (ev.clientY - scope.paper.canvasY) * scope.paper.scalingFactor + scope.paper.offsetY
-        };
-
-        var width = sizeX * scope.paper.scalingFactor;
-        var height = sizeY * scope.paper.scalingFactor;
-        scope.paper.offsetX = mousePosition.x - width / 2;
-        scope.paper.offsetY = mousePosition.y - height / 2;
-        ShapeBuilder.raphael.setViewBox(scope.paper.offsetX, scope.paper.offsetY, width, height);
-      }
       scope.paper.$canvas.bind('mousedown', function (ev) {
         boardCtrl.clEvent(ev);
-        if (scope.tool.name === 'zoom') {
-          zoom(ev);
-        } else if (scope.selectedShape.el && scope.selectedShape.el.type === 'text') {
+        if (scope.selectedShape.el && scope.selectedShape.el.type === 'text') {
           boardCtrl.finishShape();
         } else {
           boardCtrl.createShape(ev);
@@ -149,9 +164,12 @@ angular.module('whiteboard')
       });
       scope.paper.$canvas.bind('mouseup', function (ev) {
         boardCtrl.clEvent(ev);
-        if (scope.tool.name !== 'zoom' && scope.selectedShape.el && scope.selectedShape.el.type !== 'text') {
+        if (scope.selectedShape.el && scope.selectedShape.el.type !== 'text') {
           boardCtrl.finishShape();
         }
+      });
+      scope.paper.$canvas.bind('dblclick', function (ev) {
+        boardCtrl.zoom(ev);
       });
     }
   };
@@ -170,16 +188,29 @@ angular.module('whiteboard')
     link: function (scope, element, attrs, ctrls) {
       var boardCtrl = ctrls[0];
 
+      scope.wbZoomScaleDown = function () {
+        scope.wbZoomScale -= 0.25;
+      };
+
+      scope.wbZoomScaleUp = function () {
+        scope.wbZoomScale += 0.25;
+      };
+
       scope.wbToolSelect = scope.wbToolSelect === undefined ? 'line' : scope.wbToolSelect;
+      
       scope.$watch('wbToolSelect', function(newTool, prevTool) {
         boardCtrl.setToolName(newTool);
       }, false);
+      
       scope.$watch('wbColorSelect', function(val) {
         boardCtrl.setColor(val);
       }, false);
+      
       scope.wbZoomScale = scope.wbZoomScale === undefined ? 1 : scope.wbZoomScale;
       scope.$watch('wbZoomScale', function(newScale, prevScale) {
-        boardCtrl.setZoomScale(newScale);
+        if (newScale != 0 && !isNaN(newScale)) {
+          boardCtrl.setZoomScale(newScale);
+        }
       }, false);
     }
   };

@@ -16,7 +16,7 @@ angular.module('whiteboard.services.shapebuilder', [])
   };
 
   var createUserStore = function (userId) {
-    shapeStore[userId] = {}
+    shapeStore[userId] = {};
   };
 
   var storeOnEditShape = function (userId, shape) {
@@ -34,12 +34,10 @@ angular.module('whiteboard.services.shapebuilder', [])
     //     }
     //   }
     // }
-    console.log('New shape id: ',shape.id);
     shapeStore[userId][shape.id] = shape;
   };
 
   var getOnEditShape = function (userId, shapeid) {
-    // console.log(shapeStore);
     return shapeStore[userId][shapeid];
   };
 
@@ -62,7 +60,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     };
   };
 
-  var createShape = function (type, initX, initY, color) {
+  var newShape = function (type, initX, initY, color) {
     var self = this;
 
     var shapeConstructors = {
@@ -95,7 +93,7 @@ angular.module('whiteboard.services.shapebuilder', [])
 
   return {
     setShape: setShape,
-    createShape: createShape,
+    newShape: newShape,
     storeOnEditShape: storeOnEditShape,
     getOnEditShape: getOnEditShape,
     removeOnEditShape: removeOnEditShape,

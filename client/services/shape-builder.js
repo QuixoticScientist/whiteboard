@@ -23,15 +23,27 @@ angular.module('whiteboard.services.shapebuilder', [])
     if (!shapeStore[userId]) {
       createUserStore(userId);
     }
+    if (!shape.coords) {
+      shape = {
+        id: shape.id,
+        el: shape,
+        coords: {
+          x: shape.attrs.path[0][1],
+          y: shape.attrs.path[0][2]
+        }
+      }
+    }
+    console.log('New shape id: ',shape.id);
     shapeStore[userId][shape.id] = shape;
   };
 
   var getOnEditShape = function (userId, shapeid) {
+    // console.log(shapeStore);
     return shapeStore[userId][shapeid];
   };
 
   var removeOnEditShape = function (userId, shapeid) {
-    delete shapeStore[userId][shapeid];
+    //delete shapeStore[userId][shapeid];
   };
 
   var setShape = function (paper, mousePosition, Broadcast) {

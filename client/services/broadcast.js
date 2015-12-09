@@ -5,18 +5,17 @@ angular.module('whiteboard.services.broadcast', [])
   Sockets.emit('idRequest', function () {});
 
   Sockets.on('socketId', function (data) {
-    //console.log(data);
     Sockets.id = data.socketId;
     console.log('Sockets (user) id: ', Sockets.id);
   });
 
   Sockets.on('shapeCreated', function (data) {
-    ShapeBuilder.storeOnEditShape(ShapeBuilder.newShape(data.type, data.initCoords.initX, data.initCoords.initY));
+    ShapeBuilder.storeOnEditShape(data.socketId, ShapeBuilder.newShape(data.type, data.initCoords.initX, data.initCoords.initY));
   });
 
   Sockets.on('shapeEdited', function (data) {
     var infoForClient = {
-      shape: ShapeBuilder.getOnEditShape(data.shapeId),
+      shape: ShapeBuilder.getOnEditShape(data.socketId, data.shapeId),
       coords: data.coords,
       initCoords: {
         canvasX: data.initCoordX,
@@ -33,7 +32,8 @@ angular.module('whiteboard.services.broadcast', [])
   });
 
   Sockets.on('shapeCompleted', function (data) {
-
+    console.log('Completed', data)
+    ShapeBuilder.removeOnEditShape(data.socketId, data.shapeId);
   });
 
   // I don't think i should broadcast raphael, we will see
@@ -54,8 +54,11 @@ angular.module('whiteboard.services.broadcast', [])
     Sockets.emit('editShape', data);
   };
 
-  var completeShape = function () {
-    Sockets.emit('shapeCompleted');
+  var completeShape = function (shapeId) {
+    //console.log(shapeId)
+    Sockets.emit('shapeCompleted', {
+      shapeId: shapeId
+    });
   };
   
 

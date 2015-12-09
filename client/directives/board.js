@@ -168,6 +168,9 @@ angular.module('whiteboard')
           boardCtrl.finishShape();
         }
       });
+      scope.paper.$canvas.bind('dblclick', function (ev) {
+        boardCtrl.zoom(ev);
+      });
     }
   };
 }])

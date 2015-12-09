@@ -205,7 +205,9 @@ angular.module('whiteboard')
       
       scope.wbZoomScale = scope.wbZoomScale === undefined ? 1 : scope.wbZoomScale;
       scope.$watch('wbZoomScale', function(newScale, prevScale) {
-        boardCtrl.setZoomScale(newScale);
+        if (newScale != 0 && !isNaN(newScale)) {
+          boardCtrl.setZoomScale(newScale);
+        }
       }, false);
     }
   };

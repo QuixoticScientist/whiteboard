@@ -27,10 +27,6 @@ angular.module('whiteboard')
         $scope.tool.fill = val; 
       };
 
-      this.setStrokeWidth = function (val) {
-        $scope.tool.strokeWidth = val;
-      };
-
       this.setZoomScale = function (scale) {
         $scope.paper.scalingFactor = 1 / scale;
       }
@@ -44,7 +40,7 @@ angular.module('whiteboard')
         $scope.selectedShape.id = ShapeBuilder.generateShapeId();
         
         var coords = ShapeBuilder.setShape($scope.paper, mousePosition);
-        $scope.selectedShape.el = ShapeBuilder.createShape($scope.tool.name, coords.initX, coords.initY, $scope.tool.fill, $scope.tool.setStrokeWidth);
+        $scope.selectedShape.el = ShapeBuilder.createShape($scope.tool.name, coords.initX, coords.initY, $scope.tool.fill);
 
         // broadcast to server
         Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords);
@@ -138,8 +134,6 @@ angular.module('whiteboard')
         boardCtrl.clEvent(ev);
         if (scope.tool.name === 'zoom') {
           zoom(ev);
-        } else if (scope.tool.name === 'changeStrokeWidth') {
-          boardCtrl.setStrokeWidth(ev);
         } else if (scope.selectedShape.el && scope.selectedShape.el.type === 'text') {
           boardCtrl.finishShape();
         } else {
@@ -170,8 +164,7 @@ angular.module('whiteboard')
     scope: { 
       wbToolSelect: '@',
       wbZoomScale: '@',
-      wbColorSelect: '@',
-      wbStrokeWidthSelect: '@'
+      wbColorSelect: '@'
     },
     link: function (scope, element, attrs, ctrls) {
       var boardCtrl = ctrls[0];
@@ -182,10 +175,6 @@ angular.module('whiteboard')
       }, false);
       scope.$watch('wbColorSelect', function(val) {
         boardCtrl.setColor(val);
-      }, false);
-      scope.wbStrokeWidthSelect = scope.wbStrokeWidthSelect === undefined ? 1 : scope.wbStrokeWidthSelect;
-      scope.$watch('wbStrokeWidthSelect', function (val) {
-        boardCtrl.setStrokeWidth(val);
       }, false);
       scope.wbZoomScale = scope.wbZoomScale === undefined ? 1 : scope.wbZoomScale;
       scope.$watch('wbZoomScale', function(newScale, prevScale) {

@@ -7,6 +7,7 @@ angular.module('whiteboard', [
   'whiteboard.services.token',
   'whiteboard.services.sockets',
   'whiteboard.services.broadcast',
+  'colorpicker.module'
   'ngRoute'
 ])
 .config(['$routeProvider', '$locationProvider', '$httpProvider',

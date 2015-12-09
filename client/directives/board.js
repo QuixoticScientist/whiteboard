@@ -7,6 +7,7 @@ angular.module('whiteboard')
     template: 
       '<div id="board-container">' +
       '   <div wb-toolbar></div>' +
+      '   <div wb-colorwheel></div>' +
       '</div>',
     controller: function ($scope, ShapeEditor, Snap, Broadcast) {
       $scope.paper = {}
@@ -78,8 +79,6 @@ angular.module('whiteboard')
       scope.paper.canvasX = scope.paper.$canvas.position().left;
       scope.paper.canvasY = scope.paper.$canvas.position().top;
 
-      toolbar = element.siblings('.toolbar');
-
       boardCtrl = ctrls[0];
       
       scope.paper.$canvas.bind('mousedown', function (ev) {
@@ -107,6 +106,7 @@ angular.module('whiteboard')
     require: ['^wbBoard'],
     scope: { 
       wbToolSelect: '@',
+      wbColorSelect: '@'  // will this work?
     },
     link: function (scope, element, attrs, ctrls) {
       var boardCtrl = ctrls[0];

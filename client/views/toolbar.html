@@ -1,9 +1,24 @@
-<div class="toolbar">
-  <select name="tools" ng-model="wbToolSelect">
-    <option value="line" selected>Line</option> 
-    <option value="path" selected>Path</option> 
-    <option value="rectangle">Rectangle</option>
-    <option value="circle">Circle</option>
-    <option value="text">Text</option>
-  </select>
+<div class="options">
+  <div class="toolbar">
+    <select name="tools" ng-model="wbToolSelect">
+      <option value="line" selected>Line</option> 
+      <option value="path" selected>Path</option> 
+      <option value="rectangle">Rectangle</option>
+      <option value="circle">Circle</option>
+      <option value="text">Text</option>
+    </select>
+  </div>
+  <div class="colorwheel">
+    <button class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}" ng-model="wbColorSelect">
+      Pick text color
+    </button>
+
+    HEX value: <input id="chosen-value" value="000000">
+
+    <script>
+    function setTextColor(picker) {
+      document.getElementsByTagName('body')[0].style.color = '#' + picker.toString();
+    }
+    </script>
+  </div>
 </div>

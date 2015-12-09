@@ -98,7 +98,7 @@ angular.module('whiteboard')
         var height = sizeY * scope.paper.scalingFactor;
         scope.paper.offsetX = mousePosition.x - width / 2;
         scope.paper.offsetY = mousePosition.y - height / 2;
-        scope.paper.raphaelObj.setViewBox(scope.paper.offsetX, scope.paper.offsetY, width, height);
+        ShapeBuilder.raphael.setViewBox(scope.paper.offsetX, scope.paper.offsetY, width, height);
       }
       scope.paper.$canvas.bind('mousedown', function (ev) {
         boardCtrl.clEvent(ev);

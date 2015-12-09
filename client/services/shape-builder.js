@@ -28,7 +28,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     var initX = mousePosition.x;
     var initY = mousePosition.y;
 
-    var coords = Snap.snapToPoints(initX, initY);
+    var coords = Snap.snapToPoints(initX, initY, 5);
     initX = coords[0];
     initY = coords[1];
 

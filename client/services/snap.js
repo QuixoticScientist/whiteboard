@@ -173,10 +173,11 @@ angular.module('whiteboard.services.snap', [])
     // console.log(this.endSnapTree);
   };
 
-  var snapToPoints = function (x, y) {
+  var snapToPoints = function (x, y, tolerance) {
     if (!this.snapsEnabled) return [x, y];
     if (!this.endSnaps.length) return [x, y];
-    var searchBox = new Rectangle(x - this.tolerance, y - this.tolerance, x + this.tolerance, y + this.tolerance);
+    if (!tolerance) tolerance = this.tolerance;
+    var searchBox = new Rectangle(x - tolerance, y - tolerance, x + tolerance, y + tolerance);
     var localTree = searchKDTree(this.endSnapTree, searchBox);
     for (var i = 0; i < localTree.length; i++) {
       var pointX = localTree[i].x;

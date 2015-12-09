@@ -38,8 +38,7 @@ angular.module('whiteboard')
         };
 
         $scope.selectedShape.id = ShapeBuilder.generateShapeId();
-        ShapeBuilder.storeOnEditShape(Sockets.id, ShapeBuilder.generateShapeId());
-
+        
         var coords = ShapeBuilder.setShape($scope.paper, mousePosition);
         $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, coords.initX, coords.initY, $scope.tool.fill);
 
@@ -47,6 +46,8 @@ angular.module('whiteboard')
         Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords);
 
         $scope.selectedShape.coords = coords;
+
+        ShapeBuilder.storeOnEditShape(Broadcast.getSocketId(), $scope.selectedShape);
       };
       this.editShape = function (ev) {
         var mousePosition = {

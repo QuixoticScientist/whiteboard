@@ -7,7 +7,6 @@ angular.module('whiteboard')
     template: 
       '<div id="board-container">' +
       '   <div wb-toolbar></div>' +
-      '   <div wb-colorwheel></div>' +
       '</div>',
     controller: function ($scope, ShapeEditor, Snap, Broadcast) {
       $scope.paper = {}
@@ -105,8 +104,7 @@ angular.module('whiteboard')
     templateUrl: 'views/toolbar.html',
     require: ['^wbBoard'],
     scope: { 
-      wbToolSelect: '@',
-      wbColorSelect: '@'  // will this work?
+      wbToolSelect: '@'
     },
     link: function (scope, element, attrs, ctrls) {
       var boardCtrl = ctrls[0];

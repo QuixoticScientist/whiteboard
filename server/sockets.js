@@ -5,6 +5,7 @@ var _ = require('underscore');
 
 module.exports = function(server) {
 
+  var room = {};
   var board = {};
 
   var io = socketio.listen(server);
@@ -28,7 +29,6 @@ module.exports = function(server) {
       data['socketId'] = socket.id;
       board[socket.id].newX = data.coords.initX;
       board[socket.id].newY = data.coords.initY;
-      console.log(data)
       socket.to(this.room).emit('shapeEdited', data);
 
       rooms.editShape(data, socket);
@@ -39,9 +39,7 @@ module.exports = function(server) {
         socketId: socket.id,
         shapeId: data.shapeId
       });
-      client.lrange(socket.id, 0, -1, function (reply) {
-        client.rpush([socket.id, JSON.stringify(board[socket.id])]);
-      });
+      rooms.completeShape(socket);
     });
 
     socket.on('roomId', function (data) {

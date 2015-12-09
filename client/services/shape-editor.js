@@ -91,6 +91,7 @@ angular.module('whiteboard.services.shapeeditor', [])
     var newY = newCoords.y;
 
     //shapeHandlers[tool](shape, newX, newY, coords.initX, coords.initY);
+    console.log(board);
     shapeHandlers[type](board.shape, newX, newY, board.coords.initX, board.coords.initY);
   };
 

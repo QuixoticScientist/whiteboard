@@ -3,8 +3,7 @@ var client = require('./db/config');
 
 var rooms = {};
 
-var Room = function () {
-};
+// var Room = function () {};
 
 var roomsManager = {
 
@@ -39,30 +38,35 @@ var roomsManager = {
   },
 
   addMember: function (socket, roomId) {
+
     // ensure there isn't double counting of roomIds in client side ('/roomId' and 'roomId' emit separately)
     if (roomId[0] === '/') {
       roomId = roomId.slice(1);
     }
 
-    // create board if it hasn't already been created
-    if (!rooms[roomId]) {
-      rooms[roomId] = new Room();
-    }
-
     socket.room = roomId;
     socket.join(roomId);
 
-    // add member to room based on socket id
-    var socketId = socket.id;
-    var obj = {};
-    obj[socketId] = {};
-    rooms[roomId][socketId] = {};
+    client.get(roomId, function (err, reply) {
+      if (reply) {
+        rooms[roomId] = JSON.parse(reply);
+      } else {
+        client.set(roomId, JSON.stringify({}));
+        rooms[roomId] = {};
+      }
+      // add member to room based on socket id
+      var socketId = socket.id;
+      var obj = {};
+      obj[socketId] = {};
+      rooms[roomId][socketId] = {};
+    });
 
     var count = 0;
-    console.log(rooms, 'rooms')
+    // console.log(rooms, 'rooms')
     for (var member in rooms[roomId]) {
       count++;
     }
+
     console.log('Current room ' + roomId + ' has ' + count + ' members');
   },
 
@@ -82,6 +86,10 @@ var roomsManager = {
 
     rooms[socket.room][socket.id][shape.shapeId]['newX'] = newX;
     rooms[socket.room][socket.id][shape.shapeId]['newY'] = newY;
+  },
+
+  completeShape: function (socket) {
+    client.set(socket.room, JSON.stringify(rooms[socket.room]));
   }
 
 }

@@ -84,6 +84,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     var newShape = shapeConstructors[type](initX, initY);
     if (newShape.type === 'path') {
       newShape.attr('stroke', color);
+      newShape.pathDProps = '';
     } else {
       newShape.attr('fill', color);
     }

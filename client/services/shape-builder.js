@@ -55,7 +55,7 @@ angular.module('whiteboard.services.shapebuilder', [])
         return self.raphael.rect(x, y, 0, 0);
       },
       'text': function (x,y) {
-        return self.raphael.text(x, y, 'Hello, world!');
+        return self.raphael.text(x, y, 'Insert Text');
       }
     };
 

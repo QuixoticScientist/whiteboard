@@ -24,7 +24,6 @@ angular.module('whiteboard')
       };
 
       this.setColor = function (val) {
-        console.log(val);
         $scope.tool.fill = val; 
       };
 
@@ -79,15 +78,28 @@ angular.module('whiteboard')
         $scope.selectedShape = {};
         Broadcast.completeShape();
       }
-
+      //onkeypress listener is for text entry
       document.onkeypress = function(e) {
-        //e.preventDefault();
         var currentShape = $scope.selectedShape.el;
         if (currentShape && currentShape.type === 'text') {
-          if (currentShape.attr('text') === 'Hello, world!') {
+          if (currentShape.attr('text') === 'Insert Text') {
             currentShape.attr('text', '');
           }
-          currentShape.attr('text', currentShape.attr('text') + String.fromCharCode(e.keyCode));
+          if (e.keyCode === 8) {
+            currentShape.attr('text', currentShape.attr('text').slice(0, currentShape.attr('text').length - 1));
+          } else {
+            currentShape.attr('text', currentShape.attr('text') + String.fromCharCode(e.keyCode));
+          }
+        }
+      };
+      //onkeydown listener is solely for backspace
+      document.onkeydown = function(e) {
+        if (e.which === 8) {
+          e.preventDefault();
+          var currentShape = $scope.selectedShape.el;
+          if (currentShape && currentShape.type === 'text') {
+            currentShape.attr('text', currentShape.attr('text').slice(0, currentShape.attr('text').length - 1));
+          } 
         }
       };
     },

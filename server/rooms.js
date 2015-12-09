@@ -4,7 +4,7 @@ var client = require('./db/config');
 var rooms = {};
 
 var Room = function () {
-  this.members = {};
+  // this.members = {};
 };
 
 var roomsManager = {
@@ -20,7 +20,7 @@ var roomsManager = {
     console.log('Member ' + socket.id + ' is leaving room ' + roomId);
     if (room) {
       //remove a player from the room
-      room.members = room.members.filter(function(member) {
+      room = room.filter(function(member) {
         return member !== socket.id;
       });
     } else {
@@ -44,23 +44,19 @@ var roomsManager = {
     var socketId = socket.id;
     var obj = {};
     obj[socketId] = {};
-    rooms[roomId]['members'][socketId] = {};
+    rooms[roomId][socketId] = {};
 
     var count = 0;
     console.log(rooms, 'rooms')
-    for (var member in rooms[roomId]['members']) {
+    for (var member in rooms[roomId]) {
       count++;
     }
     console.log('Current room ' + roomId + ' has ' + count + ' members');
   },
 
-  getMemberIndex: function (socket) {
-    return this.getRoom(socket.room).members.indexOf(socket.id);
-  },
-
   addShape: function (shape, socket) {
-    rooms[socket.room]['members'][socket.id][shape.shapeId] = shape;
-    // console.log(rooms[socket.room]['members']);
+    rooms[socket.room][socket.id][shape.shapeId] = shape;
+    console.log(rooms[socket.room]);
   },
 
   editShape: function (shapeId, socket) {

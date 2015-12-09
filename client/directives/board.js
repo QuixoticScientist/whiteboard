@@ -117,6 +117,7 @@ angular.module('whiteboard')
         Snap.createSnaps($scope.selectedShape.el);
         Broadcast.completeShape($scope.selectedShape.id);
         $scope.selectedShape = {};
+        // ShapeEditor.cleanTempCachedData();
       }
       //onkeypress listener is for text entry
       document.onkeypress = function(e) {

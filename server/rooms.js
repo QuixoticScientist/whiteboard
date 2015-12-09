@@ -31,8 +31,8 @@ var roomsManager = {
 
     if (room) {
       //remove a player from the room
-      room = roomFilter(room);
-      rooms[roomId] = room;
+      var newRoom = roomFilter(room);
+      rooms[roomId] = newRoom;
     } else {
       return;
     }
@@ -67,6 +67,7 @@ var roomsManager = {
   },
 
   addShape: function (shape, socket) {
+    // instantiate shape object within socket id; add type and initCoords properties
     var shapeObj = {};
     shapeObj['type'] = shape.type;
     shapeObj['initCoords'] = shape.initCoords;
@@ -75,8 +76,12 @@ var roomsManager = {
   },
 
   editShape: function (shape, socket) {
-    console.log(shape.coords);
-    // rooms[socket.room][socket.id][shape.shapeId][]
+    // add newX and newY properties to shape object
+    var newX = shape.coords.initX;
+    var newY = shape.coords.initY;
+
+    rooms[socket.room][socket.id][shape.shapeId]['newX'] = newX;
+    rooms[socket.room][socket.id][shape.shapeId]['newY'] = newY;
   }
 
 }

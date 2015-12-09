@@ -30,7 +30,7 @@ module.exports = function(server) {
       board[socket.id].newY = data.coords.initY;
       socket.to(this.room).emit('shapeEdited', data);
 
-      room.editShape(data, socket);
+      rooms.editShape(data, socket);
     });
 
     socket.on('shapeCompleted', function (data) {

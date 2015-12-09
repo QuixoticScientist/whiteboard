@@ -38,6 +38,7 @@ angular.module('whiteboard')
         };
 
         $scope.selectedShape.id = ShapeBuilder.generateShapeId();
+        ShapeBuilder.storeOnEditShape(Sockets.id, ShapeBuilder.generateShapeId());
 
         var coords = ShapeBuilder.setShape($scope.paper, mousePosition);
         $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, coords.initX, coords.initY, $scope.tool.fill);
@@ -75,8 +76,8 @@ angular.module('whiteboard')
       };
       this.finishShape = function () {
         Snap.createSnaps($scope.selectedShape.el);
+        Broadcast.completeShape($scope.selectedShape.id);
         $scope.selectedShape = {};
-        Broadcast.completeShape();
       }
       //onkeypress listener is for text entry
       document.onkeypress = function(e) {

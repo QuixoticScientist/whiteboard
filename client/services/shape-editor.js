@@ -22,11 +22,27 @@ angular.module('whiteboard.services.shapeeditor', [])
     shape.attr('path', linePathOrigin + linePathEnd);
   };
 
+  // var pathDOM = undefined;
+  // var pathAttr = '';
+
+  // var cleanTempCachedData = function () {
+  //   pathAttr = '';
+  // }
+
   var changePath = function (shape, x, y, initX, initY) {
     //"M10,20L30,40"
+    //pathDOM = pathDOM !== undefined ? pathDOM : $('path');
+    //console.log('Called changePath', initX, initY);
+    // var newPath = shape.attr('path').toString().concat('L' + x + ',' + y)
+    // shape.attr('path', newPath);
+    shape.pathDProps += shape.pathDProps !== '' ? 'L' + x + ',' + y : 'M' + initX + ',' + initY + 'L' + x + ',' + y;
+    // pathAttr += pathAttr !== '' ? 'L' + x + ',' + y : 'M' + initX + ',' + initY + 'L' + x + ',' + y;
+    // pathDOM.attr('d', pathAttr);
+    
+    shape.customSetPathD(shape.pathDProps);
+    //console.log(pathAttr)
 
-    var newPath = shape.attr('path').toString().concat('L' + x + ',' + y)
-    shape.attr('path', newPath);
+    console.log('Called changePath', initX, initY);
   };
 
   //var changePathThrottle = _.throttle(changePath, 50);

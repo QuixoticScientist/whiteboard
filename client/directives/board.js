@@ -22,9 +22,15 @@ angular.module('whiteboard')
       this.setToolName = function (tool) {
         $scope.tool.name = tool; 
       };
+
+      this.setColor = function (val) {
+        $scope.tool.fill = val; 
+      };
+
       this.setZoomScale = function (scale) {
         $scope.paper.scalingFactor = 1 / scale;
       }
+
       this.createShape = function (ev) {
         var mousePosition = {
           x: (ev.clientX - $scope.paper.canvasX) * $scope.paper.scalingFactor + $scope.paper.offsetX,
@@ -152,7 +158,9 @@ angular.module('whiteboard')
       scope.$watch('wbToolSelect', function(newTool, prevTool) {
         boardCtrl.setToolName(newTool);
       }, false);
-      
+      scope.$watch('wbColorSelect', function(val) {
+        boardCtrl.setColor(val);
+      }, false);
       scope.wbZoomScale = scope.wbZoomScale === undefined ? 1 : scope.wbZoomScale;
       scope.$watch('wbZoomScale', function(newScale, prevScale) {
         boardCtrl.setZoomScale(newScale);

@@ -15,12 +15,36 @@ angular.module('whiteboard.services.shapebuilder', [])
     return id;
   };
 
-  var storeOnEditShape = function (shape) {
-    shapeStore[shape.id] = shape;
+  var createUserStore = function (userId) {
+    shapeStore[userId] = {}
   };
 
-  var getOnEditShape = function (id) {
-    return shapeStore[id];
+  var storeOnEditShape = function (userId, shape) {
+    if (!shapeStore[userId]) {
+      createUserStore(userId);
+    }
+    // if (!shape.coords) {
+    //   console.log(shape)
+    //   shape = {
+    //     id: shape.id,
+    //     el: shape,
+    //     coords: {
+    //       x: shape.attrs.path[0][1],
+    //       y: shape.attrs.path[0][2]
+    //     }
+    //   }
+    // }
+    console.log('New shape id: ',shape.id);
+    shapeStore[userId][shape.id] = shape;
+  };
+
+  var getOnEditShape = function (userId, shapeid) {
+    // console.log(shapeStore);
+    return shapeStore[userId][shapeid];
+  };
+
+  var removeOnEditShape = function (userId, shapeid) {
+    //delete shapeStore[userId][shapeid];
   };
 
   var setShape = function (paper, mousePosition, Broadcast) {
@@ -73,7 +97,8 @@ angular.module('whiteboard.services.shapebuilder', [])
     setShape: setShape,
     newShape: newShape,
     storeOnEditShape: storeOnEditShape,
-    getOnEditShape: getOnEditShape, 
+    getOnEditShape: getOnEditShape,
+    removeOnEditShape: removeOnEditShape,
     generateShapeId: generateShapeId
   };
   

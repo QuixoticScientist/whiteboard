@@ -24,9 +24,12 @@ angular.module('whiteboard.services.shapeeditor', [])
 
   var changePath = function (shape, x, y, initX, initY) {
     //"M10,20L30,40"
+
     var newPath = shape.attr('path').toString().concat('L' + x + ',' + y)
     shape.attr('path', newPath);
   };
+
+  //var changePathThrottle = _.throttle(changePath, 50);
 
   var changeRectangle = function (shape, cursorX, cursorY, initX, initY) {
     var coords = Snap.snapToPoints(cursorX, cursorY);
@@ -78,10 +81,12 @@ angular.module('whiteboard.services.shapeeditor', [])
     var shapeHandlers = {
       'circle': changeCircle,
       'path': changePath,
+      //'pathThrottle': changePathThrottle,
       'line': changeLine,
       'rectangle': changeRectangle,
       'text': changeText
     };
+
     var newX = newCoords.x;
     var newY = newCoords.y;
 

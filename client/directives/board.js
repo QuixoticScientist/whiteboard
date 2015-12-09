@@ -207,7 +207,6 @@ angular.module('whiteboard')
       scope.$watch('wbZoomScale', function(newScale, prevScale) {
         boardCtrl.setZoomScale(newScale);
       }, false);
-
     }
   };
 });

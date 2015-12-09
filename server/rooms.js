@@ -49,7 +49,9 @@ var roomsManager = {
 
     client.get(roomId, function (err, reply) {
       if (reply) {
-        rooms[roomId] = JSON.parse(reply);
+        // deal with returning reply to board for new member
+        console.log(reply, 'reply');
+        // JSON.parse(reply);
       } else {
         client.set(roomId, JSON.stringify({}));
         rooms[roomId] = {};
@@ -59,15 +61,16 @@ var roomsManager = {
       var obj = {};
       obj[socketId] = {};
       rooms[roomId][socketId] = {};
+      
+      // console.log(rooms[roomId][socketId], 'rooms[roomId][socketId]');
+      // console.log(rooms[roomId], 'rooms[roomId]')
+      
+      var count = 0;
+      for (var member in rooms[roomId]) {
+        count++;
+      }
+      console.log('Current room ' + roomId + ' has ' + count + ' members');
     });
-
-    var count = 0;
-    // console.log(rooms, 'rooms')
-    for (var member in rooms[roomId]) {
-      count++;
-    }
-
-    console.log('Current room ' + roomId + ' has ' + count + ' members');
   },
 
   addShape: function (shape, socket) {

@@ -24,6 +24,7 @@ angular.module('whiteboard')
       };
 
       this.setColor = function (val) {
+        console.log(val);
         $scope.tool.fill = val; 
       };
 
@@ -80,7 +81,7 @@ angular.module('whiteboard')
       }
 
       document.onkeypress = function(e) {
-        e.preventDefault();
+        //e.preventDefault();
         var currentShape = $scope.selectedShape.el;
         if (currentShape && currentShape.type === 'text') {
           if (currentShape.attr('text') === 'Hello, world!') {
@@ -149,7 +150,8 @@ angular.module('whiteboard')
     require: ['^wbBoard'],
     scope: { 
       wbToolSelect: '@',
-      wbZoomScale: '@'
+      wbZoomScale: '@',
+      wbColorSelect: '@'
     },
     link: function (scope, element, attrs, ctrls) {
       var boardCtrl = ctrls[0];

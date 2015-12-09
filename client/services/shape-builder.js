@@ -25,10 +25,10 @@ angular.module('whiteboard.services.shapebuilder', [])
 
   var setShape = function (paper, mousePosition, Broadcast) {
     //clientX/clientY measure from element; compare with screenX/screenY
-    var initX = mousePosition.x - paper.canvasX;
-    var initY = mousePosition.y - paper.canvasY;
+    var initX = mousePosition.x;
+    var initY = mousePosition.y;
 
-    var coords = Snap.snapToPoints(initX, initY);
+    var coords = Snap.snapToPoints(initX, initY, 5);
     initX = coords[0];
     initY = coords[1];
 
@@ -38,7 +38,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     };
   };
 
-  var newShape = function (type, initX, initY) {
+  var newShape = function (type, initX, initY, color) {
     var self = this;
 
     var shapeConstructors = {
@@ -59,7 +59,14 @@ angular.module('whiteboard.services.shapebuilder', [])
       }
     };
 
-    return shapeConstructors[type](initX, initY);
+    var newShape = shapeConstructors[type](initX, initY);
+    if (newShape.type === 'path') {
+      //newShape.attr("stroke", color);
+    } else {
+      //newShape.attr("fill", color);
+    }
+
+    return newShape;
   };
 
   return {

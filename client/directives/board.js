@@ -22,19 +22,25 @@ angular.module('whiteboard')
       this.setToolName = function (tool) {
         $scope.tool.name = tool; 
       };
+
       this.setColor = function (val) {
         $scope.tool.fill = val; 
       };
+
+      this.setZoomScale = function (scale) {
+        $scope.paper.scalingFactor = 1 / scale;
+      }
+
       this.createShape = function (ev) {
-        mousePosition = {
-          x: ev.clientX,
-          y: ev.clientY
+        var mousePosition = {
+          x: (ev.clientX - $scope.paper.canvasX) * $scope.paper.scalingFactor + $scope.paper.offsetX,
+          y: (ev.clientY - $scope.paper.canvasY) * $scope.paper.scalingFactor + $scope.paper.offsetY
         };
 
         $scope.selectedShape.id = ShapeBuilder.generateShapeId();
 
         var coords = ShapeBuilder.setShape($scope.paper, mousePosition);
-        $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, coords.initX, coords.initY);
+        $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, coords.initX, coords.initY, $scope.tool.fill);
 
         // broadcast to server
         Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords);
@@ -42,9 +48,9 @@ angular.module('whiteboard')
         $scope.selectedShape.coords = coords;
       };
       this.editShape = function (ev) {
-        mousePosition = {
-          x: ev.clientX,
-          y: ev.clientY
+        var mousePosition = {
+          x: (ev.clientX - $scope.paper.canvasX) * $scope.paper.scalingFactor + $scope.paper.offsetX,
+          y: (ev.clientY - $scope.paper.canvasY) * $scope.paper.scalingFactor + $scope.paper.offsetY
         };
 
         var infoForClient = {
@@ -73,21 +79,54 @@ angular.module('whiteboard')
         Broadcast.completeShape();
       }
 
+      document.onkeypress = function(e) {
+        e.preventDefault();
+        var currentShape = $scope.selectedShape.el;
+        if (currentShape && currentShape.type === 'text') {
+          if (currentShape.attr('text') === 'Hello, world!') {
+            currentShape.attr('text', '');
+          }
+          currentShape.attr('text', currentShape.attr('text') + String.fromCharCode(e.keyCode));
+        }
+      };
     },
     link: function (scope, element, attrs, ctrls) {
-      ShapeBuilder.raphael = Raphael(document.getElementById('board-container'), 400, 300);
+      var sizeX = 400;
+      var sizeY = 400;
+      ShapeBuilder.raphael = Raphael(document.getElementById('board-container'), sizeX, sizeY);
 
       scope.paper.$canvas = element.find('svg');
       scope.paper.canvasX = scope.paper.$canvas.position().left;
       scope.paper.canvasY = scope.paper.$canvas.position().top;
+      scope.paper.offsetX = 0;
+      scope.paper.offsetY = 0;
+      scope.paper.scalingFactor = 1;
 
       boardCtrl = ctrls[0];
-      
+
+      function zoom (ev) {
+        var mousePosition = {
+          x: (ev.clientX - scope.paper.canvasX) * scope.paper.scalingFactor + scope.paper.offsetX,
+          y: (ev.clientY - scope.paper.canvasY) * scope.paper.scalingFactor + scope.paper.offsetY
+        };
+
+        var width = sizeX * scope.paper.scalingFactor;
+        var height = sizeY * scope.paper.scalingFactor;
+        scope.paper.offsetX = mousePosition.x - width / 2;
+        scope.paper.offsetY = mousePosition.y - height / 2;
+        ShapeBuilder.raphael.setViewBox(scope.paper.offsetX, scope.paper.offsetY, width, height);
+      }
       scope.paper.$canvas.bind('mousedown', function (ev) {
         boardCtrl.clEvent(ev);
-        boardCtrl.createShape(ev);
+        if (scope.tool.name === 'zoom') {
+          zoom(ev);
+        } else if (scope.selectedShape.el && scope.selectedShape.el.type === 'text') {
+          boardCtrl.finishShape();
+        } else {
+          boardCtrl.createShape(ev);
+        }
       });
-       scope.paper.$canvas.bind('mousemove', function (ev) {
+      scope.paper.$canvas.bind('mousemove', function (ev) {
         boardCtrl.clEvent(ev);
         if (scope.selectedShape.el) {
           boardCtrl.editShape(ev);
@@ -95,7 +134,9 @@ angular.module('whiteboard')
       });
       scope.paper.$canvas.bind('mouseup', function (ev) {
         boardCtrl.clEvent(ev);
-        boardCtrl.finishShape();
+        if (scope.tool.name !== 'zoom' && scope.selectedShape.el && scope.selectedShape.el.type !== 'text') {
+          boardCtrl.finishShape();
+        }
       });
     }
   };
@@ -107,7 +148,8 @@ angular.module('whiteboard')
     templateUrl: 'views/toolbar.html',
     require: ['^wbBoard'],
     scope: { 
-      wbToolSelect: '@'
+      wbToolSelect: '@',
+      wbZoomScale: '@'
     },
     link: function (scope, element, attrs, ctrls) {
       var boardCtrl = ctrls[0];
@@ -118,6 +160,10 @@ angular.module('whiteboard')
       }, false);
       scope.$watch('wbColorSelect', function(val) {
         boardCtrl.setColor(val);
+      }, false);
+      scope.wbZoomScale = scope.wbZoomScale === undefined ? 1 : scope.wbZoomScale;
+      scope.$watch('wbZoomScale', function(newScale, prevScale) {
+        boardCtrl.setZoomScale(newScale);
       }, false);
     }
   };

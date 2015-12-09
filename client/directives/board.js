@@ -78,8 +78,6 @@ angular.module('whiteboard')
       scope.paper.canvasX = scope.paper.$canvas.position().left;
       scope.paper.canvasY = scope.paper.$canvas.position().top;
 
-      toolbar = element.siblings('.toolbar');
-
       boardCtrl = ctrls[0];
       
       scope.paper.$canvas.bind('mousedown', function (ev) {
@@ -106,7 +104,7 @@ angular.module('whiteboard')
     templateUrl: 'views/toolbar.html',
     require: ['^wbBoard'],
     scope: { 
-      wbToolSelect: '@',
+      wbToolSelect: '@'
     },
     link: function (scope, element, attrs, ctrls) {
       var boardCtrl = ctrls[0];

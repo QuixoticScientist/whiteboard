@@ -61,18 +61,19 @@ angular.module('whiteboard.services.shapeeditor', [])
     });
   }
 
-  var changeText = function (shape, x, y, initX, initY) {
+  var changeText = function (shape, x, y, initX, initY ) {
     shape.attr({
       x: x,
       y: y
     });
   };
 
-  var selectShapeEditor = function (tool, board, newCoords) {
-    var shape = board.selectedShape.el;
-    var coords = board.selectedShape.coords;
-    var initCoords = board.paper;
-    var fill = board.tool.fill;
+  var selectShapeEditor = function (type, board, newCoords) {
+  //var selectShapeEditor = function (board, newCoords) {
+    // var shape = board.selectedShape.el;
+    // var coords = board.selectedShape.coords;
+    // var initCoords = board.paper;
+    // var fill = board.tool.fill;
 
     var shapeHandlers = {
       'circle': changeCircle,
@@ -81,15 +82,17 @@ angular.module('whiteboard.services.shapeeditor', [])
       'rectangle': changeRectangle,
       'text': changeText
     };
-    var newX = newCoords.x - initCoords.canvasX;
-    var newY = newCoords.y - initCoords.canvasY;
 
-    shapeHandlers[tool](shape, newX, newY, coords.initX, coords.initY);
+    var newX = newCoords.x - board.initCoords.canvasX;
+    var newY = newCoords.y - board.initCoords.canvasY;
 
-    if (shape.type === 'path') {
-      shape.attr("stroke", fill);
+    //shapeHandlers[tool](shape, newX, newY, coords.initX, coords.initY);
+    shapeHandlers[type](board.shape, newX, newY, board.coords.initX, board.coords.initY);
+
+    if (board.shape.type === 'path') {
+      board.shape.attr("stroke", board.fill);
     } else {
-      shape.attr("fill", fill);
+      board.shape.attr("fill", board.fill);
     }
   };
 

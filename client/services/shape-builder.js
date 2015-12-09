@@ -1,5 +1,27 @@
 angular.module('whiteboard.services.shapebuilder', [])
 .factory('ShapeBuilder', function (Snap) {
+  
+  var idStore = [];
+  var shapeStore = {};
+
+  var generateShapeId = function () {
+    var id = 0; 
+
+    if (idStore.length) {
+      id = idStore[idStore.length - 1] + 1;
+    }
+
+    idStore.push(id);
+    return id;
+  };
+
+  var storeOnEditShape = function (shape) {
+    shapeStore[shape.id] = shape;
+  };
+
+  var getOnEditShape = function (id) {
+    return shapeStore[id];
+  };
 
   var setShape = function (paper, mousePosition, Broadcast) {
     //clientX/clientY measure from element; compare with screenX/screenY
@@ -16,23 +38,24 @@ angular.module('whiteboard.services.shapebuilder', [])
     };
   };
 
-  var newShape = function (type, raphael, initX, initY) {
+  var newShape = function (type, initX, initY) {
+    var self = this;
 
     var shapeConstructors = {
       'circle': function (x, y) {
-        return raphael.circle(x, y, 0);
+        return self.raphael.circle(x, y, 0);
       },
       'line': function (x, y) {
-        return raphael.path("M" + String(x) + "," + String(y));
+        return self.raphael.path("M" + String(x) + "," + String(y));
       },
       'path': function (x, y) {
-        return raphael.path("M" + String(x) + "," + String(y));
+        return self.raphael.path("M" + String(x) + "," + String(y));
       },
       'rectangle': function (x,y) {
-        return raphael.rect(x, y, 0, 0);
+        return self.raphael.rect(x, y, 0, 0);
       },
       'text': function (x,y) {
-        return raphael.text(x, y, 'Hello, world!');
+        return self.raphael.text(x, y, 'Hello, world!');
       }
     };
 
@@ -41,7 +64,10 @@ angular.module('whiteboard.services.shapebuilder', [])
 
   return {
     setShape: setShape,
-    newShape: newShape
+    newShape: newShape,
+    storeOnEditShape: storeOnEditShape,
+    getOnEditShape: getOnEditShape, 
+    generateShapeId: generateShapeId
   };
   
 });

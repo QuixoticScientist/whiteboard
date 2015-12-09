@@ -19,8 +19,12 @@ angular.module('whiteboard.services.broadcast', [])
   });
 
   Sockets.on('shapeCreated', function (data) {
-    var newShape = ShapeBuilder.newShape(data.type, data.initCoords.initX, data.initCoords.initY);
-    newShape.id = data.shapeId;
+    var newShape = {
+      el: ShapeBuilder.newShape(data.type, data.initCoords.initX, data.initCoords.initY),
+      id: data.shapeId,
+      coords: data.initCoords
+    };
+
     ShapeBuilder.storeOnEditShape(data.socketId, newShape);
   });
 
@@ -43,8 +47,8 @@ angular.module('whiteboard.services.broadcast', [])
   });
 
   Sockets.on('shapeCompleted', function (data) {
-    console.log('Completed', data)
-    Snap.createSnaps(ShapeBuilder.getOnEditShape(data.socketId, data.shapeId));
+    console.log('Completed shape:', data);
+    Snap.createSnaps(ShapeBuilder.getOnEditShape(data.socketId, data.shapeId).el);
     ShapeBuilder.removeOnEditShape(data.socketId, data.shapeId);
   });
 

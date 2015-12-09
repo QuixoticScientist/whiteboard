@@ -28,7 +28,7 @@ module.exports = function(server) {
       data['socketId'] = socket.id;
       board[socket.id].newX = data.coords.initX;
       board[socket.id].newY = data.coords.initY;
-      //console.log(data)
+      console.log(data)
       socket.to(this.room).emit('shapeEdited', data);
 
       rooms.editShape(data, socket);

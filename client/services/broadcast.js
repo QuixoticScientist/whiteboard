@@ -29,6 +29,8 @@ angular.module('whiteboard.services.broadcast', [])
   });
 
   Sockets.on('shapeEdited', function (data) {
+    console.log('Edit path:', data.mouseX, data.mouseY);
+    
     var infoForClient = {
       shape: ShapeBuilder.getOnEditShape(data.socketId, data.shapeId).el,
       coords: data.coords,
@@ -42,7 +44,10 @@ angular.module('whiteboard.services.broadcast', [])
       x: data.mouseX,
       y: data.mouseY
     };
-    // console.log(data, infoForClient, mouseCoords)
+    // This ternary operato is only for dev purposes
+    // it runs the throttled version of the change path function
+    // data.tool = data.tool === 'path' ? 'pathThrottle' : data.tool;
+
     ShapeEditor.selectShapeEditor(data.tool, infoForClient, mouseCoords);
   });
 

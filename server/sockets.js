@@ -20,6 +20,8 @@ module.exports = function(server) {
       data['socketId'] = socket.id;
       _.extend(board[socket.id], data);
       socket.to(this.room).emit('shapeCreated', board[socket.id]);
+
+      rooms.addShape(data, socket);
     });
 
     socket.on('editShape', function (data) {

@@ -22,6 +22,9 @@ angular.module('whiteboard')
       this.setToolName = function (tool) {
         $scope.tool.name = tool; 
       };
+      this.setColor = function (val) {
+        $scope.tool.fill = val; 
+      };
       this.createShape = function (ev) {
         mousePosition = {
           x: ev.clientX,
@@ -112,6 +115,9 @@ angular.module('whiteboard')
       scope.wbToolSelect = scope.wbToolSelect === undefined ? 'line' : scope.wbToolSelect;
       scope.$watch('wbToolSelect', function(newTool, prevTool) {
         boardCtrl.setToolName(newTool);
+      }, false);
+      scope.$watch('wbColorSelect', function(val) {
+        boardCtrl.setColor(val);
       }, false);
     }
   };

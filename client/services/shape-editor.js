@@ -83,8 +83,8 @@ angular.module('whiteboard.services.shapeeditor', [])
       'text': changeText
     };
 
-    var newX = newCoords.x - board.initCoords.canvasX;
-    var newY = newCoords.y - board.initCoords.canvasY;
+    var newX = newCoords.x;
+    var newY = newCoords.y;
 
     //shapeHandlers[tool](shape, newX, newY, coords.initX, coords.initY);
     shapeHandlers[type](board.shape, newX, newY, board.coords.initX, board.coords.initY);

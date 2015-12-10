@@ -46,6 +46,12 @@ angular.module('whiteboard.services.broadcast', [])
 
           ShapeEditor.selectShapeEditor(thisShape.type, infoForClient, mouseCoords);
 
+          var shapeWithoutSnaps = ShapeBuilder.getOnEditShape(socketId, shapeId);
+
+          Snap.createSnaps(shapeWithoutSnaps.el);
+          ShapeManipulation.pathSmoother(shapeWithoutSnaps.type, shapeWithoutSnaps.el);
+          ShapeBuilder.removeOnEditShape(socketId, shapeId);
+
         }
       }
     }

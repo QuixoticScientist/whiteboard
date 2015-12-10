@@ -21,6 +21,10 @@ module.exports = function(server) {
       rooms.addMember(socket, data.roomId);
     });
 
+    socket.on('getBoardData', function () {
+      rooms.boardData(socket, socket.room);
+    })
+
     socket.on('newShape', function (data) {
       data['socketId'] = socket.id;
       _.extend(board[socket.id], data);

@@ -113,6 +113,18 @@ angular.module('whiteboard.services.broadcast', [])
     ShapeBuilder.removeOnEditShape(data.socketId, data.shapeId);
   });
 
+  Sockets.on('boardData', function (data) {
+    saveBoardData(data);
+  });
+
+  var getBoardData = function () {
+    Sockets.emit('getBoardData');
+  };
+
+  var saveBoardData = function (data) {
+    console.log(data);
+  };
+
   // I don't think i should broadcast raphael, we will see
   var newShape = function (shapeId, type, initCoords, colors) {
     Sockets.emit('newShape', {

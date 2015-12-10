@@ -35,6 +35,10 @@ var roomsManager = {
     }
   },
 
+  boardData: function (socket, roomId) {
+    socket.emit('boardData', rooms[roomId]);
+  },
+
   addMember: function (socket, roomId) {
 
     // ensure there isn't double counting of roomIds in client side ('/roomId' and 'roomId' emit separately)

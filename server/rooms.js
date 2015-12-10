@@ -64,6 +64,8 @@ var roomsManager = {
       var socketId = socket.id;
       rooms[roomId][socketId] = {};
       console.log(rooms[roomId], 'rooms[roomId]');
+
+      socket.emit('showExisting', rooms[roomId]);
       
       var count = 0;
       for (var member in rooms[roomId]) {

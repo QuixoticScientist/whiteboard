@@ -17,6 +17,10 @@ module.exports = function(server) {
       socket.emit('socketId', {socketId: socket.id});
     });
 
+    socket.on('roomId', function (data) {
+      rooms.addMember(socket, data.roomId);
+    });
+
     socket.on('newShape', function (data) {
       data['socketId'] = socket.id;
       _.extend(board[socket.id], data);
@@ -40,10 +44,6 @@ module.exports = function(server) {
         shapeId: data.shapeId
       });
       rooms.completeShape(socket);
-    });
-
-    socket.on('roomId', function (data) {
-      rooms.addMember(socket, data.roomId);
     });
 
     socket.on('disconnect', function () {

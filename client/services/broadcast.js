@@ -13,6 +13,10 @@ angular.module('whiteboard.services.broadcast', [])
 
   Sockets.emit('idRequest', function () {});
 
+  Sockets.on('showExisting', function (data) {
+    console.log(data);
+  });
+
   Sockets.on('socketId', function (data) {
     saveSocketId(data.socketId);
     console.log('Sockets (user) id: ', getSocketId());

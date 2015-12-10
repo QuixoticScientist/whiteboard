@@ -23,17 +23,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     if (!shapeStore[userId]) {
       createUserStore(userId);
     }
-    // if (!shape.coords) {
-    //   console.log(shape)
-    //   shape = {
-    //     id: shape.id,
-    //     el: shape,
-    //     coords: {
-    //       x: shape.attrs.path[0][1],
-    //       y: shape.attrs.path[0][2]
-    //     }
-    //   }
-    // }
+    
     shapeStore[userId][shape.id] = shape;
   };
 

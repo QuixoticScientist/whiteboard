@@ -9,7 +9,7 @@ angular.module('whiteboard')
       '   <div wb-toolbar></div>' +
       '</div>',
     controller: function ($scope, ShapeEditor, Snap, Broadcast, ShapeManipulation) {
-      $scope.paper = {}
+      $scope.paper = {};
       $scope.tool = {
         name: null,
         fill: 'red'
@@ -106,7 +106,7 @@ angular.module('whiteboard')
         ShapeManipulation.pathSmoother($scope.tool.name, $scope.selectedShape.el);
         Broadcast.completeShape($scope.selectedShape.id);
         $scope.selectedShape = {};
-      }
+      };
       //onkeypress listener is for text entry
       document.onkeypress = function(e) {
         var currentShape = $scope.selectedShape.el;

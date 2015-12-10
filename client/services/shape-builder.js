@@ -71,7 +71,9 @@ angular.module('whiteboard.services.shapebuilder', [])
         return self.raphael.path("M" + String(x) + "," + String(y));
       },
       'path': function (x, y) {
-        return self.raphael.path("M" + String(x) + "," + String(y));
+        var path = self.raphael.path("M" + String(x) + "," + String(y));
+        path.pathDProps = '';
+        return path;
       },
       'rectangle': function (x,y) {
         return self.raphael.rect(x, y, 0, 0);
@@ -84,7 +86,6 @@ angular.module('whiteboard.services.shapebuilder', [])
     var newShape = shapeConstructors[type](initX, initY);
     if (newShape.type === 'path') {
       newShape.attr('stroke', color);
-      newShape.pathDProps = '';
     } else {
       newShape.attr('fill', color);
     }

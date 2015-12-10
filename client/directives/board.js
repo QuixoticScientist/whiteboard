@@ -9,7 +9,7 @@ angular.module('whiteboard')
       '   <div wb-toolbar></div>' +
       '</div>',
     controller: function ($scope, ShapeEditor, Snap, Broadcast, ShapeManipulation) {
-      $scope.paper = {}
+      $scope.paper = {};
       $scope.tool = {
         name: null,
         fill: 'red'

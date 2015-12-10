@@ -14,7 +14,41 @@ angular.module('whiteboard.services.broadcast', [])
   Sockets.emit('idRequest', function () {});
 
   Sockets.on('showExisting', function (data) {
-    console.log(data);
+    for (socketId in data) {
+      if (Object.keys(data[socketId]).length) {
+        for (shapeId in data[socketId]) {
+          var thisShape = data[socketId][shapeId];
+
+          console.log(thisShape)
+
+          var newShape = {
+            el: ShapeBuilder.newShape(thisShape.type, thisShape.initCoords.initX, thisShape.initCoords.initY),
+            id: shapeId,
+            coords: thisShape.initCoords,
+            type: thisShape.type          
+          };
+
+          ShapeBuilder.storeOnEditShape(socketId, newShape);
+
+          var infoForClient = {
+            shape: ShapeBuilder.getOnEditShape(socketId, shapeId).el,
+            coords: thisShape.initCoords,
+            initCoords: {
+              canvasX: thisShape.initCoords.initX,
+              canvasY: thisShape.initCoords.initY
+            }
+          };
+
+          var mouseCoords = {
+            x: thisShape.newX,
+            y: thisShape.newY
+          };
+
+          ShapeEditor.selectShapeEditor(thisShape.type, infoForClient, mouseCoords);
+
+        }
+      }
+    }
   });
 
   Sockets.on('socketId', function (data) {
@@ -31,6 +65,7 @@ angular.module('whiteboard.services.broadcast', [])
     };
 
     ShapeBuilder.storeOnEditShape(data.socketId, newShape);
+
   });
 
   Sockets.on('shapeEdited', function (data) {

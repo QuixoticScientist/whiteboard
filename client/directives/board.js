@@ -12,7 +12,10 @@ angular.module('whiteboard')
       $scope.paper = {};
       $scope.tool = {
         name: null,
-        fill: 'red'
+        colors: {
+          fill: 'transparent',
+          stroke: '#000000'
+        }
       };
       $scope.selectedShape = {};
 
@@ -23,8 +26,9 @@ angular.module('whiteboard')
         $scope.tool.name = tool; 
       };
 
-      this.setColor = function (val) {
-        $scope.tool.fill = val; 
+      this.setColors = function (fill, stroke) {
+        $scope.tool.colors.fill = fill;
+        $scope.tool.colors.stroke = stroke; 
       };
 
       this.setZoomScale = function (scale) {
@@ -66,10 +70,10 @@ angular.module('whiteboard')
         $scope.selectedShape.id = ShapeBuilder.generateShapeId();
         
         var coords = ShapeBuilder.setShape($scope.paper, mousePosition);
-        $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, coords.initX, coords.initY, $scope.tool.fill);
+        $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, coords.initX, coords.initY, $scope.tool.colors);
 
         // broadcast to server
-        Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords);
+        Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords, $scope.tool.colors);
 
         $scope.selectedShape.coords = coords;
 
@@ -86,7 +90,7 @@ angular.module('whiteboard')
           shape: $scope.selectedShape.el,
           coords: $scope.selectedShape.coords,
           initCoords: $scope.paper,
-          fill: $scope.tool.fill
+          //fill: $scope.tool.fill
         };
         var infoForServer = {
           shapeId: $scope.selectedShape.id,
@@ -94,7 +98,7 @@ angular.module('whiteboard')
           coords: $scope.selectedShape.coords,
           initCoordX: $scope.paper.canvasX,
           initCoordY: $scope.paper.canvasY,
-          fill: $scope.tool.fill
+          //fill: $scope.tool.fill
         };
   
         ShapeEditor.selectShapeEditor($scope.tool.name, infoForClient, mousePosition);
@@ -198,13 +202,16 @@ angular.module('whiteboard')
       };
 
       scope.wbToolSelect = scope.wbToolSelect === undefined ? 'line' : scope.wbToolSelect;
-      
       scope.$watch('wbToolSelect', function(newTool, prevTool) {
         boardCtrl.setToolName(newTool);
       }, false);
       
-      scope.$watch('wbColorSelect', function(val) {
-        boardCtrl.setColor(val);
+      scope.wbFillColorSelect = scope.wbFillColorSelect === undefined ? 'transparent' : scope.wbFillColorSelect;
+      scope.wbStrokeColorSelect = scope.wbStrokeColorSelect === undefined ? '#000000' : scope.wbStrokeColorSelect;
+      // scope.wbColorSelect = scope.wbColorSelect === undefined ? '#000000' : scope.wbColorSelect;
+      scope.$watchGroup(['wbFillColorSelect', 'wbStrokeColorSelect'], function(vals) {
+        console.log('Fill: ', vals[0], ' Stroke: ', vals[1]);
+        boardCtrl.setColors(vals[0], vals[1]);
       }, false);
       
       scope.wbZoomScale = scope.wbZoomScale === undefined ? 1 : scope.wbZoomScale;

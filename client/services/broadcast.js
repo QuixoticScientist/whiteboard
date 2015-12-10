@@ -14,15 +14,23 @@ angular.module('whiteboard.services.broadcast', [])
   Sockets.emit('idRequest', function () {});
 
   Sockets.on('showExisting', function (data) {
+
     for (socketId in data) {
       if (Object.keys(data[socketId]).length) {
         for (shapeId in data[socketId]) {
           var thisShape = data[socketId][shapeId];
 
-          console.log(thisShape)
+          console.log('->', thisShape)
 
+          if (thisShape.colors === undefined) {
+            thisShape.colors = {
+              stroke: '#000',
+              fill: '#000'
+            };
+          }
+          console.log(thisShape)
           var newShape = {
-            el: ShapeBuilder.newShape(thisShape.type, thisShape.initCoords.initX, thisShape.initCoords.initY),
+            el: ShapeBuilder.newShape(thisShape.type, thisShape.initCoords.initX, thisShape.initCoords.initY, thisShape.colors),
             id: shapeId,
             coords: thisShape.initCoords,
             type: thisShape.type          
@@ -64,7 +72,7 @@ angular.module('whiteboard.services.broadcast', [])
 
   Sockets.on('shapeCreated', function (data) {
     var newShape = {
-      el: ShapeBuilder.newShape(data.type, data.initCoords.initX, data.initCoords.initY),
+      el: ShapeBuilder.newShape(data.type, data.initCoords.initX, data.initCoords.initY, data.colors),
       id: data.shapeId,
       coords: data.initCoords,
       type: data.type
@@ -82,8 +90,8 @@ angular.module('whiteboard.services.broadcast', [])
       initCoords: {
         canvasX: data.initCoordX,
         canvasY: data.initCoordY
-      },
-      fill: data.fill
+      }
+      //fill: data.fill
     };
     var mouseCoords = {
       x: data.mouseX,
@@ -106,11 +114,12 @@ angular.module('whiteboard.services.broadcast', [])
   });
 
   // I don't think i should broadcast raphael, we will see
-  var newShape = function (shapeId, type, initCoords) {
+  var newShape = function (shapeId, type, initCoords, colors) {
     Sockets.emit('newShape', {
       shapeId: shapeId,
       type: type,
-      initCoords: initCoords
+      initCoords: initCoords,
+      colors: colors
       // initY: initY
     });
   };

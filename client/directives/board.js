@@ -8,7 +8,7 @@ angular.module('whiteboard')
       '<div id="board-container">' +
       '   <div wb-toolbar></div>' +
       '</div>',
-    controller: function ($scope, ShapeEditor, Snap, Broadcast) {
+    controller: function ($scope, ShapeEditor, Snap, Broadcast, ShapeManipulation) {
       $scope.paper = {}
       $scope.tool = {
         name: null,
@@ -102,19 +102,8 @@ angular.module('whiteboard')
         Broadcast.selectShapeEditor(infoForServer, mousePosition);
       };
       this.finishShape = function () {
-        if ($scope.tool.name === 'path') {
-          var path = $scope.selectedShape.el.attr('path');
-          var interval = 5;
-          var newPath = path.reduce(function (newPathString, currentPoint, index, path) {
-            if (!(index % interval) || index === (path.length - 1)) {
-              return newPathString += currentPoint[1] + ',' + currentPoint[2] + ' ';
-            } else {
-              return newPathString;
-            }
-          }, path[0][0] + path[0][1] + ',' + path[0][2] + ' ' + "R");
-          $scope.selectedShape.el.attr('path', newPath);
-        }
         Snap.createSnaps($scope.selectedShape.el);
+        ShapeManipulation.pathSmoother($scope.tool.name, $scope.selectedShape.el);
         Broadcast.completeShape($scope.selectedShape.id);
         $scope.selectedShape = {};
       }

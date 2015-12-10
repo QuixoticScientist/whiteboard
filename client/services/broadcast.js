@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.broadcast', [])
-.factory('Broadcast', function (Sockets, ShapeBuilder, ShapeEditor, Snap) {
+.factory('Broadcast', function (Sockets, ShapeBuilder, ShapeEditor, ShapeManipulation, Snap) {
 
   var socketUserId;
 
@@ -26,7 +26,8 @@ angular.module('whiteboard.services.broadcast', [])
     var newShape = {
       el: ShapeBuilder.newShape(data.type, data.initCoords.initX, data.initCoords.initY),
       id: data.shapeId,
-      coords: data.initCoords
+      coords: data.initCoords,
+      type: data.type
     };
 
     ShapeBuilder.storeOnEditShape(data.socketId, newShape);
@@ -56,7 +57,10 @@ angular.module('whiteboard.services.broadcast', [])
 
   Sockets.on('shapeCompleted', function (data) {
     console.log('Completed shape:', data);
-    Snap.createSnaps(ShapeBuilder.getOnEditShape(data.socketId, data.shapeId).el);
+    var shape = ShapeBuilder.getOnEditShape(data.socketId, data.shapeId);
+    // console.log(shape);
+    Snap.createSnaps(shape.el);
+    ShapeManipulation.pathSmoother(shape.type, shape.el);
     ShapeBuilder.removeOnEditShape(data.socketId, data.shapeId);
   });
 

@@ -2,6 +2,7 @@ angular.module('whiteboard', [
   'btford.socket-io',
   'whiteboard.services.shapebuilder',
   'whiteboard.services.shapeeditor',
+  'whiteboard.services.shapemanipulation',
   'whiteboard.services.snap',
   'whiteboard.services.auth',
   'whiteboard.services.token',

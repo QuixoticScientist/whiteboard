@@ -106,7 +106,7 @@ angular.module('whiteboard')
         ShapeManipulation.pathSmoother($scope.tool.name, $scope.selectedShape.el);
         Broadcast.completeShape($scope.selectedShape.id);
         $scope.selectedShape = {};
-      }
+      };
       //onkeypress listener is for text entry
       document.onkeypress = function(e) {
         var currentShape = $scope.selectedShape.el;

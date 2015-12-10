@@ -14,13 +14,14 @@ angular.module('whiteboard.services.broadcast', [])
   Sockets.emit('idRequest', function () {});
 
   Sockets.on('showExisting', function (data) {
+    // console.log(data)
 
     for (socketId in data) {
       if (Object.keys(data[socketId]).length) {
         for (shapeId in data[socketId]) {
           var thisShape = data[socketId][shapeId];
 
-          console.log('->', thisShape)
+          // console.log('->', thisShape)
 
           if (thisShape.colors === undefined) {
             thisShape.colors = {
@@ -28,7 +29,7 @@ angular.module('whiteboard.services.broadcast', [])
               fill: '#000'
             };
           }
-          console.log(thisShape)
+          // console.log(thisShape)
           var newShape = {
             el: ShapeBuilder.newShape(thisShape.type, thisShape.initCoords.initX, thisShape.initCoords.initY, thisShape.colors),
             id: shapeId,
@@ -71,6 +72,7 @@ angular.module('whiteboard.services.broadcast', [])
   });
 
   Sockets.on('shapeCreated', function (data) {
+    console.log(data);
     var newShape = {
       el: ShapeBuilder.newShape(data.type, data.initCoords.initX, data.initCoords.initY, data.colors),
       id: data.shapeId,

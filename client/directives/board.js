@@ -222,4 +222,18 @@ angular.module('whiteboard')
       }, false);
     }
   };
+})
+.directive('wbLayers', function () {
+  return {
+    restrict: 'A',
+    replace: true,
+    templateUrl: 'views/layers.html',
+    require: ['^wbBoard'],
+    scope: {
+      //
+    },
+    link: function (scope, element, attrs, ctrls) {
+      //
+    }
+  }
 });

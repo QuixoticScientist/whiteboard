@@ -1,4 +1,5 @@
 <div class="layers" ng-model="wbLayers">
+  <button ng-click="getUsers()">Get Users</button>
   <ul>
     <li>Text</li>
     <div ng-repeat="socketId in room">{{socketId}}</div>

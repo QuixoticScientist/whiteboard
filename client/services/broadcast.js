@@ -99,7 +99,6 @@ angular.module('whiteboard.services.broadcast', [])
   Sockets.on('shapeCompleted', function (data) {
     console.log('Completed shape:', data);
     var shape = ShapeBuilder.getOnEditShape(data.socketId, data.shapeId);
-    // console.log(shape);
     Snap.createSnaps(shape.el);
     ShapeManipulation.pathSmoother(shape.type, shape.el);
     ShapeBuilder.removeOnEditShape(data.socketId, data.shapeId);
@@ -124,7 +123,6 @@ angular.module('whiteboard.services.broadcast', [])
       type: type,
       initCoords: initCoords,
       colors: colors
-      // initY: initY
     });
   };
 
@@ -145,6 +143,9 @@ angular.module('whiteboard.services.broadcast', [])
 
   return {
     getSocketId: getSocketId,
+    saveSocketId: saveSocketId,
+    getBoardData: getBoardData,
+    saveBoardData: saveBoardData,
     newShape: newShape,
     selectShapeEditor: selectShapeEditor,
     completeShape: completeShape

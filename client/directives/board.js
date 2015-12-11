@@ -7,6 +7,7 @@ angular.module('whiteboard')
     template: 
       '<div id="board-container">' +
       '   <div wb-toolbar></div>' +
+      '   <div wb-layers></div>' +
       '</div>',
     controller: function ($scope, ShapeEditor, Snap, Broadcast, ShapeManipulation) {
       $scope.paper = {};
@@ -18,6 +19,10 @@ angular.module('whiteboard')
         }
       };
       $scope.selectedShape = {};
+
+      this.getBoardData = function() {
+        Broadcast.getBoardData();
+      };
 
       this.clEvent = function (ev) {
         //console.log('Event: ', ev.type);
@@ -89,16 +94,14 @@ angular.module('whiteboard')
         var infoForClient = {
           shape: $scope.selectedShape.el,
           coords: $scope.selectedShape.coords,
-          initCoords: $scope.paper,
-          //fill: $scope.tool.fill
+          initCoords: $scope.paper
         };
         var infoForServer = {
           shapeId: $scope.selectedShape.id,
           tool: $scope.tool.name,
           coords: $scope.selectedShape.coords,
           initCoordX: $scope.paper.canvasX,
-          initCoordY: $scope.paper.canvasY,
-          //fill: $scope.tool.fill
+          initCoordY: $scope.paper.canvasY
         };
   
         ShapeEditor.selectShapeEditor($scope.tool.name, infoForClient, mousePosition);
@@ -232,8 +235,10 @@ angular.module('whiteboard')
     scope: {
       //
     },
-    link: function (scope, element, attrs, ctrls) {
-      //
+    link: function (scope, element, attrs, ctrls, Broadcast) {
+      scope.getUsers = function() {
+        boardCtrl.getBoardData();
+      }
     }
   }
 });

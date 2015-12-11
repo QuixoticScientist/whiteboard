@@ -231,17 +231,23 @@ angular.module('whiteboard')
     scope: {
       //
     },
-    controller: function ($scope, ShapeBuilder) {
-      this.requestBoardData = function () {
+    controller: function ($scope, ShapeBuilder, Sockets) {
+      Sockets.on('layerList', function () {
+        $scope.getUsers();
+        console.log($scope.boardData, '$scope.boardData')
+      });
+
+      $scope.requestBoardData = function () {
         return ShapeBuilder.getShapeStore();
       };
+      
+      $scope.getUsers = function () {
+        $scope.boardData = $scope.requestBoardData();
+        console.log($scope.boardData, 'scope.boardData');
+      }
     },
     link: function (scope, element, attrs, ctrls) {
-      var layersCtrl = ctrls[0];
-      scope.getUsers = function () {
-        scope.boardData = layersCtrl.requestBoardData();
-        console.log(scope.boardData, 'scope.boardData');
-      }
+      // var layersCtrl = ctrls[0];
     }
   }
 });

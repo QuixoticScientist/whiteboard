@@ -46,6 +46,8 @@ module.exports = function(server) {
         shapeId: data.shapeId
       });
       rooms.completeShape(socket);
+      socket.to(this.room).emit('layerList');
+      socket.emit('layerList');
     });
 
     socket.on('disconnect', function () {

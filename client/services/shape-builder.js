@@ -77,7 +77,6 @@ angular.module('whiteboard.services.shapebuilder', [])
       }
     };
 
-    console.log(colors)
     var newShape = shapeConstructors[type](initX, initY);
     if (newShape.type === 'path') {
       newShape.attr('stroke', colors.stroke);

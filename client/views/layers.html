@@ -1,5 +1,7 @@
 <div class="layers" ng-model="wbLayers">
   <ul>
-    <div ng-repeat="(socketId, shapes) in boardData"><input type="checkbox">{{socketId}}</li>
+    <div ng-repeat="(socketId, shapes) in boardData">
+      <input type="checkbox" ng-model="socketId">{{socketId}}</li>
+    </div>
   </ul>
 </div>

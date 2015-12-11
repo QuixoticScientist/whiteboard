@@ -234,7 +234,6 @@ angular.module('whiteboard')
     controller: function ($scope, ShapeBuilder, Sockets) {
       Sockets.on('layerList', function () {
         $scope.getUsers();
-        console.log($scope.boardData, '$scope.boardData')
       });
 
       $scope.requestBoardData = function () {
@@ -243,11 +242,13 @@ angular.module('whiteboard')
       
       $scope.getUsers = function () {
         $scope.boardData = $scope.requestBoardData();
-        console.log($scope.boardData, 'scope.boardData');
       }
     },
     link: function (scope, element, attrs, ctrls) {
       // var layersCtrl = ctrls[0];
+      scope.$watch('socketId', function (data) {
+        console.log(data, 'scope watch socketId');
+      })
     }
   }
 });

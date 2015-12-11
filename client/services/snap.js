@@ -147,7 +147,7 @@ angular.module('whiteboard.services.snap', [])
         shape.attr('path', shape.pathDProps);
       }
       var path = shape.attr('path');
-      console.log(shape)
+      //console.log(shape)
       if (path[1]) {
         startPoint = new Point(path[0][1], path[0][2]);
         endPoint = new Point(path[1][1], path[1][2]);

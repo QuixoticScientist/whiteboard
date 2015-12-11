@@ -1,7 +1,5 @@
 <div class="layers" ng-model="wbLayers">
-  <ul>
-    <div ng-repeat="(socketId, shapes) in boardData">
-      <input type="checkbox" ng-model="socketId">{{socketId}}</li>
-    </div>
-  </ul>
+  <div ng-repeat="(socket, display) in members">
+    <input type="checkbox" ng-model="checked" ng-init='checked=true' ng-change="change(socket)">{{socket}}</input>
+  </div>
 </div>

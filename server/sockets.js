@@ -12,6 +12,10 @@ module.exports = function(server) {
 
   io.on('connection', function (socket) {
 
+    socket.on('layerChange', function (data) {
+      console.log(data);
+    });
+
     socket.on('idRequest', function () {
       board[socket.id] = {};
       socket.emit('socketId', {socketId: socket.id});

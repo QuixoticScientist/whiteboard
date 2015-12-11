@@ -232,6 +232,11 @@ angular.module('whiteboard')
       //
     },
     controller: function ($scope, ShapeBuilder, Sockets) {
+
+      $scope.members = {
+        // socketId: {display: true};
+      }
+
       Sockets.on('layerList', function () {
         $scope.getUsers();
       });
@@ -242,13 +247,24 @@ angular.module('whiteboard')
       
       $scope.getUsers = function () {
         $scope.boardData = $scope.requestBoardData();
-      }
-    },
-    link: function (scope, element, attrs, ctrls) {
-      // var layersCtrl = ctrls[0];
-      scope.$watch('socketId', function (data) {
-        console.log(data, 'scope watch socketId');
-      })
+        for (member in $scope.boardData) {
+          $scope.members[member] = {display: true};
+        }
+      };
+
+      $scope.change = function (socketId) {
+        $scope.members[socketId].display = !$scope.members[socketId].display;
+        Sockets.emit('layerChange', function () {
+          var visibleMembers = [];
+          for (member in $scope.members) {
+            if ($scope.members[member].display) {
+              visibleMembers.push(member);
+            }
+          }
+          console.log(visibleMembers);
+          return visibleMembers;
+        }());
+      };
     }
   }
 });

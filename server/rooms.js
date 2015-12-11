@@ -34,7 +34,7 @@ var roomsManager = {
       return;
     }
   },
-
+  
   addMember: function (socket, roomId) {
 
     // ensure there isn't double counting of roomIds in client side ('/roomId' and 'roomId' emit separately)
@@ -76,10 +76,12 @@ var roomsManager = {
   },
 
   addShape: function (shape, socket) {
-    // instantiate shape object within socket id; add type and initCoords properties
+    // instantiate shape object within socket id; add type, initCoords, colors properties
+    console.log(shape);
     var shapeObj = {};
     shapeObj['type'] = shape.type;
     shapeObj['initCoords'] = shape.initCoords;
+    shapeObj['colors'] = shape.colors;
 
     rooms[socket.room][socket.id][shape.shapeId] = shapeObj;
   },

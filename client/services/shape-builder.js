@@ -15,6 +15,10 @@ angular.module('whiteboard.services.shapebuilder', [])
     return id;
   };
 
+  var getShapeStore = function () {
+    return shapeStore;
+  };
+
   var createUserStore = function (userId) {
     shapeStore[userId] = {};
   };
@@ -23,17 +27,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     if (!shapeStore[userId]) {
       createUserStore(userId);
     }
-    // if (!shape.coords) {
-    //   console.log(shape)
-    //   shape = {
-    //     id: shape.id,
-    //     el: shape,
-    //     coords: {
-    //       x: shape.attrs.path[0][1],
-    //       y: shape.attrs.path[0][2]
-    //     }
-    //   }
-    // }
+    
     shapeStore[userId][shape.id] = shape;
   };
 
@@ -83,7 +77,6 @@ angular.module('whiteboard.services.shapebuilder', [])
       }
     };
 
-    console.log(colors)
     var newShape = shapeConstructors[type](initX, initY);
     if (newShape.type === 'path') {
       newShape.attr('stroke', colors.stroke);
@@ -96,12 +89,13 @@ angular.module('whiteboard.services.shapebuilder', [])
   };
 
   return {
+    generateShapeId: generateShapeId,
+    getShapeStore: getShapeStore,
     setShape: setShape,
     newShape: newShape,
     storeOnEditShape: storeOnEditShape,
     getOnEditShape: getOnEditShape,
-    removeOnEditShape: removeOnEditShape,
-    generateShapeId: generateShapeId
+    removeOnEditShape: removeOnEditShape
   };
   
 });

@@ -20,15 +20,6 @@ angular.module('whiteboard.services.broadcast', [])
         for (shapeId in data[socketId]) {
           var thisShape = data[socketId][shapeId];
 
-          console.log('->', thisShape)
-
-          if (thisShape.colors === undefined) {
-            thisShape.colors = {
-              stroke: '#000',
-              fill: '#000'
-            };
-          }
-          console.log(thisShape)
           var newShape = {
             el: ShapeBuilder.newShape(thisShape.type, thisShape.initCoords.initX, thisShape.initCoords.initY, thisShape.colors),
             id: shapeId,
@@ -71,6 +62,7 @@ angular.module('whiteboard.services.broadcast', [])
   });
 
   Sockets.on('shapeCreated', function (data) {
+    console.log(data);
     var newShape = {
       el: ShapeBuilder.newShape(data.type, data.initCoords.initX, data.initCoords.initY, data.colors),
       id: data.shapeId,
@@ -97,7 +89,7 @@ angular.module('whiteboard.services.broadcast', [])
       x: data.mouseX,
       y: data.mouseY
     };
-    // This ternary operato is only for dev purposes
+    // This ternary operator is only for dev purposes
     // it runs the throttled version of the change path function
     // data.tool = data.tool === 'path' ? 'pathThrottle' : data.tool;
 
@@ -107,7 +99,6 @@ angular.module('whiteboard.services.broadcast', [])
   Sockets.on('shapeCompleted', function (data) {
     console.log('Completed shape:', data);
     var shape = ShapeBuilder.getOnEditShape(data.socketId, data.shapeId);
-    // console.log(shape);
     Snap.createSnaps(shape.el);
     ShapeManipulation.pathSmoother(shape.type, shape.el);
     ShapeBuilder.removeOnEditShape(data.socketId, data.shapeId);
@@ -120,7 +111,6 @@ angular.module('whiteboard.services.broadcast', [])
       type: type,
       initCoords: initCoords,
       colors: colors
-      // initY: initY
     });
   };
 
@@ -141,6 +131,7 @@ angular.module('whiteboard.services.broadcast', [])
 
   return {
     getSocketId: getSocketId,
+    saveSocketId: saveSocketId,
     newShape: newShape,
     selectShapeEditor: selectShapeEditor,
     completeShape: completeShape

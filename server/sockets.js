@@ -19,6 +19,8 @@ module.exports = function(server) {
 
     socket.on('roomId', function (data) {
       rooms.addMember(socket, data.roomId);
+      socket.to(this.room).emit('layerList');
+      socket.emit('layerList');
     });
 
     socket.on('newShape', function (data) {
@@ -44,6 +46,8 @@ module.exports = function(server) {
         shapeId: data.shapeId
       });
       rooms.completeShape(socket);
+      socket.to(this.room).emit('layerList');
+      socket.emit('layerList');
     });
 
     socket.on('disconnect', function () {

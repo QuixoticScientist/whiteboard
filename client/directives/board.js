@@ -7,8 +7,9 @@ angular.module('whiteboard')
     template: 
       '<div id="board-container">' +
       '   <div wb-toolbar></div>' +
+      '   <div wb-layers></div>' +
       '</div>',
-    controller: function ($scope, ShapeEditor, Snap, Broadcast, ShapeManipulation) {
+    controller: function ($scope, ShapeEditor, Snap, Broadcast, ShapeManipulation, Sockets) {
       $scope.paper = {};
       $scope.tool = {
         name: null,
@@ -89,16 +90,14 @@ angular.module('whiteboard')
         var infoForClient = {
           shape: $scope.selectedShape.el,
           coords: $scope.selectedShape.coords,
-          initCoords: $scope.paper,
-          //fill: $scope.tool.fill
+          initCoords: $scope.paper
         };
         var infoForServer = {
           shapeId: $scope.selectedShape.id,
           tool: $scope.tool.name,
           coords: $scope.selectedShape.coords,
           initCoordX: $scope.paper.canvasX,
-          initCoordY: $scope.paper.canvasY,
-          //fill: $scope.tool.fill
+          initCoordY: $scope.paper.canvasY
         };
   
         ShapeEditor.selectShapeEditor($scope.tool.name, infoForClient, mousePosition);
@@ -222,4 +221,34 @@ angular.module('whiteboard')
       }, false);
     }
   };
+})
+.directive('wbLayers', function () {
+  return {
+    restrict: 'A',
+    replace: true,
+    templateUrl: 'views/layers.html',
+    require: ['wbLayers', '^wbBoard'],
+    scope: {
+      //
+    },
+    controller: function ($scope, ShapeBuilder, Sockets) {
+      Sockets.on('layerList', function () {
+        $scope.getUsers();
+      });
+
+      $scope.requestBoardData = function () {
+        return ShapeBuilder.getShapeStore();
+      };
+      
+      $scope.getUsers = function () {
+        $scope.boardData = $scope.requestBoardData();
+      }
+    },
+    link: function (scope, element, attrs, ctrls) {
+      // var layersCtrl = ctrls[0];
+      scope.$watch('socketId', function (data) {
+        console.log(data, 'scope watch socketId');
+      })
+    }
+  }
 });

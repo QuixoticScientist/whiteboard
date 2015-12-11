@@ -80,7 +80,7 @@ var roomsManager = {
   },
 
   addShape: function (shape, socket) {
-    // instantiate shape object within socket id; add type and initCoords properties
+    // instantiate shape object within socket id; add type, initCoords, colors properties
     console.log(shape);
     var shapeObj = {};
     shapeObj['type'] = shape.type;

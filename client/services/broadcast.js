@@ -89,7 +89,7 @@ angular.module('whiteboard.services.broadcast', [])
       x: data.mouseX,
       y: data.mouseY
     };
-    // This ternary operato is only for dev purposes
+    // This ternary operator is only for dev purposes
     // it runs the throttled version of the change path function
     // data.tool = data.tool === 'path' ? 'pathThrottle' : data.tool;
 

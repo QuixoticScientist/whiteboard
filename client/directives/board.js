@@ -238,8 +238,9 @@ angular.module('whiteboard')
     },
     link: function (scope, element, attrs, ctrls) {
       var layersCtrl = ctrls[0];
-      scope.getUsers = function() {
-        return layersCtrl.requestBoardData();
+      scope.getUsers = function () {
+        scope.boardData = layersCtrl.requestBoardData();
+        console.log(scope.boardData, 'scope.boardData');
       }
     }
   }

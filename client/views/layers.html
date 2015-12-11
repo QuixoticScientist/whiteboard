@@ -2,6 +2,6 @@
   <button ng-click="getUsers()">Get Users</button>
   <ul>
     <li>Text</li>
-    <li ng-repeat="socketId in boardData"><input type="checkbox" value="{{socketId}}">{{socketId}}</li>
+    <li ng-repeat="(socketId, shapes) in boardData"><input type="checkbox">{{socketId}}</li>
   </ul>
 </div>

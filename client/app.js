@@ -8,7 +8,6 @@ angular.module('whiteboard', [
   'whiteboard.services.token',
   'whiteboard.services.sockets',
   'whiteboard.services.broadcast',
-  'whiteboard.services.layers',
   'colorpicker.module',
   'ngRoute'
 ])

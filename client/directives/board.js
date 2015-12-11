@@ -9,7 +9,7 @@ angular.module('whiteboard')
       '   <div wb-toolbar></div>' +
       '   <div wb-layers></div>' +
       '</div>',
-    controller: function ($scope, ShapeEditor, Snap, Broadcast, ShapeManipulation) {
+    controller: function ($scope, ShapeEditor, Snap, Broadcast, ShapeManipulation, Sockets) {
       $scope.paper = {};
       $scope.tool = {
         name: null,
@@ -19,10 +19,6 @@ angular.module('whiteboard')
         }
       };
       $scope.selectedShape = {};
-
-      this.getBoardData = function() {
-        Broadcast.getBoardData();
-      };
 
       this.clEvent = function (ev) {
         //console.log('Event: ', ev.type);
@@ -231,13 +227,19 @@ angular.module('whiteboard')
     restrict: 'A',
     replace: true,
     templateUrl: 'views/layers.html',
-    require: ['^wbBoard'],
+    require: ['wbLayers', '^wbBoard'],
     scope: {
       //
     },
-    link: function (scope, element, attrs, ctrls, Broadcast) {
+    controller: function ($scope, ShapeBuilder) {
+      this.requestBoardData = function () {
+        return ShapeBuilder.getShapeStore();
+      };
+    },
+    link: function (scope, element, attrs, ctrls) {
+      var layersCtrl = ctrls[0];
       scope.getUsers = function() {
-        boardCtrl.getBoardData();
+        return layersCtrl.requestBoardData();
       }
     }
   }

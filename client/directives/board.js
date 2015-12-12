@@ -62,24 +62,24 @@ angular.module('whiteboard')
       //   ShapeBuilder.raphael.setViewBox(paper.offsetX, paper.offsetY, paper.width, paper.height);
       // };
 
-      this.createShape = function (ev) {
-        var mousePosition = {
-          x: (ev.clientX - $scope.paper.canvasX) * $scope.paper.scalingFactor + $scope.paper.offsetX,
-          y: (ev.clientY - $scope.paper.canvasY) * $scope.paper.scalingFactor + $scope.paper.offsetY
-        };
+      // this.createShape = function (ev) {
+      //   var mousePosition = {
+      //     x: (ev.clientX - $scope.paper.canvasX) * $scope.paper.scalingFactor + $scope.paper.offsetX,
+      //     y: (ev.clientY - $scope.paper.canvasY) * $scope.paper.scalingFactor + $scope.paper.offsetY
+      //   };
 
-        $scope.selectedShape.id = ShapeBuilder.generateShapeId();
+      //   $scope.selectedShape.id = ShapeBuilder.generateShapeId();
         
-        var coords = ShapeBuilder.setShape($scope.paper, mousePosition);
-        $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, coords.initX, coords.initY, $scope.tool.colors);
+      //   var coords = ShapeBuilder.setShape($scope.paper, mousePosition);
+      //   $scope.selectedShape.el = ShapeBuilder.newShape($scope.tool.name, coords.initX, coords.initY, $scope.tool.colors);
 
-        // broadcast to server
-        Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords, $scope.tool.colors);
+      //   // broadcast to server
+      //   Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords, $scope.tool.colors);
 
-        $scope.selectedShape.coords = coords;
+      //   $scope.selectedShape.coords = coords;
 
-        ShapeBuilder.storeOnEditShape(Broadcast.getSocketId(), $scope.selectedShape);
-      };
+      //   ShapeBuilder.storeOnEditShape(Broadcast.getSocketId(), $scope.selectedShape);
+      // };
 
       this.editShape = function (ev) {
         var mousePosition = {

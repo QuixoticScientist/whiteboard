@@ -2,13 +2,11 @@ angular.module('whiteboard.services.eventhandler', [])
 .factory('EventHandler', ['BoardData', 'ShapeBuilder', function (BoardData, ShapeBuilder) {
   function createShape (id, socketID, tool, x, y) {
     ShapeBuilder.newShape(id, socketID, tool, x, y);
+    // ??? ShapeBuilder.storeOnEditShape(Broadcast.getSocketId(), $scope.selectedShape);
+  }
 
-    // broadcast to server
-    Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords, $scope.tool.colors);
+  function editShape (x, y) {
 
-    $scope.selectedShape.coords = coords;
-
-    ShapeBuilder.storeOnEditShape(Broadcast.getSocketId(), $scope.selectedShape);
   }
 
   return {

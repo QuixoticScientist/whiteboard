@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.inputhandler', [])
-.factory('InputHandler', ['BoardData','Snap', function (BoardData, Snap) {
+.factory('InputHandler', ['BoardData','Snap', 'EventHandler', function (BoardData, Snap, EventHandler) {
   function getMouseXY (ev) {
     return {
       x: (ev.clientX - BoardData.canvasMarginX) * BoardData.scalingFactor + BoardData.offsetX,
@@ -24,15 +24,23 @@ angular.module('whiteboard.services.inputhandler', [])
 
       //this snaps the initial point to any available snapping points
       var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y, 15);
-      eventHandler.createShape(id, socketID, currentTool, coords[0], coords[1]);
-      // !!! BROADCAST IT
+      EventHandler.createShape(id, socketID, currentTool, coords[0], coords[1]);
+      // broadcast to server
+      // !!! Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords, $scope.tool.colors);
+
     }
+
   }
 
   function mouseMove (ev) {
     var currentShape = BoardData.getCurrentShape();
+    var currentTool = BoardData.getCurrentTool();
+    var socketID = BoardData.getSocketID();
+    var id = BoardData.getCurrentShapeID();
+
     if (currentShape) {
-      // !!! boardCtrl.editShape(ev);
+      var mouseXY = getMouseXY(ev);
+      EventHandler.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
     }
   }
 

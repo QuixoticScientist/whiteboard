@@ -47,6 +47,10 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   var _counter = 0;
+  function getCurrentShapeID () {
+    return _counter - 1;
+  }
+
   function generateShapeID () {
     return _counter++;
   }

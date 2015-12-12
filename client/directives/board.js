@@ -10,57 +10,57 @@ angular.module('whiteboard')
       '   <div wb-layers></div>' +
       '</div>',
     controller: function ($scope, ShapeEditor, Snap, Broadcast, ShapeManipulation, Sockets) {
-      $scope.paper = {};
-      $scope.tool = {
-        name: null,
-        colors: {
-          fill: 'transparent',
-          stroke: '#000000'
-        }
-      };
-      $scope.selectedShape = {};
+      // $scope.paper = {};
+      // $scope.tool = {
+      //   name: null,
+      //   colors: {
+      //     fill: 'transparent',
+      //     stroke: '#000000'
+      //   }
+      // };
+      // $scope.selectedShape = {};
 
-      this.clEvent = function (ev) {
+      // this.clEvent = function (ev) {
         //console.log('Event: ', ev.type);
-      };
-      this.setToolName = function (tool) {
-        $scope.tool.name = tool; 
-      };
+      // };
+      // this.setToolName = function (tool) {
+      //   $scope.tool.name = tool; 
+      // };
 
-      this.setColors = function (fill, stroke) {
-        $scope.tool.colors.fill = fill;
-        $scope.tool.colors.stroke = stroke; 
-      };
+      // this.setColors = function (fill, stroke) {
+      //   $scope.tool.colors.fill = fill;
+      //   $scope.tool.colors.stroke = stroke; 
+      // };
 
-      this.setZoomScale = function (scale) {
-        $scope.paper.scalingFactor = 1 / scale;
-        this.zoom();
-      };
+      // this.setZoomScale = function (scale) {
+      //   $scope.paper.scalingFactor = 1 / scale;
+      //   this.zoom();
+      // };
 
-      this.zoom = function (ev) {
-        var paper = $scope.paper;
+      // this.zoom = function (ev) {
+      //   var paper = $scope.paper;
         
-        var originalWidth = paper.width;
-        var originalHeight = paper.height;
+      //   var originalWidth = paper.width;
+      //   var originalHeight = paper.height;
 
-        if (ev) {
-          var mousePosition = {
-            x: (ev.clientX - paper.canvasX) * paper.scalingFactor + paper.offsetX,
-            y: (ev.clientY - paper.canvasY) * paper.scalingFactor + paper.offsetY
-          };
-        }
+      //   if (ev) {
+      //     var mousePosition = {
+      //       x: (ev.clientX - paper.canvasX) * paper.scalingFactor + paper.offsetX,
+      //       y: (ev.clientY - paper.canvasY) * paper.scalingFactor + paper.offsetY
+      //     };
+      //   }
 
-        paper.width = paper.sizeX * paper.scalingFactor;
-        paper.height = paper.sizeY * paper.scalingFactor;
-        if (ev) {
-          paper.offsetX = mousePosition.x - paper.width / 2;
-          paper.offsetY = mousePosition.y - paper.height / 2;
-        } else {
-          paper.offsetX = paper.offsetX + originalWidth / 2 - paper.width / 2;
-          paper.offsetY = paper.offsetY + originalHeight / 2 - paper.height / 2;
-        }
-        ShapeBuilder.raphael.setViewBox(paper.offsetX, paper.offsetY, paper.width, paper.height);
-      };
+      //   paper.width = paper.sizeX * paper.scalingFactor;
+      //   paper.height = paper.sizeY * paper.scalingFactor;
+      //   if (ev) {
+      //     paper.offsetX = mousePosition.x - paper.width / 2;
+      //     paper.offsetY = mousePosition.y - paper.height / 2;
+      //   } else {
+      //     paper.offsetX = paper.offsetX + originalWidth / 2 - paper.width / 2;
+      //     paper.offsetY = paper.offsetY + originalHeight / 2 - paper.height / 2;
+      //   }
+      //   ShapeBuilder.raphael.setViewBox(paper.offsetX, paper.offsetY, paper.width, paper.height);
+      // };
 
       this.createShape = function (ev) {
         var mousePosition = {
@@ -137,46 +137,50 @@ angular.module('whiteboard')
 
     },
     link: function (scope, element, attrs, ctrls) {
-      scope.paper.sizeX = 400;
-      scope.paper.sizeY = 400;
-      ShapeBuilder.raphael = Raphael(document.getElementById('board-container'), scope.paper.sizeX, scope.paper.sizeY);
+      // console.log(element);
+      // scope.paper.sizeX = 400;
+      // scope.paper.sizeY = 400;
+      // ShapeBuilder.raphael = Raphael(document.getElementById('board-container'), scope.paper.sizeX, scope.paper.sizeY);
 
-      scope.paper.$canvas = element.find('svg');
-      scope.paper.canvasX = scope.paper.$canvas.position().left;
-      scope.paper.canvasY = scope.paper.$canvas.position().top;
-      scope.paper.width = 400;
-      scope.paper.height = 400;
-      scope.paper.offsetX = 0;
-      scope.paper.offsetY = 0;
-      scope.paper.scalingFactor = 1;
+      // scope.paper.$canvas = element.find('svg');
+      // scope.paper.canvasX = scope.paper.$canvas.position().left;
+      // scope.paper.canvasY = scope.paper.$canvas.position().top;
+      // scope.paper.width = scope.paper.sizeX;
+      // scope.paper.height = scope.paper.sizeY;
+      // scope.paper.offsetX = 0;
+      // scope.paper.offsetY = 0;
+      // scope.paper.scalingFactor = 1;
 
-      boardCtrl = ctrls[0];
+      // boardCtrl = ctrls[0];
 
-      scope.paper.$canvas.bind('mousedown', function (ev) {
-        boardCtrl.clEvent(ev);
-        if (scope.selectedShape.el && scope.selectedShape.el.type === 'text') {
-          boardCtrl.finishShape();
-        } else {
-          boardCtrl.createShape(ev);
-        }
-      });
-      scope.paper.$canvas.bind('mousemove', function (ev) {
-        boardCtrl.clEvent(ev);
-        if (scope.selectedShape.el) {
-          boardCtrl.editShape(ev);
-        }
-      });
-      scope.paper.$canvas.bind('mouseup', function (ev) {
-        boardCtrl.clEvent(ev);
-        if (scope.selectedShape.el && scope.selectedShape.el.type !== 'text') {
-          boardCtrl.finishShape();
-        }
-      });
-      scope.paper.$canvas.bind('dblclick', function (ev) {
-        boardCtrl.zoom(ev);
-      });
-    }
-  };
+  //     scope.paper.$canvas.bind('mousedown', function (ev) {
+  //       boardCtrl.clEvent(ev);
+  //       if (scope.selectedShape.el && scope.selectedShape.el.type === 'text') {
+  //         boardCtrl.finishShape();
+  //       } else if (scope.tool.name === 'eraser') {
+  //         var el = ShapeBuilder.raphael.getElementByPoint(ev.clientX, ev.clientY);
+  //         if (el) el.remove();
+  //       } else {
+  //         boardCtrl.createShape(ev);
+  //       }
+  //     });
+  //     scope.paper.$canvas.bind('mousemove', function (ev) {
+  //       boardCtrl.clEvent(ev);
+  //       if (scope.selectedShape.el) {
+  //         boardCtrl.editShape(ev);
+  //       }
+  //     });
+  //     scope.paper.$canvas.bind('mouseup', function (ev) {
+  //       boardCtrl.clEvent(ev);
+  //       if (scope.selectedShape.el && scope.selectedShape.el.type !== 'text') {
+  //         boardCtrl.finishShape();
+  //       }
+  //     });
+  //     scope.paper.$canvas.bind('dblclick', function (ev) {
+  //       boardCtrl.zoom(ev);
+  //     });
+  //   }
+  // };
 }])
 .directive('wbToolbar', function () {
   return {

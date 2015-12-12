@@ -82,16 +82,16 @@ angular.module('whiteboard')
       // };
 
       this.editShape = function (ev) {
-        var mousePosition = {
-          x: (ev.clientX - $scope.paper.canvasX) * $scope.paper.scalingFactor + $scope.paper.offsetX,
-          y: (ev.clientY - $scope.paper.canvasY) * $scope.paper.scalingFactor + $scope.paper.offsetY
-        };
+        // var mousePosition = {
+        //   x: (ev.clientX - $scope.paper.canvasX) * $scope.paper.scalingFactor + $scope.paper.offsetX,
+        //   y: (ev.clientY - $scope.paper.canvasY) * $scope.paper.scalingFactor + $scope.paper.offsetY
+        // };
 
-        var infoForClient = {
-          shape: $scope.selectedShape.el,
-          coords: $scope.selectedShape.coords,
-          initCoords: $scope.paper
-        };
+        // var infoForClient = {
+        //   shape: $scope.selectedShape.el,
+        //   coords: $scope.selectedShape.coords,
+        //   initCoords: $scope.paper
+        // };
         var infoForServer = {
           shapeId: $scope.selectedShape.id,
           tool: $scope.tool.name,
@@ -100,7 +100,7 @@ angular.module('whiteboard')
           initCoordY: $scope.paper.canvasY
         };
   
-        ShapeEditor.selectShapeEditor($scope.tool.name, infoForClient, mousePosition);
+        // ShapeEditor.selectShapeEditor($scope.tool.name, infoForClient, mousePosition);
         // broadcast to server
         Broadcast.selectShapeEditor(infoForServer, mousePosition);
       };

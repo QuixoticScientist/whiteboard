@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.shapeeditor', [])
-.factory('ShapeEditor', function (Snap) {
+.factory('ShapeEditor', ['BoardData', function (BoardData) {
 
   var changeCircle = function (shape, x, y, initX, initY) {
     var coords = Snap.snapToPoints(x, y)
@@ -87,31 +87,23 @@ angular.module('whiteboard.services.shapeeditor', [])
     });
   };
 
-  var selectShapeEditor = function (type, board, newCoords) {
-  //var selectShapeEditor = function (board, newCoords) {
-    // var shape = board.selectedShape.el;
-    // var coords = board.selectedShape.coords;
-    // var initCoords = board.paper;
-    // var fill = board.tool.fill;
+  var selectShapeEditor = function (id, socketID, tool, x, y) {
 
     var shapeHandlers = {
       'circle': changeCircle,
       'path': changePath,
-      //'pathThrottle': changePathThrottle,
       'line': changeLine,
       'rectangle': changeRectangle,
       'text': changeText
     };
-
-    var newX = newCoords.x;
-    var newY = newCoords.y;
-
-    //shapeHandlers[tool](shape, newX, newY, coords.initX, coords.initY);
-    shapeHandlers[type](board.shape, newX, newY, board.coords.initX, board.coords.initY);
+    var shape = BoardData.getShapeByID(id, socketID);
+    
+    // !!! Previously we were passing the initial X/Y, now we are not. So we need to update all the functions to deal with that.
+    shapeHandlers[tool](shape, x, y);
   };
 
   return {
     selectShapeEditor: selectShapeEditor
   };
 
-});
+}]);

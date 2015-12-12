@@ -9,7 +9,7 @@ angular.module('whiteboard')
       '   <div wb-toolbar></div>' +
       '   <div wb-layers></div>' +
       '</div>',
-    controller: function () {
+    controller: function (InputHandler) {
       this.handleEvent = function (ev) {
         InputHandler[ev.type](ev);
       }

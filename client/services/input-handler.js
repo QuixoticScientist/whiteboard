@@ -33,12 +33,12 @@ angular.module('whiteboard.services.inputhandler', [])
   }
 
   function mouseMove (ev) {
-    var currentShape = BoardData.getCurrentShape();
+    //var currentShape = BoardData.getCurrentShape();
     var currentTool = BoardData.getCurrentTool();
     var socketID = BoardData.getSocketID();
     var id = BoardData.getCurrentShapeID();
 
-    if (currentShape) {
+    if (id) {
       var mouseXY = getMouseXY(ev);
       EventHandler.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
     }
@@ -46,6 +46,7 @@ angular.module('whiteboard.services.inputhandler', [])
 
   function mouseUp (ev) {
     var currentShape = BoardData.getCurrentShape();
+    
     if (currentShape && currentShape.type !== 'text') {
       // !!! boardCtrl.finishShape();
     }

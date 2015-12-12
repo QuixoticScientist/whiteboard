@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.shapebuilder', [])
-.factory('ShapeBuilder', function (Snap) {
+.factory('ShapeBuilder', ['BoardData', function (BoardData) {
   // var storeOnEditShape = function (userId, shape) {
   //   if (!shapeStore[userId]) {
   //     createUserStore(userId);
@@ -35,6 +35,7 @@ angular.module('whiteboard.services.shapebuilder', [])
       },
       'path': function (x, y) {
         var path = BoardData.board.path("M" + String(x) + "," + String(y));
+        // Do we wanna change this?
         path.pathDProps = '';
         return path;
       },
@@ -54,4 +55,4 @@ angular.module('whiteboard.services.shapebuilder', [])
     newShape: newShape
   };
   
-});
+}]);

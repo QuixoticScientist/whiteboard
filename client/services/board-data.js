@@ -41,6 +41,10 @@ angular.module('whiteboard.services.boarddata', [])
     shapeStorage[socketID][id] = shape;
   }
 
+  function getShapeByID (id, socketID) {
+    return shapeStorage[socketID][id];
+  }
+
   function getCurrentShape () {
     // !!! return shapeStorage.thisUser[_counter]);
     // change thisUser to this user's socket ID

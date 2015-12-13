@@ -47,6 +47,8 @@ angular.module('whiteboard.services.shapebuilder', [])
       }
     };
     var shape = shapeConstructors[tool.name](x, y);
+    shape.initX = x;
+    shape.initY = y;
     setColor(shape, tool.colors);
     BoardData.pushToStorage(id, socketID, shape);
   };

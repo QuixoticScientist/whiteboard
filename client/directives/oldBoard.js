@@ -1,5 +1,5 @@
 angular.module('whiteboard')
-.directive('wbBoard', ['BoardData', function (BoardData) {
+.directive('wbBoard', [ 'ShapeBuilder', function (ShapeBuilder) {
   return {
     restrict: 'A',
     require: ['wbBoard'],
@@ -81,7 +81,7 @@ angular.module('whiteboard')
       //   ShapeBuilder.storeOnEditShape(Broadcast.getSocketId(), $scope.selectedShape);
       // };
 
-      // this.editShape = function (ev) {
+      this.editShape = function (ev) {
         // var mousePosition = {
         //   x: (ev.clientX - $scope.paper.canvasX) * $scope.paper.scalingFactor + $scope.paper.offsetX,
         //   y: (ev.clientY - $scope.paper.canvasY) * $scope.paper.scalingFactor + $scope.paper.offsetY
@@ -102,8 +102,8 @@ angular.module('whiteboard')
   
         // ShapeEditor.selectShapeEditor($scope.tool.name, infoForClient, mousePosition);
         // broadcast to server
-      //   Broadcast.selectShapeEditor(infoForServer, mousePosition);
-      // };
+        Broadcast.selectShapeEditor(infoForServer, mousePosition);
+      };
       // this.finishShape = function () {
       //   Snap.createSnaps($scope.selectedShape.el);
       //   ShapeManipulation.pathSmoother($scope.tool.name, $scope.selectedShape.el);
@@ -183,101 +183,76 @@ angular.module('whiteboard')
   // };
 }])
 .directive('wbToolbar', function () {
-//   return {
-//     restrict: 'A',
-//     replace: true,
-//     templateUrl: 'views/toolbar.html',
-//     require: ['^wbBoard'],
-//     scope: { 
-//       wbToolSelect: '@',
-//       wbZoomScale: '@',
-//       wbColorSelect: '@'
-//     },
-//     link: function (scope, element, attrs, ctrls) {
-//       var boardCtrl = ctrls[0];
-
-//       scope.wbZoomScaleDown = function () {
-//         scope.wbZoomScale -= 0.25;
-//       };
-
-//       scope.wbZoomScaleUp = function () {
-//         scope.wbZoomScale += 0.25;
-//       };
-
-//       scope.wbToolSelect = scope.wbToolSelect === undefined ? 'line' : scope.wbToolSelect;
-//       scope.$watch('wbToolSelect', function(newTool, prevTool) {
-//         boardCtrl.setToolName(newTool);
-//       }, false);
-      
-//       scope.wbFillColorSelect = scope.wbFillColorSelect === undefined ? 'transparent' : scope.wbFillColorSelect;
-//       scope.wbStrokeColorSelect = scope.wbStrokeColorSelect === undefined ? '#000000' : scope.wbStrokeColorSelect;
-//       // scope.wbColorSelect = scope.wbColorSelect === undefined ? '#000000' : scope.wbColorSelect;
-//       scope.$watchGroup(['wbFillColorSelect', 'wbStrokeColorSelect'], function(vals) {
-//         console.log('Fill: ', vals[0], ' Stroke: ', vals[1]);
-//         boardCtrl.setColors(vals[0], vals[1]);
-//       }, false);
-      
-//       scope.wbZoomScale = scope.wbZoomScale === undefined ? 1 : scope.wbZoomScale;
-//       scope.$watch('wbZoomScale', function(newScale, prevScale) {
-//         if (newScale != 0 && !isNaN(newScale)) {
-//           boardCtrl.setZoomScale(newScale);
-//         }
-//       }, false);
-//     }
-//   };
-// })
-// .directive('wbLayers', function () {
-//   return {
-//     restrict: 'A',
-//     replace: true,
-//     templateUrl: 'views/layers.html',
-//     require: ['wbLayers', '^wbBoard'],
-//     scope: {
-//       //
-//     },
-//     controller: function ($scope, ShapeBuilder, Sockets) {
-
-//       $scope.members = {
-//         // socketId: {display: true};
-//       }
-
-//       Sockets.on('layerList', function () {
-//         $scope.getUsers();
-//       });
-
-//       $scope.requestBoardData = function () {
-//         return ShapeBuilder.getShapeStore();
-//       };
-      
-//       $scope.getUsers = function () {
-//         $scope.boardData = $scope.requestBoardData();
-//         for (member in $scope.boardData) {
-//           $scope.members[member] = {display: true};
-//         }
-//       };
-
-//       $scope.change = function (socketId) {
-//         $scope.members[socketId].display = !$scope.members[socketId].display;
-//         Sockets.emit('layerChange', function () {
-//           var visibleMembers = [];
-//           for (member in $scope.members) {
-//             if ($scope.members[member].display) {
-//               visibleMembers.push(member);
-//             }
-//           }
-//           console.log(visibleMembers);
-//           return visibleMembers;
-//         }());
-//       };
-/*    controller: function (InputHandler) {
-      this.handleEvent = function (ev) {
-        InputHandler[ev.type](ev);
-      }
+  return {
+    restrict: 'A',
+    replace: true,
+    templateUrl: 'views/toolbar.html',
+    require: ['^wbBoard'],
+    scope: { 
+      wbToolSelect: '@',
+      wbZoomScale: '@',
+      wbColorSelect: '@'
     },
     link: function (scope, element, attrs, ctrls) {
       var boardCtrl = ctrls[0];
-      BoardData.createBoard(element);
-      BoardData.getCanvas().bind('mousedown mouseup mousemove dblclick', boardCtrl.handleEvent);*/
+
+      scope.wbZoomScaleDown = function () {
+        scope.wbZoomScale -= 0.25;
+      };
+
+      scope.wbZoomScaleUp = function () {
+        scope.wbZoomScale += 0.25;
+      };
+
+      scope.wbToolSelect = scope.wbToolSelect === undefined ? 'line' : scope.wbToolSelect;
+      scope.$watch('wbToolSelect', function(newTool, prevTool) {
+        boardCtrl.setToolName(newTool);
+      }, false);
+      
+      scope.wbFillColorSelect = scope.wbFillColorSelect === undefined ? 'transparent' : scope.wbFillColorSelect;
+      scope.wbStrokeColorSelect = scope.wbStrokeColorSelect === undefined ? '#000000' : scope.wbStrokeColorSelect;
+      // scope.wbColorSelect = scope.wbColorSelect === undefined ? '#000000' : scope.wbColorSelect;
+      scope.$watchGroup(['wbFillColorSelect', 'wbStrokeColorSelect'], function(vals) {
+        console.log('Fill: ', vals[0], ' Stroke: ', vals[1]);
+        boardCtrl.setColors(vals[0], vals[1]);
+      }, false);
+      
+      scope.wbZoomScale = scope.wbZoomScale === undefined ? 1 : scope.wbZoomScale;
+      scope.$watch('wbZoomScale', function(newScale, prevScale) {
+        if (newScale != 0 && !isNaN(newScale)) {
+          boardCtrl.setZoomScale(newScale);
+        }
+      }, false);
+    }
+  };
+})
+.directive('wbLayers', function () {
+  return {
+    restrict: 'A',
+    replace: true,
+    templateUrl: 'views/layers.html',
+    require: ['wbLayers', '^wbBoard'],
+    scope: {
+      //
+    },
+    controller: function ($scope, ShapeBuilder, Sockets) {
+      Sockets.on('layerList', function () {
+        $scope.getUsers();
+      });
+
+      $scope.requestBoardData = function () {
+        return ShapeBuilder.getShapeStore();
+      };
+      
+      $scope.getUsers = function () {
+        $scope.boardData = $scope.requestBoardData();
+      }
+    },
+    link: function (scope, element, attrs, ctrls) {
+      // var layersCtrl = ctrls[0];
+      scope.$watch('socketId', function (data) {
+        console.log(data, 'scope watch socketId');
+      })
     }
   }
-}]);
+});

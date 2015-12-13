@@ -1,6 +1,13 @@
 angular.module('whiteboard.services.broadcast', [])
 .factory('Broadcast', function (Sockets, ShapeBuilder, ShapeEditor, ShapeManipulation, Snap) {
-
+/*
+        var infoForServer = {
+          shapeId: $scope.selectedShape.id,
+          tool: $scope.tool.name,
+          coords: $scope.selectedShape.coords,
+          initCoordX: $scope.paper.canvasX,
+          initCoordY: $scope.paper.canvasY
+        };*/
   var socketUserId;
 
   var getSocketId = function () {

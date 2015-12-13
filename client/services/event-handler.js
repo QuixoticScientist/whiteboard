@@ -5,11 +5,17 @@ angular.module('whiteboard.services.eventhandler', [])
     // ??? ShapeBuilder.storeOnEditShape(Broadcast.getSocketId(), $scope.selectedShape);
   }
 
-  function editShape (x, y) {
+  function editShape (id, socketID, tool, x, y) {
   	ShapeEditor.editShape(id, socketID, tool, x, y);
   }
 
+  function finishShape (id, socketID, tool) {
+    ShapeEditor.finishShape(id, socketID, tool);
+  }
+
   return {
-    createShape: createShape
+    createShape: createShape,
+    editShape: editShape,
+    finishShape: finishShape
   };
 }]);

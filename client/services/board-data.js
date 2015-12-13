@@ -19,6 +19,8 @@ angular.module('whiteboard.services.boarddata', [])
   var viewBoxHeight;
 
   var shapeStorage = {};
+  var currentShape;
+  var socketID;
 
   var tool = {
     name: 'path',
@@ -29,12 +31,16 @@ angular.module('whiteboard.services.boarddata', [])
   };
 
   function createBoard (element) {
-    board = Raphael(element, svgWidth, svgHeight);
+    board = Raphael(element[0], svgWidth, svgHeight);
     $canvas = element.find('svg');
     canvasMarginX = $canvas.position().left;
     canvasMarginY = $canvas.position().top;
     viewBoxWidth = svgWidth;
     viewBoxHeight = svgHeight;
+  }
+
+  function getCanvas () {
+    return $canvas;
   }
 
   function pushToStorage (id, socketID, shape) {
@@ -46,8 +52,15 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function getCurrentShape () {
-    // !!! return shapeStorage.thisUser[_counter]);
-    // change thisUser to this user's socket ID
+    return currentShape;
+  }
+
+  function setCurrentShape () {
+    currentShape = shapeStorage[socketID][_counter];
+  }
+
+  function unsetCurrentShape () {
+    currentShape = null;
   }
 
   var _counter = 0;
@@ -78,6 +91,7 @@ angular.module('whiteboard.services.boarddata', [])
     getCurrentTool: getCurrentTool,
     generateShapeID: generateShapeID,
     setColors: setColors,
-    setZoomScale: setZoomScale
+    setZoomScale: setZoomScale,
+    getCanvas: getCanvas
   }
-}
+});

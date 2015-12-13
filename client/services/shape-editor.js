@@ -77,9 +77,10 @@ angular.module('whiteboard.services.shapeeditor', [])
       'rectangle': changeRectangle,
       'text': changeText
     };
+    console.log(id, socketID, tool, x, y)
     var shape = BoardData.getShapeByID(id, socketID);
     
-    shapeHandlers[tool](shape, x, y);
+    shapeHandlers[tool.name](shape, x, y);
   };
 
   function finishShape (id, socketID, tool) {

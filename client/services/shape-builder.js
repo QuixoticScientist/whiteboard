@@ -28,22 +28,22 @@ angular.module('whiteboard.services.shapebuilder', [])
     //old args: type, initX, initY, colors
     var shapeConstructors = {
       'circle': function (x, y) {
-        return BoardData.board.circle(x, y, 0);
+        return BoardData.getBoard().circle(x, y, 0);
       },
       'line': function (x, y) {
-        return BoardData.board.path("M" + String(x) + "," + String(y));
+        return BoardData.getBoard().path("M" + String(x) + "," + String(y));
       },
       'path': function (x, y) {
-        var path = BoardData.board.path("M" + String(x) + "," + String(y));
+        var path = BoardData.getBoard().path("M" + String(x) + "," + String(y));
         // Do we wanna change this?
         path.pathDProps = '';
         return path;
       },
       'rectangle': function (x,y) {
-        return BoardData.board.rect(x, y, 0, 0);
+        return BoardData.getBoard().rect(x, y, 0, 0);
       },
       'text': function (x,y) {
-        return BoardData.board.text(x, y, 'Insert Text');
+        return BoardData.getBoard().text(x, y, 'Insert Text');
       }
     };
     var shape = shapeConstructors[tool.name](x, y);

@@ -17,6 +17,7 @@ module.exports = function(server) {
     });
 
     socket.on('idRequest', function () {
+      console.log('idRequest is requestin')
       board[socket.id] = {};
       socket.emit('socketId', {socketId: socket.id});
     });

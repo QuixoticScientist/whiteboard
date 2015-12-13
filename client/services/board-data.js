@@ -39,12 +39,46 @@ angular.module('whiteboard.services.boarddata', [])
     viewBoxHeight = svgHeight;
   }
 
+  function getBoard () {
+    return board;
+  }
+
+  function getCanvasMargin () {
+    return {
+      x: canvasMarginX,
+      y: canvasMarginY
+    };
+  }
+
+  function getScalingFactor () {
+    return scalingFactor;
+  }
+
+  function getOffset () {
+    return {
+      x: offsetX,
+      y: offsetY
+    }
+  }
+
   function getCanvas () {
     return $canvas;
   }
 
+  function setSocketID (id) {
+    socketID = id;
+  }
+
+  function getSocketID () {
+    return socketID;
+  }
+
   function pushToStorage (id, socketID, shape) {
+    if (!shapeStorage[socketID]) {
+      shapeStorage[socketID] = {};
+    }
     shapeStorage[socketID][id] = shape;
+    console.log(shapeStorage)
   }
 
   function getShapeByID (id, socketID) {
@@ -56,7 +90,7 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function setCurrentShape () {
-    currentShape = shapeStorage[socketID][_counter];
+    currentShape = shapeStorage[socketID][_counter - 1];
   }
 
   function unsetCurrentShape () {
@@ -76,9 +110,13 @@ angular.module('whiteboard.services.boarddata', [])
     return tool;
   }
 
+  function setCurrentToolName (name) {
+    tool.name = name;
+  }
+
   function setColors (fill, stroke) {
-    colors.fill = fill;
-    colors.stroke = stroke; 
+    tool.colors.fill = fill;
+    tool.colors.stroke = stroke; 
   }
 
   function setZoomScale (scale) {
@@ -88,10 +126,22 @@ angular.module('whiteboard.services.boarddata', [])
   return {
     createBoard: createBoard,
     getCurrentShape: getCurrentShape,
+    getCurrentShapeID: getCurrentShapeID,
+    getShapeByID: getShapeByID,
     getCurrentTool: getCurrentTool,
     generateShapeID: generateShapeID,
     setColors: setColors,
     setZoomScale: setZoomScale,
-    getCanvas: getCanvas
+    getCanvas: getCanvas,
+    setSocketID: setSocketID,
+    getSocketID: getSocketID,
+    setCurrentToolName: setCurrentToolName,
+    getBoard: getBoard,
+    getScalingFactor: getScalingFactor,
+    getOffset: getOffset,
+    getCanvasMargin: getCanvasMargin,
+    pushToStorage: pushToStorage,
+    setCurrentShape: setCurrentShape,
+    unsetCurrentShape: unsetCurrentShape
   }
 });

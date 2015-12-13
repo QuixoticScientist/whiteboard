@@ -1,9 +1,12 @@
 angular.module('whiteboard.services.inputhandler', [])
 .factory('InputHandler', ['BoardData','Snap', 'EventHandler', function (BoardData, Snap, EventHandler) {
   function getMouseXY (ev) {
+    var canvasMarginXY = BoardData.getCanvasMargin();
+    var scalingFactor = BoardData.getScalingFactor();
+    var offsetXY = BoardData.getOffset();
     return {
-      x: (ev.clientX - BoardData.canvasMarginX) * BoardData.scalingFactor + BoardData.offsetX,
-      y: (ev.clientY - BoardData.canvasMarginY) * BoardData.scalingFactor + BoardData.offsetY
+      x: (ev.clientX - canvasMarginXY.x) * scalingFactor + offsetXY.x,
+      y: (ev.clientY - canvasMarginXY.y) * scalingFactor + offsetXY.y
     };
   }
 
@@ -25,9 +28,10 @@ angular.module('whiteboard.services.inputhandler', [])
       //this snaps the initial point to any available snapping points
       var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y, 15);
       EventHandler.createShape(id, socketID, currentTool, coords[0], coords[1]);
+      BoardData.setCurrentShape();
+
       // broadcast to server
       // !!! Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords, $scope.tool.colors);
-
     }
 
   }
@@ -36,8 +40,8 @@ angular.module('whiteboard.services.inputhandler', [])
     var currentTool = BoardData.getCurrentTool();
     var socketID = BoardData.getSocketID();
     var id = BoardData.getCurrentShapeID();
-
-    if (id) {
+    var currentShape = BoardData.getCurrentShape();
+    if (currentShape) {
       var mouseXY = getMouseXY(ev);
       EventHandler.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       //BROADCAST
@@ -45,10 +49,13 @@ angular.module('whiteboard.services.inputhandler', [])
   }
 
   function mouseUp (ev) {
+    var currentTool = BoardData.getCurrentTool();
+    var socketID = BoardData.getSocketID();
+    var id = BoardData.getCurrentShapeID();
     var currentShape = BoardData.getCurrentShape();
     
     if (currentShape && currentShape.type !== 'text') {
-      EventHandler.finishShape();
+      EventHandler.finishShape(id, socketID, currentTool);
       BoardData.unsetCurrentShape();
       //BROADCAST
     }

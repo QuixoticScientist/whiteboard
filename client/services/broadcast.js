@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.broadcast', [])
-.factory('Broadcast', function (Sockets, ShapeBuilder, ShapeEditor, ShapeManipulation, Snap) {
+.factory('Broadcast', function (Sockets, ShapeBuilder, ShapeEditor, ShapeManipulation, Snap, BoardData) {
 /*
         var infoForServer = {
           shapeId: $scope.selectedShape.id,
@@ -65,6 +65,7 @@ angular.module('whiteboard.services.broadcast', [])
 
   Sockets.on('socketId', function (data) {
     saveSocketId(data.socketId);
+    BoardData.setSocketID(data.socketId);
     console.log('Sockets (user) id: ', getSocketId());
   });
 

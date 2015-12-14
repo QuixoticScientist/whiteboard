@@ -119,6 +119,7 @@ angular.module('whiteboard.services.snap', [])
   }
 
   var createSnaps = function (shape) {
+    var newSnaps = [];
     if (shape.type === 'rect') {
       var x = shape.attr('x');
       var y = shape.attr('y');
@@ -137,10 +138,10 @@ angular.module('whiteboard.services.snap', [])
         new Point(x + width / 2, y + height),
       ];
       cornerSnaps.forEach(function (snap) {
-        this.endSnaps.push(snap);
+        newSnaps.push(snap);
       }.bind(this));
       cardinalSnaps.forEach(function (snap) {
-        this.endSnaps.push(snap);
+        newSnaps.push(snap);
       }.bind(this));
     } else if (shape.type === 'path') {
       if (shape.pathDProps !== undefined) {
@@ -151,7 +152,7 @@ angular.module('whiteboard.services.snap', [])
         startPoint = new Point(path[0][1], path[0][2]);
         endPoint = new Point(path[1][1], path[1][2]);
         midPoint = new Point(startPoint.x + (endPoint.x - startPoint.x) / 2, startPoint.y + (endPoint.y - startPoint.y) / 2);
-        this.endSnaps.push(startPoint, midPoint, endPoint);
+        newSnaps.push(startPoint, midPoint, endPoint);
       } else {
         //this line has no length, delete it
         shape.remove();
@@ -167,18 +168,23 @@ angular.module('whiteboard.services.snap', [])
         new Point(cx, cy + r),
         new Point(cx, cy - r)
       ];
-      this.endSnaps.push(centerSnap);
+      newSnaps.push(centerSnap);
       cardinalSnaps.forEach(function (snap) {
-        this.endSnaps.push(snap);
+        newSnaps.push(snap);
       }.bind(this));
     }
-    this.endSnapTree = new KDTree(this.endSnaps);
-    // console.log(this.endSnapTree);
+    this.endSnaps[shape.id] = newSnaps;
+    console.log(this.endSnaps);
+    var flatSnaps = [];
+    for (var key in this.endSnaps) {
+      flatSnaps = flatSnaps.concat(this.endSnaps[key]);
+    }
+    this.endSnapTree = new KDTree(flatSnaps);
   };
 
   var snapToPoints = function (x, y, tolerance) {
     if (!this.snapsEnabled) return [x, y];
-    if (!this.endSnaps.length) return [x, y];
+    if (Object.keys(this.endSnaps).length === 0) return [x, y];
     if (!tolerance) tolerance = this.tolerance;
     var searchBox = new Rectangle(x - tolerance, y - tolerance, x + tolerance, y + tolerance);
     var localTree = searchKDTree(this.endSnapTree, searchBox);
@@ -199,7 +205,7 @@ angular.module('whiteboard.services.snap', [])
   };
 
   return {
-    endSnaps: [],
+    endSnaps: {},
     snapsEnabled: true,
     tolerance: 15,
     createSnaps: createSnaps,

@@ -1,13 +1,6 @@
 angular.module('whiteboard.services.broadcast', [])
 .factory('Broadcast', function (Sockets) {
-/*
-        var infoForServer = {
-          shapeId: $scope.selectedShape.id,
-          tool: $scope.tool.name,
-          coords: $scope.selectedShape.coords,
-          initCoordX: $scope.paper.canvasX,
-          initCoordY: $scope.paper.canvasY
-        };*/
+
   var socketUserId;
 
   var getSocketId = function () {
@@ -36,13 +29,13 @@ angular.module('whiteboard.services.broadcast', [])
     data.shapeId = id;
     data.socketId = socketID;
     data.tool = currentTool;
-    // console.log(data);
     Sockets.emit('editShape', data);
   };
 
-  var finishShape = function (shapeId) {
+  var finishShape = function (shapeId, currentTool) {
     Sockets.emit('shapeCompleted', {
-      shapeId: shapeId
+      shapeId: shapeId,
+      tool: currentTool
     });
   };
   

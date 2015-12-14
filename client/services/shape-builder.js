@@ -1,20 +1,6 @@
 angular.module('whiteboard.services.shapebuilder', [])
 .factory('ShapeBuilder', ['BoardData', function (BoardData) {
-  // var storeOnEditShape = function (userId, shape) {
-  //   if (!shapeStore[userId]) {
-  //     createUserStore(userId);
-  //   }
-    
-  //   shapeStore[userId][shape.id] = shape;
-  // };
 
-  // var getOnEditShape = function (userId, shapeid) {
-  //   return shapeStore[userId][shapeid];
-  // };
-
-  // var removeOnEditShape = function (userId, shapeid) {
-  //   //delete shapeStore[userId][shapeid];
-  // };
   function setColor (shape, colors) {
     if (shape.type === 'path') {
       shape.attr('stroke', colors.stroke);

@@ -51,7 +51,13 @@ module.exports = function(server) {
     socket.on('shapeCompleted', function (data) {
       socket.to(this.room).emit('shapeCompleted', {
         socketId: socket.id,
-        shapeId: data.shapeId
+        shapeId: data.shapeId,
+        tool: data.tool
+      });
+      socket.emit('shapeCompleted', {
+        socketId: socket.id,
+        shapeId: data.shapeId,
+        tool: data.tool
       });
       rooms.completeShape(socket);
       socket.to(this.room).emit('layerList');

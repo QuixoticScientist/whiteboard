@@ -9,7 +9,10 @@ angular.module('whiteboard')
       '   <div wb-toolbar></div>' +
       '   <div wb-layers></div>' +
       '</div>',
-    controller: function ($scope, ShapeEditor, Snap, Broadcast, ShapeManipulation, Sockets) {
+    controller: function (InputHandler) {
+      this.handleEvent = function (ev) {
+        InputHandler[ev.type](ev);
+      }
       // $scope.paper = {};
       // $scope.tool = {
       //   name: null,
@@ -137,147 +140,9 @@ angular.module('whiteboard')
 
     },
     link: function (scope, element, attrs, ctrls) {
-      // console.log(element);
-      // scope.paper.sizeX = 400;
-      // scope.paper.sizeY = 400;
-      // ShapeBuilder.raphael = Raphael(document.getElementById('board-container'), scope.paper.sizeX, scope.paper.sizeY);
-
-      // scope.paper.$canvas = element.find('svg');
-      // scope.paper.canvasX = scope.paper.$canvas.position().left;
-      // scope.paper.canvasY = scope.paper.$canvas.position().top;
-      // scope.paper.width = scope.paper.sizeX;
-      // scope.paper.height = scope.paper.sizeY;
-      // scope.paper.offsetX = 0;
-      // scope.paper.offsetY = 0;
-      // scope.paper.scalingFactor = 1;
-
-      // boardCtrl = ctrls[0];
-
-  //     scope.paper.$canvas.bind('mousedown', function (ev) {
-  //       boardCtrl.clEvent(ev);
-  //       if (scope.selectedShape.el && scope.selectedShape.el.type === 'text') {
-  //         boardCtrl.finishShape();
-  //       } else if (scope.tool.name === 'eraser') {
-  //         var el = ShapeBuilder.raphael.getElementByPoint(ev.clientX, ev.clientY);
-  //         if (el) el.remove();
-  //       } else {
-  //         boardCtrl.createShape(ev);
-  //       }
-  //     });
-  //     scope.paper.$canvas.bind('mousemove', function (ev) {
-  //       boardCtrl.clEvent(ev);
-  //       if (scope.selectedShape.el) {
-  //         boardCtrl.editShape(ev);
-  //       }
-  //     });
-  //     scope.paper.$canvas.bind('mouseup', function (ev) {
-  //       boardCtrl.clEvent(ev);
-  //       if (scope.selectedShape.el && scope.selectedShape.el.type !== 'text') {
-  //         boardCtrl.finishShape();
-  //       }
-  //     });
-  //     scope.paper.$canvas.bind('dblclick', function (ev) {
-  //       boardCtrl.zoom(ev);
-  //     });
-  //   }
-  // };
-}])
-.directive('wbToolbar', function () {
-//   return {
-//     restrict: 'A',
-//     replace: true,
-//     templateUrl: 'views/toolbar.html',
-//     require: ['^wbBoard'],
-//     scope: { 
-//       wbToolSelect: '@',
-//       wbZoomScale: '@',
-//       wbColorSelect: '@'
-//     },
-//     link: function (scope, element, attrs, ctrls) {
-//       var boardCtrl = ctrls[0];
-
-//       scope.wbZoomScaleDown = function () {
-//         scope.wbZoomScale -= 0.25;
-//       };
-
-//       scope.wbZoomScaleUp = function () {
-//         scope.wbZoomScale += 0.25;
-//       };
-
-//       scope.wbToolSelect = scope.wbToolSelect === undefined ? 'line' : scope.wbToolSelect;
-//       scope.$watch('wbToolSelect', function(newTool, prevTool) {
-//         boardCtrl.setToolName(newTool);
-//       }, false);
-      
-//       scope.wbFillColorSelect = scope.wbFillColorSelect === undefined ? 'transparent' : scope.wbFillColorSelect;
-//       scope.wbStrokeColorSelect = scope.wbStrokeColorSelect === undefined ? '#000000' : scope.wbStrokeColorSelect;
-//       // scope.wbColorSelect = scope.wbColorSelect === undefined ? '#000000' : scope.wbColorSelect;
-//       scope.$watchGroup(['wbFillColorSelect', 'wbStrokeColorSelect'], function(vals) {
-//         console.log('Fill: ', vals[0], ' Stroke: ', vals[1]);
-//         boardCtrl.setColors(vals[0], vals[1]);
-//       }, false);
-      
-//       scope.wbZoomScale = scope.wbZoomScale === undefined ? 1 : scope.wbZoomScale;
-//       scope.$watch('wbZoomScale', function(newScale, prevScale) {
-//         if (newScale != 0 && !isNaN(newScale)) {
-//           boardCtrl.setZoomScale(newScale);
-//         }
-//       }, false);
-//     }
-//   };
-// })
-// .directive('wbLayers', function () {
-//   return {
-//     restrict: 'A',
-//     replace: true,
-//     templateUrl: 'views/layers.html',
-//     require: ['wbLayers', '^wbBoard'],
-//     scope: {
-//       //
-//     },
-//     controller: function ($scope, ShapeBuilder, Sockets) {
-
-//       $scope.members = {
-//         // socketId: {display: true};
-//       }
-
-//       Sockets.on('layerList', function () {
-//         $scope.getUsers();
-//       });
-
-//       $scope.requestBoardData = function () {
-//         return ShapeBuilder.getShapeStore();
-//       };
-      
-//       $scope.getUsers = function () {
-//         $scope.boardData = $scope.requestBoardData();
-//         for (member in $scope.boardData) {
-//           $scope.members[member] = {display: true};
-//         }
-//       };
-
-//       $scope.change = function (socketId) {
-//         $scope.members[socketId].display = !$scope.members[socketId].display;
-//         Sockets.emit('layerChange', function () {
-//           var visibleMembers = [];
-//           for (member in $scope.members) {
-//             if ($scope.members[member].display) {
-//               visibleMembers.push(member);
-//             }
-//           }
-//           console.log(visibleMembers);
-//           return visibleMembers;
-//         }());
-//       };
-/*    controller: function (InputHandler) {
-      this.handleEvent = function (ev) {
-        InputHandler[ev.type](ev);
-      }
-    },
-    link: function (scope, element, attrs, ctrls) {
       var boardCtrl = ctrls[0];
       BoardData.createBoard(element);
-      BoardData.getCanvas().bind('mousedown mouseup mousemove dblclick', boardCtrl.handleEvent);*/
+      BoardData.getCanvas().bind('mousedown mouseup mousemove dblclick', boardCtrl.handleEvent);
     }
   }
 }])

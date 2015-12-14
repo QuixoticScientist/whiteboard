@@ -1,5 +1,7 @@
 angular.module('whiteboard', [
   'btford.socket-io',
+  'whiteboard.services.receive',
+  'whiteboard.services.broadcast',
   'whiteboard.services.shapebuilder',
   'whiteboard.services.shapeeditor',
   'whiteboard.services.shapemanipulation',
@@ -7,7 +9,6 @@ angular.module('whiteboard', [
   'whiteboard.services.auth',
   'whiteboard.services.token',
   'whiteboard.services.sockets',
-  'whiteboard.services.broadcast',
   'whiteboard.services.boarddata',
   'whiteboard.services.eventhandler',
   'whiteboard.services.inputhandler',

@@ -1,6 +1,5 @@
 angular.module('whiteboard.services.receive', [])
-.factory('Receive', 'EventHandler', function (Sockets, EventHandler) {
-
+.factory('Receive', function (Sockets, EventHandler) {
   Sockets.on('showExisting', function (data) {
 
     for (socketId in data) {
@@ -46,13 +45,15 @@ angular.module('whiteboard.services.receive', [])
 
   Sockets.on('socketId', function (data) {
     // saveSocketId(data.socketId);
-    // BoardData.setSocketID(data.socketId);
+    EventHandler.setSocketID(data.socketId);
     // console.log('Sockets (user) id: ', getSocketId());
   });
 
   Sockets.on('shapeEdited', function (data) {
-    
-    console.log(data);
+    // console.log(data);
+    EventHandler.editShape(data.shapeId, data.socketId, data.tool, data.mouseX, data.mouseY);
+    // id, socketID, tool, x, y
+    //console.log(data);
     // var infoForClient = {
       // shape: ShapeBuilder.getOnEditShape(data.socketId, data.shapeId).el,
       // coords: data.coords,
@@ -74,7 +75,7 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeCompleted', function (data) {
-    console.log('Completed shape:', data);
+    //console.log('Completed shape:', data);
     // var shape = ShapeBuilder.getOnEditShape(data.socketId, data.shapeId);
     // Snap.createSnaps(shape.el);
     // ShapeManipulation.pathSmoother(shape.type, shape.el);
@@ -82,7 +83,10 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeCreated', function (data) {
-    console.log(data);
+    var tool = {};
+    tool.name = data.type;
+    tool.colors = data.colors;
+    EventHandler.createShape(data.shapeId, data.socketId, tool, data['initCoords'][0], data['initCoords'][1]);
     // var newShape = {
     //   el: ShapeBuilder.newShape(data.type, data.initCoords.initX, data.initCoords.initY, data.colors),
     //   id: data.shapeId,
@@ -95,7 +99,9 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeUpdate', function (data) {
-    console.log(data);
+    // console.log(data);
   });
+
+  return {};
 
 });

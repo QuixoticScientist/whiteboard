@@ -79,7 +79,7 @@ angular.module('whiteboard.services.shapeeditor', [])
     };
     // console.log(id, socketID, tool, x, y)
     var shape = BoardData.getShapeByID(id, socketID);
-    
+    console.log(x)
     shapeHandlers[tool.name](shape, x, y);
   };
 

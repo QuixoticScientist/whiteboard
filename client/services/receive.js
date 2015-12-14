@@ -44,42 +44,15 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('socketId', function (data) {
-    // saveSocketId(data.socketId);
     EventHandler.setSocketID(data.socketId);
-    // console.log('Sockets (user) id: ', getSocketId());
   });
 
   Sockets.on('shapeEdited', function (data) {
-    // console.log(data);
     EventHandler.editShape(data.shapeId, data.socketId, data.tool, data.mouseX, data.mouseY);
-    // id, socketID, tool, x, y
-    //console.log(data);
-    // var infoForClient = {
-      // shape: ShapeBuilder.getOnEditShape(data.socketId, data.shapeId).el,
-      // coords: data.coords,
-      // initCoords: {
-      //   canvasX: data.initCoordX,
-      //   canvasY: data.initCoordY
-      // }
-      //fill: data.fill
-    // };
-    // var mouseCoords = {
-    //   x: data.mouseX,
-    //   y: data.mouseY
-    // };
-    // This ternary operator is only for dev purposes
-    // it runs the throttled version of the change path function
-    // data.tool = data.tool === 'path' ? 'pathThrottle' : data.tool;
-
-    // ShapeEditor.selectShapeEditor(data.tool, infoForClient, mouseCoords);
   });
 
   Sockets.on('shapeCompleted', function (data) {
-    //console.log('Completed shape:', data);
-    // var shape = ShapeBuilder.getOnEditShape(data.socketId, data.shapeId);
-    // Snap.createSnaps(shape.el);
-    // ShapeManipulation.pathSmoother(shape.type, shape.el);
-    // ShapeBuilder.removeOnEditShape(data.socketId, data.shapeId);
+    EventHandler.finishShape(data.shapeId, data.socketId, data.tool);
   });
 
   Sockets.on('shapeCreated', function (data) {
@@ -87,14 +60,6 @@ angular.module('whiteboard.services.receive', [])
     tool.name = data.type;
     tool.colors = data.colors;
     EventHandler.createShape(data.shapeId, data.socketId, tool, data['initCoords'][0], data['initCoords'][1]);
-    // var newShape = {
-    //   el: ShapeBuilder.newShape(data.type, data.initCoords.initX, data.initCoords.initY, data.colors),
-    //   id: data.shapeId,
-    //   coords: data.initCoords,
-    //   type: data.type
-    // };
-
-    //ShapeBuilder.storeOnEditShape(data.socketId, newShape);
 
   });
 

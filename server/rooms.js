@@ -50,7 +50,6 @@ var roomsManager = {
       if (reply) {
         // deal with returning reply to board for new member
         storedRoom = JSON.parse(reply);
-        // console.log(storedRoom, 'storedRoom');
       } else {
         client.set(roomId, JSON.stringify({}));
         rooms[roomId] = {};
@@ -77,7 +76,6 @@ var roomsManager = {
 
   addShape: function (shape, socket) {
     // instantiate shape object within socket id; add type, initCoords, colors properties
-    // console.log(shape);
     var shapeObj = {};
     shapeObj['type'] = shape.type;
     shapeObj['initCoords'] = shape.initCoords;

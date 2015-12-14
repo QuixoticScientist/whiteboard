@@ -1,16 +1,13 @@
 angular.module('whiteboard.services.eventhandler', [])
-.factory('EventHandler', ['BoardData', 'ShapeBuilder', 'ShapeEditor', function (BoardData, ShapeBuilder, ShapeEditor) {
+.factory('EventHandler', ['BoardData', 'ShapeBuilder', 'ShapeEditor', 'Snap', function (BoardData, ShapeBuilder, ShapeEditor, Snap) {
 
   function setSocketID (socketId) {
     BoardData.setSocketID(socketId);
   };
 
   function createShape (id, socketId, tool, x, y) {
-    // console.log(tool);
     ShapeBuilder.newShape(id, socketId, tool, x, y);
     BoardData.setCurrentShape();
-    // console.log(socketId);
-    // ??? ShapeBuilder.storeOnEditShape(Broadcast.getSocketId(), $scope.selectedShape);
   }
 
   function editShape (id, socketID, tool, x, y) {

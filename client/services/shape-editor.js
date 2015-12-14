@@ -88,9 +88,18 @@ angular.module('whiteboard.services.shapeeditor', [])
     ShapeManipulation.pathSmoother(tool, shape);
   };
 
+  function deleteShape (id, socketID) {
+    console.log(shape);
+    var shape = BoardData.getShapeByID(id, socketID);
+
+    Snap.deleteSnaps(shape);
+    shape.remove();
+  }
+
   return {
     editShape: editShape,
-    finishShape: finishShape
+    finishShape: finishShape,
+    deleteShape: deleteShape
   };
 
 }]);

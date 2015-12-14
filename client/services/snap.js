@@ -1,6 +1,6 @@
 angular.module('whiteboard.services.snap', [])
 .factory('Snap', function () {
-  
+  var endSnapTree;
   function Point (x, y) {
     this.x = x;
     this.y = y;
@@ -118,7 +118,7 @@ angular.module('whiteboard.services.snap', [])
     }
   }
 
-  var createSnaps = function (shape) {
+  var findSnaps = function (shape) {
     var newSnaps = [];
     if (shape.type === 'rect') {
       var x = shape.attr('x');
@@ -171,23 +171,45 @@ angular.module('whiteboard.services.snap', [])
       newSnaps.push(centerSnap);
       cardinalSnaps.forEach(function (snap) {
         newSnaps.push(snap);
-      }.bind(this));
+      });
     }
-    this.endSnaps[shape.id] = newSnaps;
-    console.log(this.endSnaps);
-    var flatSnaps = [];
-    for (var key in this.endSnaps) {
-      flatSnaps = flatSnaps.concat(this.endSnaps[key]);
-    }
-    this.endSnapTree = new KDTree(flatSnaps);
+    return newSnaps;
+  }
+
+  var createSnaps = function (shape) {
+    this.endSnaps[shape.id] = findSnaps(shape);
+    recreateSnaps(this.endSnaps);
   };
 
+  var deleteSnaps = function (shape) {
+    this.endSnaps[shape.id] = null;
+    recreateSnaps(this.endSnaps);
+  }
+
+  var recreateSnaps = function (snaps) {
+    var flatSnaps = [];
+    for (var key in snaps) {
+      if (snaps[key] !== null) {
+        flatSnaps = flatSnaps.concat(snaps[key]);
+      }
+    }
+    endSnapTree = new KDTree(flatSnaps);
+  }
+
+  function objectKeysAreEmpty (object) {
+    for (var key in object) {
+      if (Object.keys(object[key]).length !== 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   var snapToPoints = function (x, y, tolerance) {
-    if (!this.snapsEnabled) return [x, y];
-    if (Object.keys(this.endSnaps).length === 0) return [x, y];
+    if (!this.snapsEnabled || !endSnapTree || !endSnapTree.val) return [x, y];
     if (!tolerance) tolerance = this.tolerance;
     var searchBox = new Rectangle(x - tolerance, y - tolerance, x + tolerance, y + tolerance);
-    var localTree = searchKDTree(this.endSnapTree, searchBox);
+    var localTree = searchKDTree(endSnapTree, searchBox);
     for (var i = 0; i < localTree.length; i++) {
       var pointX = localTree[i].x;
       var pointY = localTree[i].y;
@@ -209,6 +231,7 @@ angular.module('whiteboard.services.snap', [])
     snapsEnabled: true,
     tolerance: 15,
     createSnaps: createSnaps,
+    deleteSnaps: deleteSnaps,
     snapToPoints: snapToPoints
   };
 

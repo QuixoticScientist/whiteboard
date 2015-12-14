@@ -1,6 +1,13 @@
 angular.module('whiteboard.services.broadcast', [])
-.factory('Broadcast', function (Sockets, ShapeBuilder, ShapeEditor, ShapeManipulation, Snap) {
-
+.factory('Broadcast', function (Sockets, ShapeBuilder, ShapeEditor, ShapeManipulation, Snap, BoardData) {
+/*
+        var infoForServer = {
+          shapeId: $scope.selectedShape.id,
+          tool: $scope.tool.name,
+          coords: $scope.selectedShape.coords,
+          initCoordX: $scope.paper.canvasX,
+          initCoordY: $scope.paper.canvasY
+        };*/
   var socketUserId;
 
   var getSocketId = function () {
@@ -58,6 +65,7 @@ angular.module('whiteboard.services.broadcast', [])
 
   Sockets.on('socketId', function (data) {
     saveSocketId(data.socketId);
+    BoardData.setSocketID(data.socketId);
     console.log('Sockets (user) id: ', getSocketId());
   });
 

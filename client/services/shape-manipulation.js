@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.shapemanipulation', [])
-.factory('ShapeManipulation', function (ShapeBuilder, ShapeEditor) {
+.factory('ShapeManipulation', function (ShapeBuilder) {
 
   var pathSmoother = function (tool, pathElement) {
     if (tool === 'path') {

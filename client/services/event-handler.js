@@ -18,10 +18,15 @@ angular.module('whiteboard.services.eventhandler', [])
     ShapeEditor.finishShape(id, socketID, tool);
   }
 
+  function deleteShape (id, socketID) {
+    ShapeEditor.deleteShape(id, socketID);
+  }
+
   return {
     setSocketID: setSocketID,
     createShape: createShape,
     editShape: editShape,
-    finishShape: finishShape
+    finishShape: finishShape,
+    deleteShape: deleteShape
   };
 }]);

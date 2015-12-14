@@ -1,5 +1,10 @@
 angular.module('whiteboard.services.inputhandler', [])
 .factory('InputHandler', ['BoardData','Snap', 'EventHandler', 'Broadcast', function (BoardData, Snap, EventHandler, Broadcast) {
+  var eraserOn;
+  function toggleEraser () {
+    eraserOn ? eraserOn = false : eraserOn = true;
+  }
+
   function getMouseXY (ev) {
     var canvasMarginXY = BoardData.getCanvasMargin();
     var scalingFactor = BoardData.getScalingFactor();
@@ -19,8 +24,7 @@ angular.module('whiteboard.services.inputhandler', [])
     if (currentShape && currentShape.type === 'text') {
       // !!! boardCtrl.finishShape();
     } else if (currentTool.name === 'eraser') {
-      // !!! var el = ShapeBuilder.raphael.getElementByPoint(ev.clientX, ev.clientY);
-      // !!! if (el) el.remove();
+      toggleEraser();
     } else {
       // !!! boardCtrl.createShape(ev);
       var id = BoardData.generateShapeID();
@@ -40,9 +44,17 @@ angular.module('whiteboard.services.inputhandler', [])
     var socketID = BoardData.getSocketID();
     var id = BoardData.getCurrentShapeID();
     var currentShape = BoardData.getCurrentShape();
+
     if (currentShape) {
       var mouseXY = getMouseXY(ev);
       Broadcast.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      EventHandler.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      //BROADCAST
+    } else if (currentTool.name === 'eraser' && eraserOn) {
+      var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
+      if (shape) {
+        EventHandler.deleteShape(shape.id, socketID);
+      }
     }
   }
 
@@ -55,8 +67,10 @@ angular.module('whiteboard.services.inputhandler', [])
     if (currentShape && currentShape.type !== 'text') {
       EventHandler.finishShape(id, socketID, currentTool);
       BoardData.unsetCurrentShape();
+      //BROADCAST
+    } else if (currentTool.name === 'eraser') {
+      toggleEraser();
     }
-
     Broadcast.finishShape(id, currentTool);
   }
 

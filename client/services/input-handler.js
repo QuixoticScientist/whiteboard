@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.inputhandler', [])
-.factory('InputHandler', ['BoardData','Snap', 'EventHandler', function (BoardData, Snap, EventHandler) {
+.factory('InputHandler', ['BoardData','Snap', 'EventHandler', 'Broadcast', function (BoardData, Snap, EventHandler, Broadcast) {
   function getMouseXY (ev) {
     var canvasMarginXY = BoardData.getCanvasMargin();
     var scalingFactor = BoardData.getScalingFactor();
@@ -12,7 +12,9 @@ angular.module('whiteboard.services.inputhandler', [])
 
   function mouseDown (ev) {
     var currentShape = BoardData.getCurrentShape();
+
     var currentTool = BoardData.getCurrentTool();
+    // console.log(currentTool);
     var socketID = BoardData.getSocketID();
 
     if (currentShape && currentShape.type === 'text') {
@@ -31,7 +33,7 @@ angular.module('whiteboard.services.inputhandler', [])
       BoardData.setCurrentShape();
 
       // broadcast to server
-      // !!! Broadcast.newShape($scope.selectedShape.id, $scope.tool.name, coords, $scope.tool.colors);
+      Broadcast.newShape(id, currentTool.name, coords, currentTool.colors);
     }
 
   }
@@ -44,7 +46,7 @@ angular.module('whiteboard.services.inputhandler', [])
     if (currentShape) {
       var mouseXY = getMouseXY(ev);
       EventHandler.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
-      //BROADCAST
+      Broadcast.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
     }
   }
 
@@ -57,8 +59,9 @@ angular.module('whiteboard.services.inputhandler', [])
     if (currentShape && currentShape.type !== 'text') {
       EventHandler.finishShape(id, socketID, currentTool);
       BoardData.unsetCurrentShape();
-      //BROADCAST
     }
+
+    Broadcast.finishShape(id);
   }
 
   function doubleClick (ev) {

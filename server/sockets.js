@@ -13,7 +13,7 @@ module.exports = function(server) {
   io.on('connection', function (socket) {
 
     socket.on('layerChange', function (data) {
-      console.log(data);
+      // console.log(data);
     });
 
     socket.on('idRequest', function () {
@@ -31,9 +31,11 @@ module.exports = function(server) {
     socket.on('newShape', function (data) {
       data['socketId'] = socket.id;
       _.extend(board[socket.id], data);
+
       socket.to(this.room).emit('shapeCreated', board[socket.id]);
 
       rooms.addShape(data, socket);
+
     });
 
     socket.on('editShape', function (data) {
@@ -41,7 +43,6 @@ module.exports = function(server) {
       board[socket.id].newX = data.mouseX;
       board[socket.id].newY = data.mouseY;
       socket.to(this.room).emit('shapeEdited', data);
-      
       rooms.editShape(data, socket);
     });
 

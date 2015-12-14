@@ -7,3 +7,6 @@ client/lib
 
 sandbox.js
 dump.rdb
+
+.elasticbeanstalk
+Dockerfile

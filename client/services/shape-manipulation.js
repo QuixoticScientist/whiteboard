@@ -2,7 +2,7 @@ angular.module('whiteboard.services.shapemanipulation', [])
 .factory('ShapeManipulation', function (ShapeBuilder) {
 
   var pathSmoother = function (tool, pathElement) {
-    if (tool === 'path') {
+    if (tool.name === 'path') {
       var path = pathElement.attr('path');
       var interval = 5;
       var newPath = path.reduce(function (newPathString, currentPoint, index, path) {

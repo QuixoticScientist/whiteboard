@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.eventhandler', [])
-.factory('EventHandler', ['BoardData', 'ShapeBuilder', 'ShapeEditor', 'Snap', function (BoardData, ShapeBuilder, ShapeEditor, Snap) {
+.factory('EventHandler', ['BoardData', 'ShapeBuilder', 'ShapeEditor', 'ShapeManipulation', 'Snap', function (BoardData, ShapeBuilder, ShapeEditor, ShapeManipulation, Snap) {
 
   function setSocketID (socketId) {
     BoardData.setSocketID(socketId);
@@ -7,7 +7,7 @@ angular.module('whiteboard.services.eventhandler', [])
 
   function createShape (id, socketId, tool, x, y) {
     ShapeBuilder.newShape(id, socketId, tool, x, y);
-    BoardData.setCurrentShape();
+    BoardData.setCurrentShape();  //Why is this here and not in Input Handler?
   }
 
   function editShape (id, socketID, tool, x, y) {
@@ -22,11 +22,16 @@ angular.module('whiteboard.services.eventhandler', [])
     ShapeEditor.deleteShape(id, socketID);
   }
 
+  function moveShape (id, socketID, x, y) {
+    ShapeManipulation.moveShape(id, socketID, x, y);
+  }
+
   return {
     setSocketID: setSocketID,
     createShape: createShape,
     editShape: editShape,
     finishShape: finishShape,
-    deleteShape: deleteShape
+    deleteShape: deleteShape,
+    moveShape: moveShape
   };
 }]);

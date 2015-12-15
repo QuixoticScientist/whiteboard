@@ -45,7 +45,7 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function setEditorShape (shape) {
-    editorShape = shapeStorage[socketID][shape.id];
+    editorShape = shapeStorage[shape.data('socketID')][shape.id];
   }
 
   function unsetEditorShape () {
@@ -114,15 +114,10 @@ angular.module('whiteboard.services.boarddata', [])
     if (!shapeStorage[socketID]) {
       shapeStorage[socketID] = {};
     }
-    if (socketID === undefined) {
-      console.log(id, ' id');
-      console.log(shape);
-    }
     shapeStorage[socketID][id] = shape;
   }
 
   function getShapeByID (id, socketID) {
-    //console.log('shapeStorage: ', shapeStorage);
     return shapeStorage[socketID][id];
   }
 

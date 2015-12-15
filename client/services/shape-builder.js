@@ -36,6 +36,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     shape.initX = x;
     shape.initY = y;
     setColor(shape, tool.colors);
+    shape.data('socketID', socketID);
     BoardData.pushToStorage(id, socketID, shape);
   };
 

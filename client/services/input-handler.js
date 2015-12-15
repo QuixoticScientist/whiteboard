@@ -56,7 +56,7 @@ angular.module('whiteboard.services.inputhandler', [])
       var currentEditorShape = BoardData.getEditorShape();
       if (currentEditorShape) {
         var mouseXY = getMouseXY(ev);
-        EventHandler.moveShape(currentEditorShape.id, socketId, mouseXY.x, mouseXY.y)
+        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y)
       }
     } else if (currentShape) {
       var mouseXY = getMouseXY(ev);
@@ -83,7 +83,7 @@ angular.module('whiteboard.services.inputhandler', [])
       BoardData.unsetCurrentShape();
       //BROADCAST
     } else if (editorShape) {
-      EventHandler.finishShape(editorShape.id, socketID, currentTool);
+      EventHandler.finishShape(editorShape.id, editorShape.data('socketID'), currentTool);
       BoardData.unsetEditorShape();
     } else if (currentTool.name === 'eraser') {
       toggleEraser();

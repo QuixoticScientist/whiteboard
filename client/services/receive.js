@@ -65,6 +65,7 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeCreated', function (data) {
+    console.log(data)
     var tool = {};
     tool.name = data.type;
     tool.colors = data.colors;

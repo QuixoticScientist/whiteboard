@@ -130,11 +130,11 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function setCurrentShape () {
-    if (shapeStorage[socketID]) {
+    // if (shapeStorage[socketID]) {
       currentShape = shapeStorage[socketID][_counter - 1];
-    } else {
-      console.log(shapeStorage);
-    }
+    // } else {
+    //   console.log(shapeStorage);
+    // }
   }
 
   function unsetCurrentShape () {

@@ -41,7 +41,7 @@ angular.module('whiteboard.services.inputhandler', [])
       // broadcast to server
       EventHandler.createShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       BoardData.setCurrentShape();
-      Broadcast.newShape(id, currentTool.name, coords, currentTool.colors);
+      Broadcast.newShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
     }
 
   }

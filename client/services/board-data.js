@@ -1,8 +1,8 @@
 angular.module('whiteboard.services.boarddata', [])
 .factory('BoardData', function () {
   //svgWidth/Height are the width and height of the DOM element
-  var svgWidth;// = 920; //sizeX
-  var svgHeight;// = 712; //sizeY
+  var svgWidth = 920; //sizeX
+  var svgHeight = 712; //sizeY
   //offsetX/Y measure the top-left point of the viewbox
   var offsetX = 0;
   var offsetY = 0;
@@ -15,8 +15,8 @@ angular.module('whiteboard.services.boarddata', [])
   var canvasMarginX; //canvasX
   var canvasMarginY; //canvasY
   //viewBoxWidth/Height are needed for zooming
-  var viewBoxWidth = svgWidth;
-  var viewBoxHeight = svgHeight;
+  var viewBoxWidth;// = svgWidth;
+  var viewBoxHeight;// = svgHeight;
 
   var shapeStorage = {};
   var currentShape;
@@ -34,9 +34,11 @@ angular.module('whiteboard.services.boarddata', [])
   function createBoard (element) {
 
     ResizeSensorApi.create(document.getElementsByClassName('app-container')[0], function (newPageSize) {
-      //console.log(newPageSize);
-      svgWidth: newPageSize.width;
-      svgHeight: newPageSize.height;
+      console.log(newPageSize);
+      svgWidth = newPageSize.width;
+      svgHeight = newPageSize.height;
+      viewBoxWidth = newPageSize.width;
+      viewBoxHeight = newPageSize.height;
     });
 
     board = Raphael(element[0]);
@@ -46,9 +48,14 @@ angular.module('whiteboard.services.boarddata', [])
     $canvas = element.find('svg');
     canvasMarginX = $canvas.position().left;
     canvasMarginY = $canvas.position().top;
-    viewBoxWidth = svgWidth;
-    viewBoxHeight = svgHeight;
+    //viewBoxWidth = svgWidth;
+    //viewBoxHeight = svgHeight;
   }
+
+  // function set viewBoxValues (width, height) {
+  //   viewBoxWidth = width;
+  //   viewBoxHeight = height;
+  // }
 
   function getBoard () {
     return board;

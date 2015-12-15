@@ -85,6 +85,7 @@ angular.module('whiteboard.services.shapeeditor', [])
     var shape = BoardData.getShapeByID(id, socketID);
 
     Snap.createSnaps(shape);
+    shape.data('socketID', socketID);
     ShapeManipulation.pathSmoother(tool, shape);
   };
 

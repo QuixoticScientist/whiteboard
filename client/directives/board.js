@@ -46,7 +46,7 @@ angular.module('whiteboard')
     }
   }
 }])
-.directive('wbToolbar', ['BoardData', function (BoardData) {
+.directive('wbToolbar', ['BoardData', 'Zoom', function (BoardData, Zoom) {
   return {
     restrict: 'A',
     replace: true,
@@ -83,6 +83,7 @@ angular.module('whiteboard')
       scope.$watch('wbZoomScale', function(newScale, prevScale) {
         if (newScale != 0 && !isNaN(newScale)) {
           BoardData.setZoomScale(newScale);
+          Zoom.zoom();
         }
       }, false);
     }

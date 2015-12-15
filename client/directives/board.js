@@ -1,5 +1,5 @@
 angular.module('whiteboard')
-.directive('wbBoard', ['BoardData', 'Broadcast', 'Receive', function (BoardData) {
+.directive('wbBoard', ['BoardData', 'Broadcast', 'Receive', 'LeapMotion', function (BoardData) {
   return {
     restrict: 'A',
     require: ['wbBoard'],

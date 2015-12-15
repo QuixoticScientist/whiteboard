@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.shapemanipulation', [])
-.factory('ShapeManipulation', ['BoardData', 'ShapeBuilder', function (BoardData, ShapeBuilder) {
+.factory('ShapeManipulation', ['BoardData', 'ShapeBuilder', 'Snap', function (BoardData, ShapeBuilder, Snap) {
 
   var pathSmoother = function (tool, pathElement) {
     if (tool.name === 'path') {
@@ -40,6 +40,11 @@ angular.module('whiteboard.services.shapemanipulation', [])
     };
     var shape = BoardData.getShapeByID(id, socketID);
     shapeHandlers[shape.type](shape, x, y);
+  }
+
+  function finishMovingShape (id, socketID) {
+    var shape = BoardData.getShapeByID(id, socketID);
+    Snap.createSnaps(shape);
   }
 
   return {

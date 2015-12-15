@@ -178,15 +178,15 @@ angular.module('whiteboard.services.snap', [])
 
   var createSnaps = function (shape) {
     this.endSnaps[shape.id] = findSnaps(shape);
-    recreateSnaps(this.endSnaps);
+    recreateKDTree(this.endSnaps);
   };
 
   var deleteSnaps = function (shape) {
     this.endSnaps[shape.id] = null;
-    recreateSnaps(this.endSnaps);
+    recreateKDTree(this.endSnaps);
   }
 
-  var recreateSnaps = function (snaps) {
+  var recreateKDTree = function (snaps) {
     var flatSnaps = [];
     for (var key in snaps) {
       if (snaps[key] !== null) {

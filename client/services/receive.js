@@ -7,13 +7,14 @@ angular.module('whiteboard.services.receive', [])
         for (shapeId in data[socketId]) {
           var thisShape = data[socketId][shapeId];
           if (thisShape.initCoords) {
+            console.log(shapeId);
             var tool = {};
             tool.name = thisShape.type;
             tool.colors = thisShape.colors;
-            // console.log(data);
-            EventHandler.createShape(data.shapeId, data.socketId, tool, thisShape.initCoords[0], thisShape.initCoords[1]);
-            EventHandler.editShape(data.shapeId, data.socketId, tool, thisShape.newX, thisShape.newY);
-            EventHandler.finishShape(data.shapeId, data.socketId, tool);
+            console.log(socketId, ' socketId');
+            EventHandler.createShape(shapeId, socketId, tool, thisShape.initCoords[0], thisShape.initCoords[1]);
+            EventHandler.editShape(shapeId, socketId, tool, thisShape.newX, thisShape.newY);
+            EventHandler.finishShape(shapeId, socketId, tool);
           }
           // var newShape = {
           //   el: ShapeBuilder.newShape(thisShape.type, thisShape.initCoords.initX, thisShape.initCoords.initY, thisShape.colors),

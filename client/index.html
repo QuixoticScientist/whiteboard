@@ -10,9 +10,9 @@
   <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-  <h1>Whiteboard</h1>
+  <h1 class="title">Albus</h1>
 
-  <div ng-view></div>
+  <div ng-view class="app-container"></div>
 
   <script>
     document.onselectstart = function () { return false; };
@@ -25,14 +25,17 @@
 
   <script src="/js/bootstrap-colorpicker-module.min.js"></script>
   <script src="./js/raphael.js"></script>
+  <script src="./js/resize-handler.js"></script>
   
   <!-- Leap Motion -->
   <script src="//js.leapmotion.com/leap-0.6.3.min.js"></script>
   <script src="//js.leapmotion.com/leap-plugins-0.1.11.js"></script>
   
   <script src="./app.js"></script>
+  
   <!-- Angular DIRECTIVES -->
   <script src="./directives/board.js"></script>
+  
   <!-- Angular SERVICES -->
   <script src="./services/sockets.js"></script>
   <script src="./services/receive.js"></script>

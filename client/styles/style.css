@@ -1,3 +1,32 @@
+body, html{
+    margin : 0;
+    padding : 0;
+    overflow : hidden;
+    height:100%;
+    width:100%;
+}
+
+h1.title {
+	position: absolute;
+}
+
+.app-container {
+	height: 100%;
+}
+
+#board-container {
+	height: 100%;
+	width: 100%;
+}
+
+.toolbar {
+  z-index: 1000000;
+  position: relative;
+  margin-top: -50px;
+}
+
 svg {
-  border: 1px solid black;
+	height: 100%;
+	width: 100%;
+  /*border: 1px solid black;*/
 }

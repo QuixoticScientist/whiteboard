@@ -114,10 +114,15 @@ angular.module('whiteboard.services.boarddata', [])
     if (!shapeStorage[socketID]) {
       shapeStorage[socketID] = {};
     }
+    if (socketID === undefined) {
+      console.log(id, ' id');
+      console.log(shape);
+    }
     shapeStorage[socketID][id] = shape;
   }
 
   function getShapeByID (id, socketID) {
+    //console.log('shapeStorage: ', shapeStorage);
     return shapeStorage[socketID][id];
   }
 
@@ -126,7 +131,11 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function setCurrentShape () {
-    currentShape = shapeStorage[socketID][_counter - 1];
+    // if (shapeStorage[socketID]) {
+      currentShape = shapeStorage[socketID][_counter - 1];
+    // } else {
+    //   console.log(shapeStorage);
+    // }
   }
 
   function unsetCurrentShape () {

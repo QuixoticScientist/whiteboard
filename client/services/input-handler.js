@@ -39,7 +39,9 @@ angular.module('whiteboard.services.inputhandler', [])
       var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y, 15);
 
       // broadcast to server
-      Broadcast.newShape(id, currentTool.name, coords, currentTool.colors);
+      EventHandler.createShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      BoardData.setCurrentShape();
+      Broadcast.newShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
     }
 
   }

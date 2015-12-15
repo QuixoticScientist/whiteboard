@@ -7,7 +7,6 @@ angular.module('whiteboard.services.eventhandler', [])
 
   function createShape (id, socketId, tool, x, y) {
     ShapeBuilder.newShape(id, socketId, tool, x, y);
-    BoardData.setCurrentShape();  //Why is this here and not in Input Handler?
   }
 
   function editShape (id, socketID, tool, x, y) {

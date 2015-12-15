@@ -1,19 +1,16 @@
 angular.module('whiteboard.services.receive', [])
 .factory('Receive', function (Sockets, EventHandler) {
   Sockets.on('showExisting', function (data) {
-
     for (socketId in data) {
       if (Object.keys(data[socketId]).length) {
         for (shapeId in data[socketId]) {
           var thisShape = data[socketId][shapeId];
-          if (thisShape.initCoords) {
-            var tool = {};
-            tool.name = thisShape.type;
-            tool.colors = thisShape.colors;
-            // console.log(data);
-            EventHandler.createShape(data.shapeId, data.socketId, tool, thisShape.initCoords[0], thisShape.initCoords[1]);
-            EventHandler.editShape(data.shapeId, data.socketId, tool, thisShape.newX, thisShape.newY);
-            EventHandler.finishShape(data.shapeId, data.socketId, tool);
+          console.log('thisShape: ', thisShape)
+          if (thisShape.initX && thisShape.initY) {
+            console.log('Receive.showExisting: ', thisShape);
+            EventHandler.createShape(shapeId, socketId, thisShape.tool, thisShape.initX, thisShape.initY);
+            EventHandler.editShape(shapeId, socketId, thisShape.tool, thisShape.mouseX, thisShape.mouseY);
+            EventHandler.finishShape(shapeId, socketId, thisShape.tool);
           }
           // var newShape = {
           //   el: ShapeBuilder.newShape(thisShape.type, thisShape.initCoords.initX, thisShape.initCoords.initY, thisShape.colors),
@@ -56,6 +53,7 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeEdited', function (data) {
+    //console.log('Sockets.shapeEdited: ', data);
     EventHandler.editShape(data.shapeId, data.socketId, data.tool, data.mouseX, data.mouseY);
   });
 
@@ -64,10 +62,8 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeCreated', function (data) {
-    var tool = {};
-    tool.name = data.type;
-    tool.colors = data.colors;
-    EventHandler.createShape(data.shapeId, data.socketId, tool, data['initCoords'][0], data['initCoords'][1]);
+    //console.log('Sockets.shapeCreated: ', data)
+    EventHandler.createShape(data.shapeId, data.socketId, data.tool, data.initX, data.initY);
 
   });
 

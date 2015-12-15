@@ -11,28 +11,28 @@ var roomsManager = {
 
   handleMemberDisconnect: function (socket) {
     var roomId = socket.room;
-    var room = this.getRoom(roomId);
+    // var room = this.getRoom(roomId);
 
     console.log('Member ' + socket.id + ' is leaving room ' + roomId);
-    var roomFilter = function (room, predicate) {
-      var filteredMembers = {};
+    // var roomFilter = function (room, predicate) {
+    //   var filteredMembers = {};
 
-      for (member in room) {
-        if (room.hasOwnProperty(member) && member !== socket.id) {
-          filteredMembers[member] = room[member];
-        }
-      }
+    //   for (member in room) {
+    //     if (room.hasOwnProperty(member) && member !== socket.id) {
+    //       filteredMembers[member] = room[member];
+    //     }
+    //   }
 
-      return filteredMembers;
-    };
+    //   return filteredMembers;
+    // };
 
-    if (room) {
-      //remove a player from the room
-      var newRoom = roomFilter(room);
-      rooms[roomId] = newRoom;
-    } else {
-      return;
-    }
+    // if (room) {
+    //   //remove a player from the room
+    //   var newRoom = roomFilter(room);
+    //   rooms[roomId] = newRoom;
+    // } else {
+    //   return;
+    // }
   },
   
   addMember: function (socket, roomId) {
@@ -63,7 +63,7 @@ var roomsManager = {
       var socketId = socket.id;
       rooms[roomId][socketId] = {};
       console.log(rooms[roomId], 'rooms[roomId]');
-
+      
       socket.emit('showExisting', rooms[roomId]);
       
       var count = 0;
@@ -75,22 +75,12 @@ var roomsManager = {
   },
 
   addShape: function (shape, socket) {
-    // instantiate shape object within socket id; add type, initCoords, colors properties
-    var shapeObj = {};
-    shapeObj['type'] = shape.type;
-    shapeObj['initCoords'] = shape.initCoords;
-    shapeObj['colors'] = shape.colors;
-
-    rooms[socket.room][socket.id][shape.shapeId] = shapeObj;
+    rooms[socket.room][shape.socketId][shape.shapeId] = shape;
   },
 
   editShape: function (shape, socket) {
-    // add newX and newY properties to shape object
-    var newX = shape.mouseX;
-    var newY = shape.mouseY;
-
-    rooms[socket.room][socket.id][shape.shapeId]['newX'] = newX;
-    rooms[socket.room][socket.id][shape.shapeId]['newY'] = newY;
+    rooms[socket.room][shape.socketId][shape.shapeId]['mouseX'] = shape.mouseX;
+    rooms[socket.room][shape.socketId][shape.shapeId]['mouseY'] = shape.mouseY;
   },
 
   completeShape: function (socket) {

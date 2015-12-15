@@ -76,13 +76,15 @@ angular.module('whiteboard.services.inputhandler', [])
     var socketID = BoardData.getSocketID();
     var id = BoardData.getCurrentShapeID();
     var currentShape = BoardData.getCurrentShape();
-    
+    var editorShape = BoardData.getEditorShape();
+
     if (currentShape && currentShape.type !== 'text') {
       EventHandler.finishShape(id, socketID, currentTool);
       BoardData.unsetCurrentShape();
       //BROADCAST
-    } else if (BoardData.getEditorShape()) {
-        BoardData.unsetEditorShape();
+    } else if (editorShape) {
+      EventHandler.finishShape(editorShape.id, socketID, currentTool);
+      BoardData.unsetEditorShape();
     } else if (currentTool.name === 'eraser') {
       toggleEraser();
     }

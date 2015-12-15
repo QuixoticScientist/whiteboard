@@ -17,7 +17,6 @@ module.exports = function(server) {
     });
 
     socket.on('idRequest', function () {
-      //console.log('idRequest is requestin');
       socket.emit('socketId', {socketId: socket.id});
     });
 
@@ -28,22 +27,14 @@ module.exports = function(server) {
     });
 
     socket.on('newShape', function (data) {
-      // data['socketId'] = socket.id;
-      // _.extend(board[socket.id], data);
       console.log('Sockets.newShape ', data);
       socket.to(this.room).emit('shapeCreated', data);
-      //socket.emit('shapeCreated', board[socket.id]);
       rooms.addShape(data, socket);
 
     });
 
     socket.on('editShape', function (data) {
-      // data['socketId'] = socket.id;
-      // console.log(data);
-      // board[socket.id].newX = data.mouseX;
-      // board[socket.id].newY = data.mouseY;
       socket.to(this.room).emit('shapeEdited', data);
-      //socket.emit('shapeEdited', data);
       rooms.editShape(data, socket);
     });
 
@@ -53,11 +44,6 @@ module.exports = function(server) {
         shapeId: data.shapeId,
         tool: data.tool
       });
-      // socket.emit('shapeCompleted', {
-      //   socketId: socket.id,
-      //   shapeId: data.shapeId,
-      //   tool: data.tool
-      // });
       rooms.completeShape(socket);
       socket.to(this.room).emit('layerList');
       socket.emit('layerList');

@@ -75,7 +75,7 @@ angular.module('whiteboard')
       scope.wbStrokeColorSelect = scope.wbStrokeColorSelect === undefined ? '#000000' : scope.wbStrokeColorSelect;
       // scope.wbColorSelect = scope.wbColorSelect === undefined ? '#000000' : scope.wbColorSelect;
       scope.$watchGroup(['wbFillColorSelect', 'wbStrokeColorSelect'], function(vals) {
-        console.log('Fill: ', vals[0], ' Stroke: ', vals[1]);
+        //console.log('Fill: ', vals[0], ' Stroke: ', vals[1]);
         BoardData.setColors(vals[0], vals[1]);
       }, false);
       

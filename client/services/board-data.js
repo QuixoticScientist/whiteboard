@@ -15,8 +15,8 @@ angular.module('whiteboard.services.boarddata', [])
   var canvasMarginX; //canvasX
   var canvasMarginY; //canvasY
   //viewBoxWidth/Height are needed for zooming
-  var viewBoxWidth;
-  var viewBoxHeight;
+  var viewBoxWidth = svgWidth;
+  var viewBoxHeight = svgHeight;
 
   var shapeStorage = {};
   var currentShape;
@@ -43,6 +43,25 @@ angular.module('whiteboard.services.boarddata', [])
     return board;
   }
 
+  function getViewBoxDims () {
+    return {
+      width: viewBoxWidth,
+      height: viewBoxHeight
+    };
+  }
+
+  function setViewBoxDims (newViewBoxDims) {
+    viewBoxWidth = newViewBoxDims.width;
+    viewBoxHeight = newViewBoxDims.height;
+  }
+
+  function getOriginalDims () {
+    return {
+      width: svgWidth,
+      height: svgHeight
+    };
+  }
+
   function getCanvasMargin () {
     return {
       x: canvasMarginX,
@@ -59,6 +78,11 @@ angular.module('whiteboard.services.boarddata', [])
       x: offsetX,
       y: offsetY
     }
+  }
+
+  function setOffset (newOffset) {
+    offsetX = newOffset.x;
+    offsetY = newOffset.y;
   }
 
   function getCanvas () {
@@ -122,6 +146,10 @@ angular.module('whiteboard.services.boarddata', [])
     scalingFactor = 1 / scale;
   };
 
+  function getZoomScale () {
+    return scalingFactor;
+  }
+
   return {
     createBoard: createBoard,
     getCurrentShape: getCurrentShape,
@@ -131,6 +159,7 @@ angular.module('whiteboard.services.boarddata', [])
     generateShapeID: generateShapeID,
     setColors: setColors,
     setZoomScale: setZoomScale,
+    getZoomScale: getZoomScale,
     getCanvas: getCanvas,
     setSocketID: setSocketID,
     getSocketID: getSocketID,
@@ -141,6 +170,10 @@ angular.module('whiteboard.services.boarddata', [])
     getCanvasMargin: getCanvasMargin,
     pushToStorage: pushToStorage,
     setCurrentShape: setCurrentShape,
-    unsetCurrentShape: unsetCurrentShape
+    unsetCurrentShape: unsetCurrentShape,
+    getViewBoxDims: getViewBoxDims,
+    setViewBoxDims: setViewBoxDims,
+    setOffset: setOffset,
+    getOriginalDims: getOriginalDims
   }
 });

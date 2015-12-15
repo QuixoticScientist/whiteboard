@@ -26,13 +26,9 @@ angular.module('whiteboard.services.inputhandler', [])
     } else if (currentTool.name === 'eraser') {
       toggleEraser();
     } else if (currentTool.name === 'move') {
-      if (BoardData.getEditorShape()) {
-        BoardData.unsetEditorShape();
-      } else {
-        var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
-        if (shape) {
-          BoardData.setEditorShape(shape);
-        }
+      var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
+      if (shape) {
+        BoardData.setEditorShape(shape);
       }
     } else {
       // !!! boardCtrl.createShape(ev);
@@ -83,6 +79,8 @@ angular.module('whiteboard.services.inputhandler', [])
       EventHandler.finishShape(id, socketID, currentTool);
       BoardData.unsetCurrentShape();
       //BROADCAST
+    } else if (BoardData.getEditorShape()) {
+        BoardData.unsetEditorShape();
     } else if (currentTool.name === 'eraser') {
       toggleEraser();
     }

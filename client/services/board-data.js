@@ -20,6 +20,7 @@ angular.module('whiteboard.services.boarddata', [])
 
   var shapeStorage = {};
   var currentShape;
+  var editorShape;
   var socketID;
 
   var tool = {
@@ -41,6 +42,18 @@ angular.module('whiteboard.services.boarddata', [])
 
   function getBoard () {
     return board;
+  }
+
+  function setEditorShape (shape) {
+    editorShape = shapeStorage[socketID][shape.id];
+  }
+
+  function unsetEditorShape () {
+    editorShape = null;
+  }
+
+  function getEditorShape () {
+    return editorShape;
   }
 
   function getViewBoxDims () {
@@ -174,6 +187,9 @@ angular.module('whiteboard.services.boarddata', [])
     getViewBoxDims: getViewBoxDims,
     setViewBoxDims: setViewBoxDims,
     setOffset: setOffset,
-    getOriginalDims: getOriginalDims
+    getOriginalDims: getOriginalDims,
+    setEditorShape: setEditorShape,
+    unsetEditorShape: unsetEditorShape,
+    getEditorShape: getEditorShape
   }
 });

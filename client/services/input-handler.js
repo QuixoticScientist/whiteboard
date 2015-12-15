@@ -25,6 +25,15 @@ angular.module('whiteboard.services.inputhandler', [])
       // !!! boardCtrl.finishShape();
     } else if (currentTool.name === 'eraser') {
       toggleEraser();
+    } else if (currentTool.name === 'move') {
+      if (BoardData.getEditorShape()) {
+        BoardData.unsetEditorShape();
+      } else {
+        var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
+        if (shape) {
+          BoardData.setEditorShape(shape);
+        }
+      }
     } else {
       // !!! boardCtrl.createShape(ev);
       var id = BoardData.generateShapeID();
@@ -45,7 +54,13 @@ angular.module('whiteboard.services.inputhandler', [])
     var id = BoardData.getCurrentShapeID();
     var currentShape = BoardData.getCurrentShape();
 
-    if (currentShape) {
+    if (currentTool.name === 'move') {
+      var currentEditorShape = BoardData.getEditorShape();
+      if (currentEditorShape) {
+        var mouseXY = getMouseXY(ev);
+        EventHandler.moveShape(currentEditorShape.id, socketId, mouseXY.x, mouseXY.y)
+      }
+    } else if (currentShape) {
       var mouseXY = getMouseXY(ev);
       Broadcast.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       EventHandler.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);

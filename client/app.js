@@ -13,6 +13,7 @@ angular.module('whiteboard', [
   'whiteboard.services.eventhandler',
   'whiteboard.services.inputhandler',
   'whiteboard.services.zoom',
+  'whiteboard.services.leap',
   'colorpicker.module',
   'ngRoute'
 ])

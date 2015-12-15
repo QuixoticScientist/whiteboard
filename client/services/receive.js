@@ -12,37 +12,6 @@ angular.module('whiteboard.services.receive', [])
             EventHandler.editShape(shapeId, socketId, thisShape.tool, thisShape.mouseX, thisShape.mouseY);
             EventHandler.finishShape(shapeId, socketId, thisShape.tool);
           }
-          // var newShape = {
-          //   el: ShapeBuilder.newShape(thisShape.type, thisShape.initCoords.initX, thisShape.initCoords.initY, thisShape.colors),
-          //   id: shapeId,
-          //   coords: thisShape.initCoords,
-          //   type: thisShape.type          
-          // };
-
-          // ShapeBuilder.storeOnEditShape(socketId, newShape);
-
-          // var infoForClient = {
-          //   shape: ShapeBuilder.getOnEditShape(socketId, shapeId).el,
-          //   coords: thisShape.initCoords,
-          //   initCoords: {
-          //     canvasX: thisShape.initCoords.initX,
-          //     canvasY: thisShape.initCoords.initY
-          //   }
-          // };
-
-          // var mouseCoords = {
-          //   x: thisShape.newX,
-          //   y: thisShape.newY
-          // };
-
-          // ShapeEditor.selectShapeEditor(thisShape.type, infoForClient, mouseCoords);
-
-          // var shapeWithoutSnaps = ShapeBuilder.getOnEditShape(socketId, shapeId);
-
-          // Snap.createSnaps(shapeWithoutSnaps.el);
-          // ShapeManipulation.pathSmoother(shapeWithoutSnaps.type, shapeWithoutSnaps.el);
-          // ShapeBuilder.removeOnEditShape(socketId, shapeId);
-
         }
       }
     }
@@ -53,7 +22,6 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeEdited', function (data) {
-    //console.log('Sockets.shapeEdited: ', data);
     EventHandler.editShape(data.shapeId, data.socketId, data.tool, data.mouseX, data.mouseY);
   });
 
@@ -62,7 +30,6 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeCreated', function (data) {
-    //console.log('Sockets.shapeCreated: ', data)
     EventHandler.createShape(data.shapeId, data.socketId, data.tool, data.initX, data.initY);
 
   });

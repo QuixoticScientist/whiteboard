@@ -93,12 +93,10 @@ angular.module('whiteboard.services.inputhandler', [])
       var currentEditorShape = BoardData.getEditorShape();
       if (currentEditorShape) {
         Visualizer.clearSelection();
-        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y)
+        Broadcast.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
+        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketId'), mouseXY.x, mouseXY.y);
       } else {
         Visualizer.visualizeSelection(mouseXY);
-        var mouseXY = getMouseXY(ev);
-        Broadcast.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
-        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
       }
 
       //creating shape w/ drag

@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.snap', [])
-.factory('Snap', function () {
+.factory('Snap', ['Visualizer', function (Visualizer) {
   var endSnapTree;
   function Point (x, y) {
     this.x = x;
@@ -210,6 +210,7 @@ angular.module('whiteboard.services.snap', [])
     if (!tolerance) tolerance = this.tolerance;
     var searchBox = new Rectangle(x - tolerance, y - tolerance, x + tolerance, y + tolerance);
     var localTree = searchKDTree(endSnapTree, searchBox);
+    Visualizer.visualizeSnaps(localTree);
     for (var i = 0; i < localTree.length; i++) {
       var pointX = localTree[i].x;
       var pointY = localTree[i].y;
@@ -235,4 +236,4 @@ angular.module('whiteboard.services.snap', [])
     snapToPoints: snapToPoints
   };
 
-})
+}]);

@@ -28,8 +28,32 @@ angular.module('whiteboard.services.visualizer', [])
     }
   }
 
+  var displayedSnaps;
+  function visualizeSnaps (snaps) {
+    var board = BoardData.getBoard();
+    if (!displayedSnaps) {
+      displayedSnaps = BoardData.getBoard().set();
+    } else {
+      displayedSnaps.remove();
+      displayedSnaps.clear();
+    }
+    for (var snap in snaps) {
+      var snapPt = board.circle(snaps[snap].x, snaps[snap].y, 5).attr({'stroke':'red'});
+      displayedSnaps.push(snapPt);
+    }
+  }
+
+  function clearSnaps () {
+    if (displayedSnaps) {
+      displayedSnaps.remove();
+      displayedSnaps.clear();
+    }
+  }
+
   return {
     visualizeSelection: visualizeSelection,
-    clearSelection: clearSelection
+    visualizeSnaps: visualizeSnaps,
+    clearSelection: clearSelection,
+    clearSnaps: clearSnaps
   }
 }]);

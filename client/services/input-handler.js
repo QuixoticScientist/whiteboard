@@ -88,6 +88,7 @@ angular.module('whiteboard.services.inputhandler', [])
     var id = BoardData.getCurrentShapeID();
     var currentShape = BoardData.getCurrentShape();
     var mouseXY = getMouseXY(ev);
+    console.log(id);
 
       //moving shape w/ move tool
     if (currentTool.name === 'move') {
@@ -102,6 +103,7 @@ angular.module('whiteboard.services.inputhandler', [])
       //creating shape w/ drag
     } else if (currentShape) {
       var mouseXY = getMouseXY(ev);
+      console.log(id);
       Broadcast.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       EventHandler.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
 
@@ -125,6 +127,7 @@ angular.module('whiteboard.services.inputhandler', [])
     if (currentShape && currentShape.type !== 'text') {
       EventHandler.finishShape(id, socketID, currentTool);
       BoardData.unsetCurrentShape();
+      Visualizer.clearSnaps();
     } else if (editorShape && currentTool.name !== 'eraser') {
       EventHandler.finishShape(editorShape.id, editorShape.data('socketID'), currentTool);
       BoardData.unsetEditorShape();

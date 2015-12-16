@@ -6,6 +6,7 @@ angular.module('whiteboard.services.leapMotion', [])
     .connect()
     .on('frame', function(frame){
       frame.hands.forEach(function (hand, index) {
+        EventHandler.cursor(hand.screenPosition());
         if (hand.grabStrength === 1) {
           EventHandler.grabShape(hand.screenPosition());
         }

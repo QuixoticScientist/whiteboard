@@ -25,6 +25,18 @@ angular.module('whiteboard.services.eventhandler', [])
     ShapeManipulation.moveShape(id, socketID, x, y);
   }
 
+  function cursorStart () {
+    var cursorTool = {name: 'circle', colors: {stroke: '#ff0000', fill: '#ff0000'}};
+    createShape(999, 'cursor', cursorTool, window.innerWidth / 2, window.innerHeight / 2);
+    editShape(999, 'cursor', cursorTool, .5, .5);
+    finishShape(999, 'cursor', cursorTool);
+  }
+
+  function cursor (screenPosition) {
+    cursorStart();
+    ShapeManipulation.moveShape(999, 'cursor', screenPosition[0], screenPosition[1]);
+  }
+
   function grabShape (screenPosition) {
     var x = screenPosition[0];
     var y = screenPosition[1];
@@ -47,6 +59,7 @@ angular.module('whiteboard.services.eventhandler', [])
   }
 
   return {
+    cursor: cursor,
     setSocketID: setSocketID,
     createShape: createShape,
     editShape: editShape,

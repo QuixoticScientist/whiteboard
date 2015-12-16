@@ -132,7 +132,8 @@ angular.module('whiteboard.services.boarddata', [])
     if (!shapeStorage[socketID]) {
       shapeStorage[socketID] = {};
     }
-    shapeStorage[socketID][shape.id] = shape;
+    shapeStorage[socketID][id] = shape;
+    console.log(shapeStorage);
   }
 
   function getShapeByID (id, socketID) {

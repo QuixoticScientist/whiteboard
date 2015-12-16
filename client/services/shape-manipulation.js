@@ -38,7 +38,7 @@ angular.module('whiteboard.services.shapemanipulation', [])
       'rect': moveRectangle
       // 'text': moveText
     };
-    var shape = BoardData.getShapeByID(id, socketID);
+    var shape = BoardData.getShapeByID(id, socketID).toFront();
     shapeHandlers[shape.type](shape, x, y);
   }
 

@@ -17,7 +17,6 @@ angular.module('whiteboard.services.inputhandler', [])
 
   function mouseDown (ev) {
     var currentShape = BoardData.getCurrentShape();
-
     var currentTool = BoardData.getCurrentTool();
     var socketID = BoardData.getSocketID();
 
@@ -40,10 +39,44 @@ angular.module('whiteboard.services.inputhandler', [])
 
       // broadcast to server
       EventHandler.createShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
-      BoardData.setCurrentShape();
+      BoardData.setCurrentShape(id);
       Broadcast.newShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
     }
 
+  }
+
+  // var currentSelections = {};
+  // var bboxes;
+  // function visualizeSelections (ev) {
+  //   var mouseXY = getMouseXY(ev);
+  //   var board = BoardData.getBoard();
+  //   if (!bboxes) {
+  //     bboxes = BoardData.getBoard().set();
+  //   }
+
+  //   var selections = board.getElementsByPoint(ev.clientX, ev.clientY);
+  //   selections.forEach(function (selection) {
+  //     if (selection.data('bbox')) return;
+  //     var socketID = selection.data('socketID');
+  //     var id = selection.id;
+  //     if (!(selection in bboxes)) {
+  //       var box = selection.getBBox();
+  //       var newBBox = board.rect(box.x, box.y, box.width, box.height).data('bbox', true);
+  //       bboxes.push(newBBox);
+  //     }
+  //   });
+  // }
+
+  var selectionBox; 
+  function visualizeSelection (ev) {
+    var mouseXY = getMouseXY(ev);
+    var board = BoardData.getBoard();
+    var selection = board.getElementByPoint(ev.clientX, ev.clientY);
+
+    if (selection) {
+      var box = selection.getBBox();
+      selectionBox = board.rect(box.x, box.y, box.width, box.height).attr({'stroke':'blue','stroke-width':'3', 'stroke-dasharray':'-'}).toBack();
+    }
   }
 
   function mouseMove (ev) {
@@ -54,7 +87,16 @@ angular.module('whiteboard.services.inputhandler', [])
 
     if (currentTool.name === 'move') {
       var currentEditorShape = BoardData.getEditorShape();
-      if (currentEditorShape) {
+      // if (bboxes) {
+      //   bboxes.remove();
+      // }
+      // visualizeSelections(ev);
+      if (selectionBox) {
+        selectionBox.remove();
+      }
+      if (!currentEditorShape) {
+        visualizeSelection(ev);
+      } else {
         var mouseXY = getMouseXY(ev);
         EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y)
       }

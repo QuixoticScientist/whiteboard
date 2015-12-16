@@ -31,11 +31,14 @@ angular.module('whiteboard.services.receive', [])
 
   Sockets.on('shapeCreated', function (data) {
     EventHandler.createShape(data.shapeId, data.socketId, data.tool, data.initX, data.initY);
-
   });
 
   Sockets.on('shapeUpdate', function (data) {
     // console.log(data);
+  });
+
+  Sockets.on('shapeDeleted', function (data) {
+    EventHandler.deleteShape(data.shapeId, data.socketId);
   });
 
   return {};

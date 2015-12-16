@@ -85,6 +85,10 @@ var roomsManager = {
 
   completeShape: function (socket) {
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
+  },
+
+  deleteShape: function (shape, socket) {
+    delete rooms[socket.room][shape.socketId][shape.shapeId];
   }
 
 }

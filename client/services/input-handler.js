@@ -145,6 +145,7 @@ angular.module('whiteboard.services.inputhandler', [])
     } else if (currentTool.name === 'eraser' && eraserOn) {
       var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
       if (shape) {
+        Broadcast.deleteShape(shape.id, shape.data('socketID'));
         EventHandler.deleteShape(shape.id, shape.data('socketID'));
       }
     }
@@ -160,14 +161,14 @@ angular.module('whiteboard.services.inputhandler', [])
     if (currentShape && currentShape.type !== 'text') {
       EventHandler.finishShape(id, socketID, currentTool);
       BoardData.unsetCurrentShape();
-      //BROADCAST
-    } else if (editorShape) {
+    } else if (editorShape && currentTool.name !== 'eraser') {
       EventHandler.finishShape(editorShape.id, editorShape.data('socketID'), currentTool);
       BoardData.unsetEditorShape();
     } else if (currentTool.name === 'eraser') {
       toggleEraser();
+    } else {
+      Broadcast.finishShape(id, currentTool);
     }
-    Broadcast.finishShape(id, currentTool);
   }
 
   function doubleClick (ev) {

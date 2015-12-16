@@ -54,6 +54,7 @@ angular.module('whiteboard.services.shapeeditor', [])
       width = coords[0] - shape.initX;
       height = coords[1] - shape.initY;
     }
+    
     shape.attr({
       x: left,
       y: top,

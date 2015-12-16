@@ -38,8 +38,7 @@ angular.module('whiteboard.services.visualizer', [])
       displayedSnaps.clear();
     }
     for (var snap in snaps) {
-      var snapPt = board.circle(snaps[snap].x, snaps[snap].y, 5).attr({'stroke':'red'});
-      displayedSnaps.push(snapPt);
+      displayedSnaps.push(board.circle(snaps[snap].x, snaps[snap].y, 5).attr({'stroke':'red'}));
     }
   }
 

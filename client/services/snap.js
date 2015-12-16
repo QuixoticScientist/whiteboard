@@ -177,6 +177,7 @@ angular.module('whiteboard.services.snap', [])
   }
 
   var createSnaps = function (shape) {
+    Visualizer.clearSnaps();
     this.endSnaps[shape.id] = findSnaps(shape);
     recreateKDTree(this.endSnaps);
   };

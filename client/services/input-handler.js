@@ -38,7 +38,6 @@ angular.module('whiteboard.services.inputhandler', [])
       document.onkeypress = function (ev) {
         BoardData.setEditorShape(currentShape);
         var editorShape = BoardData.getEditorShape();
-        console.log(editorShape)
         if (editorShape.attr('text') === 'Insert Text') {
           editorShape.attr('text', '');
         }
@@ -88,14 +87,13 @@ angular.module('whiteboard.services.inputhandler', [])
     var id = BoardData.getCurrentShapeID();
     var currentShape = BoardData.getCurrentShape();
     var mouseXY = getMouseXY(ev);
-    console.log(id);
 
       //moving shape w/ move tool
     if (currentTool.name === 'move') {
       var currentEditorShape = BoardData.getEditorShape();
       if (currentEditorShape) {
         Visualizer.clearSelection();
-        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y)
+        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.socketId, mouseXY.x, mouseXY.y)
       } else {
         Visualizer.visualizeSelection(mouseXY);
       }
@@ -103,7 +101,6 @@ angular.module('whiteboard.services.inputhandler', [])
       //creating shape w/ drag
     } else if (currentShape) {
       var mouseXY = getMouseXY(ev);
-      console.log(id);
       Broadcast.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       EventHandler.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
 

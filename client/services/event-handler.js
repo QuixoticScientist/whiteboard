@@ -25,12 +25,34 @@ angular.module('whiteboard.services.eventhandler', [])
     ShapeManipulation.moveShape(id, socketID, x, y);
   }
 
+  function grabShape (screenPosition) {
+    var x = screenPosition[0];
+    var y = screenPosition[1];
+    var currentShape = BoardData.getCurrentShape();
+
+    var currentTool = BoardData.getCurrentTool();
+    var socketID = BoardData.getSocketID();
+
+    if (currentShape && currentShape.type === 'text') {
+      // !!! boardCtrl.finishShape();
+    } else if (currentTool.name === 'eraser') {
+      toggleEraser();
+    } else if (currentTool.name === 'move') {
+      var shape = BoardData.getBoard().getElementByPoint(x, y);
+      if (shape) {
+        BoardData.setEditorShape(shape);
+      }
+    }
+    console.log('grabbed shape at ', x, ': ', y)
+  }
+
   return {
     setSocketID: setSocketID,
     createShape: createShape,
     editShape: editShape,
     finishShape: finishShape,
     deleteShape: deleteShape,
-    moveShape: moveShape
+    moveShape: moveShape,
+    grabShape: grabShape
   };
 }]);

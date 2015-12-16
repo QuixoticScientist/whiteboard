@@ -17,7 +17,7 @@ angular.module('whiteboard.services.boarddata', [])
   //viewBoxWidth/Height are needed for zooming
   var viewBoxWidth;// = svgWidth;
   var viewBoxHeight;// = svgHeight;
-
+  var cursor;
   var shapeStorage = {};
   var currentShape;
   var currentShapeID;
@@ -57,6 +57,22 @@ angular.module('whiteboard.services.boarddata', [])
 
   function getBoard () {
     return board;
+  }
+
+  function getCursor () {
+    return cursor;
+  }
+
+  function setCursor () {
+    cursor = board.circle(window.innerWidth / 2, window.innerHeight / 2, 5);
+    return cursor;
+  }
+
+  function moveCursor (screenPosition) {
+    cursor.attr({
+      cx: Math.floor(screenPosition[0]),
+      cy: Math.floor(screenPosition[1])
+    })
   }
 
   function setEditorShape (shape) {
@@ -180,6 +196,9 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   return {
+    getCursor: getCursor,
+    setCursor: setCursor,
+    moveCursor: moveCursor,
     createBoard: createBoard,
     getCurrentShape: getCurrentShape,
     getShapeByID: getShapeByID,

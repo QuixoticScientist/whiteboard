@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.inputhandler', [])
-.factory('InputHandler', ['BoardData','Snap', 'EventHandler', 'Broadcast', function (BoardData, Snap, EventHandler, Broadcast) {
+.factory('InputHandler', ['BoardData','Snap', 'EventHandler', 'Broadcast', 'Visualizer', function (BoardData, Snap, EventHandler, Broadcast, Visualizer) {
   var eraserOn;
   function toggleEraser () {
     eraserOn ? eraserOn = false : eraserOn = true;
@@ -38,7 +38,6 @@ angular.module('whiteboard.services.inputhandler', [])
       document.onkeypress = function (ev) {
         BoardData.setEditorShape(currentShape);
         var editorShape = BoardData.getEditorShape();
-        console.log(editorShape)
         if (editorShape.attr('text') === 'Insert Text') {
           editorShape.attr('text', '');
         }
@@ -82,66 +81,30 @@ angular.module('whiteboard.services.inputhandler', [])
 
   }
 
-  // var currentSelections = {};
-  // var bboxes;
-  // function visualizeSelections (ev) {
-  //   var mouseXY = getMouseXY(ev);
-  //   var board = BoardData.getBoard();
-  //   if (!bboxes) {
-  //     bboxes = BoardData.getBoard().set();
-  //   }
-
-  //   var selections = board.getElementsByPoint(ev.clientX, ev.clientY);
-  //   selections.forEach(function (selection) {
-  //     if (selection.data('bbox')) return;
-  //     var socketID = selection.data('socketID');
-  //     var id = selection.id;
-  //     if (!(selection in bboxes)) {
-  //       var box = selection.getBBox();
-  //       var newBBox = board.rect(box.x, box.y, box.width, box.height).data('bbox', true);
-  //       bboxes.push(newBBox);
-  //     }
-  //   });
-  // }
-
-  var selectionBox; 
-  function visualizeSelection (ev) {
-    var mouseXY = getMouseXY(ev);
-    var board = BoardData.getBoard();
-    var selection = board.getElementByPoint(ev.clientX, ev.clientY);
-
-    if (selection) {
-      var box = selection.getBBox();
-      selectionBox = board.rect(box.x, box.y, box.width, box.height).attr({'stroke':'blue','stroke-width':'3', 'stroke-dasharray':'-'}).toBack();
-    }
-  }
-
   function mouseMove (ev) {
     var currentTool = BoardData.getCurrentTool();
     var socketID = BoardData.getSocketID();
     var id = BoardData.getCurrentShapeID();
     var currentShape = BoardData.getCurrentShape();
+    var mouseXY = getMouseXY(ev);
 
+      //moving shape w/ move tool
     if (currentTool.name === 'move') {
       var currentEditorShape = BoardData.getEditorShape();
-      // if (bboxes) {
-      //   bboxes.remove();
-      // }
-      // visualizeSelections(ev);
-      if (selectionBox) {
-        selectionBox.remove();
-      }
-      if (!currentEditorShape) {
-        visualizeSelection(ev);
+      if (currentEditorShape) {
+        Visualizer.clearSelection();
+        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.socketId, mouseXY.x, mouseXY.y)
       } else {
-        var mouseXY = getMouseXY(ev);
-        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y)
+        Visualizer.visualizeSelection(mouseXY);
       }
+
+      //creating shape w/ drag
     } else if (currentShape) {
       var mouseXY = getMouseXY(ev);
       Broadcast.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       EventHandler.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
-      //BROADCAST
+
+      //deleting shapes w/ eraser
     } else if (currentTool.name === 'eraser' && eraserOn) {
       var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
       if (shape) {
@@ -161,6 +124,7 @@ angular.module('whiteboard.services.inputhandler', [])
     if (currentShape && currentShape.type !== 'text') {
       EventHandler.finishShape(id, socketID, currentTool);
       BoardData.unsetCurrentShape();
+      Visualizer.clearSnaps();
     } else if (editorShape && currentTool.name !== 'eraser') {
       EventHandler.finishShape(editorShape.id, editorShape.data('socketID'), currentTool);
       BoardData.unsetEditorShape();

@@ -36,7 +36,6 @@ angular.module('whiteboard.services.inputhandler', [])
       var mouseXY = getMouseXY(ev);
       EventHandler.createShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       BoardData.setCurrentShape(id);
-      Broadcast.newShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       document.onkeypress = function (ev) {
         console.log('key press')
         var currentShape = BoardData.getCurrentShape();
@@ -62,6 +61,7 @@ angular.module('whiteboard.services.inputhandler', [])
         if (currentShape.attr('text') === 'Insert Text') {
           currentShape.attr('text', '');
         }
+        Broadcast.newShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       }
     } else {
       // !!! boardCtrl.createShape(ev);

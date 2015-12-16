@@ -45,7 +45,6 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function handleWindowResize (newPageSize) {
-    console.log(newPageSize);
     svgWidth = newPageSize.width;
     svgHeight = newPageSize.height;
 
@@ -60,10 +59,7 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function setEditorShape (shape) {
-    console.log(shape.id, shape);
     editorShape = shapeStorage[shape.data('socketID')][shape.id];
-    console.log('after seteditorshape',shapeStorage)
-    console.log(editorShape);
   }
 
   function unsetEditorShape () {
@@ -156,23 +152,11 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function getCurrentShapeID () {
-    id = 0;
-    board.forEach(function (el) {
-      if (el.id > id) {
-        id = el.id;
-      }
-    })
-    return id;
+    return Raphael._oid - 1;
   }
 
   function generateShapeID () {
-    id = 0;
-    board.forEach(function (el) {
-      if (el.id > id) {
-        id = el.id;
-      }
-    })
-    return id + 1;
+    return Raphael._oid;
   }
 
   function getCurrentTool () {

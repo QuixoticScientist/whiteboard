@@ -28,40 +28,43 @@ angular.module('whiteboard.services.inputhandler', [])
         BoardData.setEditorShape(shape);
       }
     } else if (currentTool.name ==='text') {
-      // edit text
-        // on hit of backspace, allow backspace
-        // on hit of other keyboard buttons, edit text
-        // on click again, put shape down
       var id = BoardData.generateShapeID();
       var mouseXY = getMouseXY(ev);
       EventHandler.createShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       BoardData.setCurrentShape(id);
+      Broadcast.newShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      var currentShape = BoardData.getCurrentShape();
+
       document.onkeypress = function (ev) {
-        console.log('key press')
-        var currentShape = BoardData.getCurrentShape();
-        if (currentShape.attr('text') === 'Insert Text') {
-          currentShape.attr('text', '');
+        BoardData.setEditorShape(currentShape);
+        var editorShape = BoardData.getEditorShape();
+        console.log(editorShape)
+        if (editorShape.attr('text') === 'Insert Text') {
+          editorShape.attr('text', '');
         }
         if (ev.keyCode === 8) {
-          currentShape.attr('text', currentShape.attr('text').slice(0, currentShape.attr('text').length - 1));
+          editorShape.attr('text', editorShape.attr('text').slice(0, editorShape.attr('text').length - 1));
         } else {
-          currentShape.attr('text', currentShape.attr('text') + String.fromCharCode(ev.keyCode));
+          editorShape.attr('text', editorShape.attr('text') + String.fromCharCode(ev.keyCode));
         }
       }
+
       document.onkeydown = function (ev) {
+        BoardData.setEditorShape(currentShape);
+        var editorShape = BoardData.getEditorShape();
         if (ev.which === 8) {
           ev.preventDefault();
-          var currentShape = BoardData.getCurrentShape();
-          if (currentShape) {
-            currentShape.attr('text', currentShape.attr('text').slice(0, currentShape.attr('text').length - 1));
+          if (editorShape) {
+            editorShape.attr('text', editorShape.attr('text').slice(0, editorShape.attr('text').length - 1));
           }
         }
       }
+
       document.onclick = function (ev) {
-        if (currentShape.attr('text') === 'Insert Text') {
-          currentShape.attr('text', '');
+        editorShape = null;
+        if (editorShape.attr('text') === 'Insert Text') {
+          editorShape.attr('text', '');
         }
-        Broadcast.newShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       }
     } else {
       // !!! boardCtrl.createShape(ev);

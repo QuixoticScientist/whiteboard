@@ -93,7 +93,7 @@ angular.module('whiteboard.services.inputhandler', [])
       var currentEditorShape = BoardData.getEditorShape();
       if (currentEditorShape) {
         Visualizer.clearSelection();
-        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.socketId, mouseXY.x, mouseXY.y)
+        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y)
       } else {
         Visualizer.visualizeSelection(mouseXY);
       }

@@ -1,8 +1,12 @@
 angular.module('whiteboard.services.inputhandler', [])
-.factory('InputHandler', ['BoardData','Snap', 'EventHandler', 'Broadcast', 'Visualizer', function (BoardData, Snap, EventHandler, Broadcast, Visualizer) {
+.factory('InputHandler', ['BoardData','Snap', 'EventHandler', 'Broadcast', 'Visualizer', 'Zoom', function (BoardData, Snap, EventHandler, Broadcast, Visualizer, Zoom) {
   var eraserOn;
+  var panOn;
   function toggleEraser () {
     eraserOn ? eraserOn = false : eraserOn = true;
+  }
+  function togglePan () {
+    panOn ? panOn = false : panOn = true;
   }
 
   function getMouseXY (ev) {
@@ -22,6 +26,8 @@ angular.module('whiteboard.services.inputhandler', [])
 
     if (currentTool.name === 'eraser') {
       toggleEraser();
+    } else if (currentTool.name === 'pan') {
+      togglePan();
     } else if (currentTool.name === 'move') {
       var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
       if (shape) {
@@ -100,6 +106,9 @@ angular.module('whiteboard.services.inputhandler', [])
         Visualizer.visualizeSelection(mouseXY);
       }
 
+    } else if (currentTool.name === 'pan' && panOn) {
+      Zoom.pan(ev);
+
       //creating shape w/ drag
     } else if (currentShape) {
       var mouseXY = getMouseXY(ev);
@@ -133,6 +142,9 @@ angular.module('whiteboard.services.inputhandler', [])
       BoardData.unsetEditorShape();
     } else if (currentTool.name === 'eraser') {
       toggleEraser();
+    } else if (currentTool.name === 'pan') {
+      togglePan();
+      Zoom.resetPan();
     } else {
       Broadcast.finishShape(id, currentTool);
     }

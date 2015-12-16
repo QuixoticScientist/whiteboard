@@ -45,8 +45,8 @@ module.exports = function(server) {
         tool: data.tool
       });
       rooms.completeShape(socket);
-      socket.to(this.room).emit('layerList');
-      socket.emit('layerList');
+      // socket.to(this.room).emit('layerList');
+      // socket.emit('layerList');
     });
 
     socket.on('deleteShape', function (data) {

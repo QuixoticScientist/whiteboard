@@ -40,17 +40,20 @@ angular.module('whiteboard.services.broadcast', [])
     });
   };
 
-  var deleteShape = function (shapeId) {
-  //
-  }
-  
+  var deleteShape = function (shapeId, socketId) {
+    Sockets.emit('deleteShape', {
+      shapeId: shapeId,
+      socketId: socketId
+    })
+  };
 
   return {
     getSocketId: getSocketId,
     saveSocketId: saveSocketId,
     newShape: newShape,
     editShape: editShape,
-    finishShape: finishShape
+    finishShape: finishShape,
+    deleteShape: deleteShape
   };
 
 });

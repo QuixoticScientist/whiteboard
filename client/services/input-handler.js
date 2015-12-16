@@ -145,6 +145,7 @@ angular.module('whiteboard.services.inputhandler', [])
     } else if (currentTool.name === 'eraser' && eraserOn) {
       var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
       if (shape) {
+        Broadcast.deleteShape(shape.id, shape.data('socketID'));
         EventHandler.deleteShape(shape.id, shape.data('socketID'));
       }
     }

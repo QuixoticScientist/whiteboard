@@ -49,6 +49,11 @@ module.exports = function(server) {
       socket.emit('layerList');
     });
 
+    socket.on('deleteShape', function (data) {
+      rooms.deleteShape(data, socket);
+      socket.emit('shapeDeleted', {shapeId: data.shapeId, socketId: data.socketId});
+    });
+
     socket.on('disconnect', function () {
       rooms.handleMemberDisconnect(socket);
     });

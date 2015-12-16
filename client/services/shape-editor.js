@@ -90,8 +90,8 @@ angular.module('whiteboard.services.shapeeditor', [])
   };
 
   function deleteShape (id, socketID) {
-    console.log(shape);
     var shape = BoardData.getShapeByID(id, socketID);
+    console.log(shape);
 
     Snap.deleteSnaps(shape);
     shape.remove();

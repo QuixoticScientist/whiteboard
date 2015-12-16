@@ -82,37 +82,23 @@ angular.module('whiteboard.services.inputhandler', [])
 
   }
 
-  // var currentSelections = {};
-  // var bboxes;
-  // function visualizeSelections (ev) {
-  //   var mouseXY = getMouseXY(ev);
-  //   var board = BoardData.getBoard();
-  //   if (!bboxes) {
-  //     bboxes = BoardData.getBoard().set();
-  //   }
-
-  //   var selections = board.getElementsByPoint(ev.clientX, ev.clientY);
-  //   selections.forEach(function (selection) {
-  //     if (selection.data('bbox')) return;
-  //     var socketID = selection.data('socketID');
-  //     var id = selection.id;
-  //     if (!(selection in bboxes)) {
-  //       var box = selection.getBBox();
-  //       var newBBox = board.rect(box.x, box.y, box.width, box.height).data('bbox', true);
-  //       bboxes.push(newBBox);
-  //     }
-  //   });
-  // }
-
-  var selectionBox; 
+  var selectionGlow;
+  var selected;
   function visualizeSelection (ev) {
     var mouseXY = getMouseXY(ev);
     var board = BoardData.getBoard();
     var selection = board.getElementByPoint(ev.clientX, ev.clientY);
-
-    if (selection) {
-      var box = selection.getBBox();
-      selectionBox = board.rect(box.x, box.y, box.width, box.height).attr({'stroke':'blue','stroke-width':'3', 'stroke-dasharray':'-'}).toBack();
+    if (!selection || !(selection === selected)) {
+      if (selectionGlow) {
+        selectionGlow.remove();
+        selectionGlow.clear();
+      }
+    }
+    if (selection && (!selectionGlow || selectionGlow.items.length === 0)) {
+      selected = selection;
+      selectionGlow = selection.glow({
+        'color': 'blue'
+      });
     }
   }
 
@@ -122,26 +108,28 @@ angular.module('whiteboard.services.inputhandler', [])
     var id = BoardData.getCurrentShapeID();
     var currentShape = BoardData.getCurrentShape();
 
+      //moving shape w/ move tool
     if (currentTool.name === 'move') {
       var currentEditorShape = BoardData.getEditorShape();
-      // if (bboxes) {
-      //   bboxes.remove();
-      // }
-      // visualizeSelections(ev);
-      if (selectionBox) {
-        selectionBox.remove();
-      }
-      if (!currentEditorShape) {
-        visualizeSelection(ev);
-      } else {
+      if (currentEditorShape) {
+        if (selectionGlow) {
+          selectionGlow.remove();
+          selectionGlow.clear();
+          selected = null;
+        }
         var mouseXY = getMouseXY(ev);
         EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y)
+      } else {
+        visualizeSelection(ev);
       }
+
+      //creating shape w/ drag
     } else if (currentShape) {
       var mouseXY = getMouseXY(ev);
       Broadcast.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       EventHandler.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
-      //BROADCAST
+
+      //deleting shapes w/ eraser
     } else if (currentTool.name === 'eraser' && eraserOn) {
       var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
       if (shape) {

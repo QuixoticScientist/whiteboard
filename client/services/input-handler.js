@@ -28,7 +28,41 @@ angular.module('whiteboard.services.inputhandler', [])
         BoardData.setEditorShape(shape);
       }
     } else if (currentTool.name ==='text') {
-      //
+      // edit text
+        // on hit of backspace, allow backspace
+        // on hit of other keyboard buttons, edit text
+        // on click again, put shape down
+      var id = BoardData.generateShapeID();
+      var mouseXY = getMouseXY(ev);
+      EventHandler.createShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      BoardData.setCurrentShape(id);
+      Broadcast.newShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      document.onkeypress = function (ev) {
+        console.log('key press')
+        var currentShape = BoardData.getCurrentShape();
+        if (currentShape.attr('text') === 'Insert Text') {
+          currentShape.attr('text', '');
+        }
+        if (ev.keyCode === 8) {
+          currentShape.attr('text', currentShape.attr('text').slice(0, currentShape.attr('text').length - 1));
+        } else {
+          currentShape.attr('text', currentShape.attr('text') + String.fromCharCode(ev.keyCode));
+        }
+      }
+      document.onkeydown = function (ev) {
+        if (ev.which === 8) {
+          ev.preventDefault();
+          var currentShape = BoardData.getCurrentShape();
+          if (currentShape) {
+            currentShape.attr('text', currentShape.attr('text').slice(0, currentShape.attr('text').length - 1));
+          }
+        }
+      }
+      document.onclick = function (ev) {
+        if (currentShape.attr('text') === 'Insert Text') {
+          currentShape.attr('text', '');
+        }
+      }
     } else {
       // !!! boardCtrl.createShape(ev);
       var id = BoardData.generateShapeID();

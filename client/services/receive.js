@@ -5,7 +5,6 @@ angular.module('whiteboard.services.receive', [])
       if (Object.keys(data[socketId]).length) {
         for (shapeId in data[socketId]) {
           var thisShape = data[socketId][shapeId];
-          console.log('thisShape: ', thisShape)
           if (thisShape.initX && thisShape.initY) {
             console.log('Receive.showExisting: ', thisShape);
             EventHandler.createShape(shapeId, socketId, thisShape.tool, thisShape.initX, thisShape.initY);

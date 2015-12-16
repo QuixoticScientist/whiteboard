@@ -70,6 +70,7 @@ var roomsManager = {
       for (var member in rooms[roomId]) {
         count++;
       }
+      console.log(rooms[roomId]);
       console.log('Current room ' + roomId + ' has ' + count + ' members');
     });
   },
@@ -85,6 +86,11 @@ var roomsManager = {
 
   completeShape: function (socket) {
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
+  },
+
+  moveShape: function (shape, socket) {
+    rooms[socket.room][shape.socketId][shape.shapeId]['mouseX'] = shape.x;
+    rooms[socket.room][shape.socketId][shape.shapeId]['mouseY'] = shape.y;
   },
 
   deleteShape: function (shape, socket) {

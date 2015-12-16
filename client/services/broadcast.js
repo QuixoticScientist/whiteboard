@@ -39,6 +39,10 @@ angular.module('whiteboard.services.broadcast', [])
       tool: currentTool
     });
   };
+
+  var deleteShape = function (shapeId) {
+  //
+  }
   
 
   return {

@@ -60,7 +60,10 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function setEditorShape (shape) {
+    console.log(shape.id, shape);
     editorShape = shapeStorage[shape.data('socketID')][shape.id];
+    console.log('after seteditorshape',shapeStorage)
+    console.log(editorShape);
   }
 
   function unsetEditorShape () {
@@ -129,7 +132,7 @@ angular.module('whiteboard.services.boarddata', [])
     if (!shapeStorage[socketID]) {
       shapeStorage[socketID] = {};
     }
-    shapeStorage[socketID][id] = shape;
+    shapeStorage[socketID][shape.id] = shape;
   }
 
   function getShapeByID (id, socketID) {
@@ -140,9 +143,9 @@ angular.module('whiteboard.services.boarddata', [])
     return currentShape;
   }
 
-  function setCurrentShape () {
+  function setCurrentShape (id) {
     // if (shapeStorage[socketID]) {
-      currentShape = shapeStorage[socketID][_counter - 1];
+      currentShape = shapeStorage[socketID][id];
     // } else {
     //   console.log(shapeStorage);
     // }
@@ -152,13 +155,24 @@ angular.module('whiteboard.services.boarddata', [])
     currentShape = null;
   }
 
-  var _counter = 0;
   function getCurrentShapeID () {
-    return _counter - 1;
+    id = 0;
+    board.forEach(function (el) {
+      if (el.id > id) {
+        id = el.id;
+      }
+    })
+    return id;
   }
 
   function generateShapeID () {
-    return _counter++;
+    id = 0;
+    board.forEach(function (el) {
+      if (el.id > id) {
+        id = el.id;
+      }
+    })
+    return id + 1;
   }
 
   function getCurrentTool () {
@@ -185,10 +199,10 @@ angular.module('whiteboard.services.boarddata', [])
   return {
     createBoard: createBoard,
     getCurrentShape: getCurrentShape,
-    getCurrentShapeID: getCurrentShapeID,
     getShapeByID: getShapeByID,
     getCurrentTool: getCurrentTool,
     generateShapeID: generateShapeID,
+    getCurrentShapeID: getCurrentShapeID,
     setColors: setColors,
     setZoomScale: setZoomScale,
     getZoomScale: getZoomScale,

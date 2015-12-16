@@ -48,7 +48,7 @@ module.exports = function(server) {
     });
 
     socket.on('moveShape', function (data) {
-      rooms.moveShape(data, socket);
+      rooms.editShape(data, socket);
       socket.to(this.room).emit('shapeMoved', data);
     });
 

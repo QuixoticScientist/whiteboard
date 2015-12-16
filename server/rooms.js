@@ -88,11 +88,6 @@ var roomsManager = {
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
   },
 
-  moveShape: function (shape, socket) {
-    rooms[socket.room][shape.socketId][shape.shapeId]['mouseX'] = shape.mouseX;
-    rooms[socket.room][shape.socketId][shape.shapeId]['mouseY'] = shape.mouseY;
-  },
-
   deleteShape: function (shape, socket) {
     delete rooms[socket.room][shape.socketId][shape.shapeId];
   }

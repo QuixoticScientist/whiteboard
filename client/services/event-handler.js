@@ -26,15 +26,15 @@ angular.module('whiteboard.services.eventhandler', [])
   }
 
   function cursorStart () {
-    var cursorTool = {name: 'circle', colors: {stroke: '#ff0000', fill: '#ff0000'}};
-    createShape(999, 'cursor', cursorTool, window.innerWidth / 2, window.innerHeight / 2);
-    editShape(999, 'cursor', cursorTool, .5, .5);
-    finishShape(999, 'cursor', cursorTool);
+    // var cursorTool = {name: 'circle', colors: {stroke: '#ff0000', fill: '#ff0000'}};
+    // createShape(999, 'cursor', cursorTool, window.innerWidth / 2, window.innerHeight / 2);
+    // editShape(999, 'cursor', cursorTool, .5, .5);
+    // finishShape(999, 'cursor', cursorTool);
   }
 
   function cursor (screenPosition) {
-    cursorStart();
-    ShapeManipulation.moveShape(999, 'cursor', screenPosition[0], screenPosition[1]);
+    var cursor = BoardData.getCursor() || BoardData.setCursor();
+    BoardData.moveCursor(screenPosition);
   }
 
   function grabShape (screenPosition) {

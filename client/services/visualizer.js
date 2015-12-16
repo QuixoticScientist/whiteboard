@@ -15,7 +15,9 @@ angular.module('whiteboard.services.visualizer', [])
     if (selection && (!selectionGlow || selectionGlow.items.length === 0)) {
       selected = selection;
       selectionGlow = selection.glow({
-        'color': 'blue'
+        'color': 'blue',
+        // 'fill': true,
+        'width': 10 * BoardData.getZoomScale()
       });
     }
   }
@@ -38,7 +40,7 @@ angular.module('whiteboard.services.visualizer', [])
       displayedSnaps.clear();
     }
     for (var snap in snaps) {
-      displayedSnaps.push(board.circle(snaps[snap].x, snaps[snap].y, 5).attr({'stroke':'red'}));
+      displayedSnaps.push(board.circle(snaps[snap].x, snaps[snap].y, 5 * BoardData.getZoomScale()).attr({'stroke':'red'}));
     }
   }
 

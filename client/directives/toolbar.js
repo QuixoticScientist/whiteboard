@@ -16,6 +16,15 @@ angular.module('whiteboard')
     link: function (scope, element, attrs, ctrls) {
     	var isExpanded = false;
 
+      // FROM MERGE CONFLICT
+      scope.wbStrokeWidthDown = function () {
+        if (scope.wbStrokeWidth > 0.25) scope.wbStrokeWidth -= 0.25;
+      };
+
+      scope.wbStrokeWidthUp = function () {
+        scope.wbStrokeWidth += 0.25;
+      };
+
     	scope.expandMenu = function (menuSide) {
     		//console.log(menuSide, element);
     		if (!isExpanded) {
@@ -65,6 +74,12 @@ angular.module('whiteboard')
           BoardData.setZoomScale(newScale);
           Zoom.zoom();
         }
+      }, false);
+
+      // FROM MERGE CONFLICT
+      scope.wbStrokeWidth = scope.wbStrokeWidth === undefined ? 1 : scope.wbStrokeWidth;
+      scope.$watch('wbStrokeWidth', function(newScale, prevScale) {
+        BoardData.setStrokeWidth(newScale);
       }, false);
     }
   };

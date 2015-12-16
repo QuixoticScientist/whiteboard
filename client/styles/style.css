@@ -19,14 +19,148 @@ h1.title {
 	width: 100%;
 }
 
-.toolbar {
-  z-index: 1000000;
-  position: relative;
-  margin-top: -50px;
-}
-
 svg {
 	height: 100%;
 	width: 100%;
   /*border: 1px solid black;*/
+}
+
+/*
+ *
+ * TOOLBAR 
+ *
+ */
+
+.toolbar {
+  z-index: 1000000;
+  position: relative;
+  /*margin-top: -50px;*/
+}
+
+.toolbar-container {
+  top: -165px;
+  left: -165px;
+  width: 330px;
+  height: 330px;
+  /*display: block;*/
+  position: relative;
+  z-index: 99990
+}
+
+.toolbar .left.fill {
+  width: 190px;
+  height: 190px;
+  background-color: black;
+  position: absolute;
+  top: 70px;
+  left: 70px;
+  border-radius: 50%;
+  z-index: 99980;
+}
+
+.toolbar left.fill.expanded {
+  width: 230px;
+  height: 230px;
+  top: 50px;
+  left: 50px;
+  }
+
+.toolbar .left.stroke {
+  width: 220px;
+  height: 220px;
+  background-color: red;
+  top: 55px;
+  left: 55px;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 99970;
+}
+
+.toolbar .left.stroke.expanded {
+	width: 330px; 
+	height: 330px;
+	top: 0px;
+	left: 0px;
+}
+
+.toolbar .left.toolbelt {
+  width: 330px;
+  height: 330px;
+  background-color: blue;
+  top: 0px; 
+  left: 0px; 
+  border-radius: 50%;
+  position: absolute;
+  z-index: 99960;
+}
+
+.toolbar .left.toolbelt.expanded {
+  width: 480px;
+  height: 480px;
+  top: -75px;
+  left: -75px;
+}
+
+/* On hover */
+
+/*toolbar .left.main:hover {
+  animation-duration: .8s;
+  animation-name: expand-toolbar;
+  animation-fill-mode: forwards;
+}*/
+
+/*
+ *
+ * ANIMATIONS
+ *
+ */
+
+@keyframes expand-fill {
+  from {
+    width: 330px;
+  	height: 330px;
+  	/*top: -165px
+  	left: -165px;*/
+  }
+
+  to {
+    width: 450px;
+  	height: 450px;
+    /*top: -165px;
+  	left: -165px;*/
+  }
+}
+
+@keyframes expand-stroke {
+  from {
+    width: 190px;
+  	height: 190px;
+  	top: -95px
+  	left: -95px;
+  }
+
+  to {
+    width: 290px;
+  	height: 290px;
+  	top: -145px;
+  	left: -145px;
+  	background-color: orange
+  }
+}
+
+@keyframes expand-toolbelt {
+  from {
+    width: 190px;
+  	height: 190px;
+  	top: -95px
+  	left: -95px;
+  }
+
+  to {
+    width: 290px;
+  	height: 290px;
+  	top: -145px;
+  	left: -145px;
+  	background-color: orange
+  }
 }

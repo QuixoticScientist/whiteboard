@@ -51,7 +51,7 @@ module.exports = function(server) {
 
     socket.on('deleteShape', function (data) {
       rooms.deleteShape(data, socket);
-      socket.emit('shapeDeleted', {shapeId: data.shapeId, socketId: data.socketId});
+      socket.to(this.room).emit('shapeDeleted', {shapeId: data.shapeId, socketId: data.socketId});
     });
 
     socket.on('disconnect', function () {

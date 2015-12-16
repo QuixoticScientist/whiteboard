@@ -45,9 +45,7 @@ angular.module('whiteboard.services.eventhandler', [])
     var currentTool = BoardData.getCurrentTool();
     var socketID = BoardData.getSocketID();
 
-    if (currentShape && currentShape.type === 'text') {
-      // !!! boardCtrl.finishShape();
-    } else if (currentTool.name === 'eraser') {
+    if (currentTool.name === 'eraser') {
       toggleEraser();
     } else if (currentTool.name === 'move') {
       var shape = BoardData.getBoard().getElementByPoint(x, y);

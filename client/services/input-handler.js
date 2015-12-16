@@ -20,14 +20,51 @@ angular.module('whiteboard.services.inputhandler', [])
     var currentTool = BoardData.getCurrentTool();
     var socketID = BoardData.getSocketID();
 
-    if (currentShape && currentShape.type === 'text') {
-      // !!! boardCtrl.finishShape();
-    } else if (currentTool.name === 'eraser') {
+    if (currentTool.name === 'eraser') {
       toggleEraser();
     } else if (currentTool.name === 'move') {
       var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
       if (shape) {
         BoardData.setEditorShape(shape);
+      }
+    } else if (currentTool.name ==='text') {
+      var id = BoardData.generateShapeID();
+      var mouseXY = getMouseXY(ev);
+      EventHandler.createShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      BoardData.setCurrentShape(id);
+      Broadcast.newShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      var currentShape = BoardData.getCurrentShape();
+
+      document.onkeypress = function (ev) {
+        BoardData.setEditorShape(currentShape);
+        var editorShape = BoardData.getEditorShape();
+        console.log(editorShape)
+        if (editorShape.attr('text') === 'Insert Text') {
+          editorShape.attr('text', '');
+        }
+        if (ev.keyCode === 8) {
+          editorShape.attr('text', editorShape.attr('text').slice(0, editorShape.attr('text').length - 1));
+        } else {
+          editorShape.attr('text', editorShape.attr('text') + String.fromCharCode(ev.keyCode));
+        }
+      }
+
+      document.onkeydown = function (ev) {
+        BoardData.setEditorShape(currentShape);
+        var editorShape = BoardData.getEditorShape();
+        if (ev.which === 8) {
+          ev.preventDefault();
+          if (editorShape) {
+            editorShape.attr('text', editorShape.attr('text').slice(0, editorShape.attr('text').length - 1));
+          }
+        }
+      }
+
+      document.onclick = function (ev) {
+        editorShape = null;
+        if (editorShape.attr('text') === 'Insert Text') {
+          editorShape.attr('text', '');
+        }
       }
     } else {
       // !!! boardCtrl.createShape(ev);

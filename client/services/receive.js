@@ -33,8 +33,8 @@ angular.module('whiteboard.services.receive', [])
     EventHandler.createShape(data.shapeId, data.socketId, data.tool, data.initX, data.initY);
   });
 
-  Sockets.on('shapeUpdate', function (data) {
-    // console.log(data);
+  Sockets.on('shapeMoved', function (data) {
+    EventHandler.moveShape(data.shapeId, data.socketId, data.x, data.y);
   });
 
   Sockets.on('shapeDeleted', function (data) {

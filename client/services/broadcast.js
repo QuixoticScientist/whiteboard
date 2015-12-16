@@ -51,8 +51,8 @@ angular.module('whiteboard.services.broadcast', [])
     Sockets.emit('moveShape', {
       shapeId: shapeId,
       socketId: socketId,
-      x: x,
-      y: y
+      mouseX: x,
+      mouseY: y
     })
   };
 

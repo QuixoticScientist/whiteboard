@@ -158,7 +158,6 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function setCurrentShape (id) {
-    console.log(shapeStorage[socketID])
     currentShape = shapeStorage[socketID][id];
   }
 

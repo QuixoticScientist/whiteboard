@@ -20,6 +20,7 @@ angular.module('whiteboard.services.boarddata', [])
 
   var shapeStorage = {};
   var currentShape;
+  var currentShapeID;
   var editorShape;
   var socketID;
 
@@ -140,11 +141,7 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function setCurrentShape (id) {
-    // if (shapeStorage[socketID]) {
-      currentShape = shapeStorage[socketID][id];
-    // } else {
-    //   console.log(shapeStorage);
-    // }
+    currentShape = shapeStorage[socketID][id];
   }
 
   function unsetCurrentShape () {
@@ -152,11 +149,12 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function getCurrentShapeID () {
-    return Raphael._oid - 1;
+    return currentShapeID;
   }
 
   function generateShapeID () {
-    return Raphael._oid;
+    currentShapeID = Raphael._oid;
+    return currentShapeID;
   }
 
   function getCurrentTool () {

@@ -20,15 +20,15 @@ angular.module('whiteboard.services.inputhandler', [])
     var currentTool = BoardData.getCurrentTool();
     var socketID = BoardData.getSocketID();
 
-    if (currentShape && currentShape.type === 'text') {
-      // !!! boardCtrl.finishShape();
-    } else if (currentTool.name === 'eraser') {
+    if (currentTool.name === 'eraser') {
       toggleEraser();
     } else if (currentTool.name === 'move') {
       var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
       if (shape) {
         BoardData.setEditorShape(shape);
       }
+    } else if (currentTool.name ==='text') {
+      //
     } else {
       // !!! boardCtrl.createShape(ev);
       var id = BoardData.generateShapeID();

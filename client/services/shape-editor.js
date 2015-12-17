@@ -13,10 +13,6 @@ angular.module('whiteboard.services.shapeeditor', [])
 
   var changeLine = function (shape, x, y) {
     //"M10,20L30,40"
-    var coords = Snap.snapToPoints(x, y)
-    x = coords[0];
-    y = coords[1];
-
     var deltaX = x - shape.initX;
     var deltaY = y - shape.initY;
 
@@ -25,6 +21,10 @@ angular.module('whiteboard.services.shapeeditor', [])
     } else if (Math.abs(deltaX / deltaY) < 0.05) {
       x = shape.initX;
     }
+    
+    var coords = Snap.snapToPoints(x, y)
+    x = coords[0];
+    y = coords[1];
 
     var linePathOrigin = "M" + String(shape.initX) + "," + String(shape.initY);
     var linePathEnd = "L" + String(x) + "," + String(y);

@@ -32,9 +32,9 @@ angular.module('whiteboard.services.visualizer', [])
   }
 
   var displayedSnaps;
-  function visualizeSnaps (snaps) {
+  function visualizeSnaps (snaps, closest) {
     var board = BoardData.getBoard();
-    var scale = BoardData.getZoomScale()
+    var scale = BoardData.getZoomScale();
     if (!displayedSnaps) {
       displayedSnaps = BoardData.getBoard().set();
     } else {
@@ -42,7 +42,11 @@ angular.module('whiteboard.services.visualizer', [])
       displayedSnaps.clear();
     }
     for (var snap in snaps) {
-      displayedSnaps.push(board.circle(snaps[snap].x, snaps[snap].y, 5 * scale).attr({'stroke':'red', 'stroke-width': 1 * scale}));
+      if (snaps[snap] === closest) {
+        displayedSnaps.push(board.circle(snaps[snap].x, snaps[snap].y, 5 * scale).attr({'stroke': 'red', 'stroke-width': 1 * scale}));
+      } else {
+        displayedSnaps.push(board.circle(snaps[snap].x, snaps[snap].y, 3.5 * scale).attr({'stroke': 'green', 'stroke-width': 1 * scale}));
+      }
     }
   }
 

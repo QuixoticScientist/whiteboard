@@ -92,8 +92,10 @@ angular.module('whiteboard.services.inputhandler', [])
     if (currentTool.name === 'move') {
       var currentEditorShape = BoardData.getEditorShape();
       if (currentEditorShape) {
+        console.log(currentEditorShape)
         Visualizer.clearSelection();
-        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y)
+        Broadcast.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
+        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
       } else {
         Visualizer.visualizeSelection(mouseXY);
       }
@@ -125,6 +127,7 @@ angular.module('whiteboard.services.inputhandler', [])
       EventHandler.finishShape(id, socketID, currentTool);
       BoardData.unsetCurrentShape();
       Visualizer.clearSnaps();
+      Broadcast.finishShape(id, currentTool);
     } else if (editorShape && currentTool.name !== 'eraser') {
       EventHandler.finishShape(editorShape.id, editorShape.data('socketID'), currentTool);
       BoardData.unsetEditorShape();

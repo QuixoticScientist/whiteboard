@@ -5,7 +5,6 @@ angular.module('whiteboard.services.receive', [])
       if (Object.keys(data[socketId]).length) {
         for (shapeId in data[socketId]) {
           var thisShape = data[socketId][shapeId];
-          console.log('thisShape: ', thisShape)
           if (thisShape.initX && thisShape.initY) {
             console.log('Receive.showExisting: ', thisShape);
             EventHandler.createShape(shapeId, socketId, thisShape.tool, thisShape.initX, thisShape.initY);
@@ -33,8 +32,8 @@ angular.module('whiteboard.services.receive', [])
     EventHandler.createShape(data.shapeId, data.socketId, data.tool, data.initX, data.initY);
   });
 
-  Sockets.on('shapeUpdate', function (data) {
-    // console.log(data);
+  Sockets.on('shapeMoved', function (data) {
+    EventHandler.moveShape(data.shapeId, data.socketId, data.mouseX, data.mouseY);
   });
 
   Sockets.on('shapeDeleted', function (data) {

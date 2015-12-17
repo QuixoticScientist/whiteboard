@@ -47,13 +47,23 @@ angular.module('whiteboard.services.broadcast', [])
     })
   };
 
+  var moveShape = function (shapeId, socketId, x, y) {
+    Sockets.emit('moveShape', {
+      shapeId: shapeId,
+      socketId: socketId,
+      mouseX: x,
+      mouseY: y
+    })
+  };
+
   return {
     getSocketId: getSocketId,
     saveSocketId: saveSocketId,
     newShape: newShape,
     editShape: editShape,
     finishShape: finishShape,
-    deleteShape: deleteShape
+    deleteShape: deleteShape,
+    moveShape: moveShape
   };
 
 });

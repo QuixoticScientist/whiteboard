@@ -77,12 +77,13 @@ angular.module('whiteboard.services.inputhandler', [])
       var mouseXY = getMouseXY(ev);
 
       //this snaps the initial point to any available snapping points
-      var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y, 15);
+      var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y);
+      console.log(mouseXY, coords);
 
       // broadcast to server
-      EventHandler.createShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      EventHandler.createShape(id, socketID, currentTool, coords[0], coords[1]);
       BoardData.setCurrentShape(id);
-      Broadcast.newShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      Broadcast.newShape(id, socketID, currentTool, coords[0], coords[1]);
     }
 
   }
@@ -122,6 +123,8 @@ angular.module('whiteboard.services.inputhandler', [])
         Broadcast.deleteShape(shape.id, shape.data('socketID'));
         EventHandler.deleteShape(shape.id, shape.data('socketID'));
       }
+    } else {
+      Snap.snapToPoints(mouseXY.x, mouseXY.y);
     }
   }
 

@@ -231,7 +231,7 @@ angular.module('whiteboard.services.snap', [])
   return {
     endSnaps: {},
     snapsEnabled: true,
-    tolerance: 15,
+    tolerance: 7,
     createSnaps: createSnaps,
     deleteSnaps: deleteSnaps,
     snapToPoints: snapToPoints

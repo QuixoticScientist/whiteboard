@@ -43,7 +43,7 @@ angular.module('whiteboard.services.boarddata', [])
     $canvas = element.find('svg');
     canvasMarginX = $canvas.position().left;
     canvasMarginY = $canvas.position().top;
-    console.log(shapeStorage, 'createBoard');
+    //console.log(shapeStorage, 'createBoard');
   }
 
   function handleWindowResize (newPageSize) {

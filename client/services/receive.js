@@ -1,6 +1,7 @@
 angular.module('whiteboard.services.receive', [])
 .factory('Receive', function (Sockets, EventHandler) {
   Sockets.on('showExisting', function (data) {
+    console.log(data);
     for (socketId in data) {
       if (Object.keys(data[socketId]).length) {
         for (shapeId in data[socketId]) {
@@ -33,7 +34,7 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeMoved', function (data) {
-    EventHandler.moveShape(data.shapeId, data.socketId, data.mouseX, data.mouseY);
+    EventHandler.moveShape(data.shapeId, data.socketId, data.initX, data.initY);
   });
 
   Sockets.on('shapeDeleted', function (data) {

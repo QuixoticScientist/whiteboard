@@ -12,24 +12,17 @@ module.exports = function(server) {
 
   io.on('connection', function (socket) {
 
-    socket.on('layerChange', function (data) {
-      // console.log(data);
-    });
-
     socket.on('idRequest', function () {
       socket.emit('socketId', {socketId: socket.id});
     });
 
     socket.on('roomId', function (data) {
       rooms.addMember(socket, data.roomId);
-      socket.to(this.room).emit('layerList');
-      socket.emit('layerList');
     });
 
     socket.on('newShape', function (data) {
       socket.to(this.room).emit('shapeCreated', data);
       rooms.addShape(data, socket);
-
     });
 
     socket.on('editShape', function (data) {
@@ -47,9 +40,9 @@ module.exports = function(server) {
     });
 
     socket.on('moveShape', function (data) {
+      rooms.moveShape(data, socket);
+      // rooms.completeShape(socket);
       socket.to(this.room).emit('shapeMoved', data);
-      rooms.editShape(data, socket);
-      rooms.completeShape(socket);
     });
 
     socket.on('deleteShape', function (data) {

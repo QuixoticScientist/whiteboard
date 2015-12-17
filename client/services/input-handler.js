@@ -1,39 +1,75 @@
 angular.module('whiteboard.services.inputhandler', [])
 .factory('InputHandler', ['BoardData','Snap', 'EventHandler', 'Broadcast', 'Visualizer', 'Zoom', function (BoardData, Snap, EventHandler, Broadcast, Visualizer, Zoom) {
-  var eraserOn;
-  var panOn;
-  function toggleEraser () {
-    eraserOn ? eraserOn = false : eraserOn = true;
+  var toggleAttrs = {};
+  function toggle (attr) {
+    if (!toggleAttrs[attr]) {
+      toggleAttrs[attr] = true;
+    } else {
+      toggleAttrs[attr] = false;
+    }
   }
-  function togglePan () {
-    panOn ? panOn = false : panOn = true;
-  }
-
-  function getMouseXY (ev) {
-    var canvasMarginXY = BoardData.getCanvasMargin();
-    var scalingFactor = BoardData.getScalingFactor();
-    var offsetXY = BoardData.getOffset();
-    return {
-      x: (ev.clientX - canvasMarginXY.x) * scalingFactor + offsetXY.x,
-      y: (ev.clientY - canvasMarginXY.y) * scalingFactor + offsetXY.y
-    };
+  function isToggled (attr) {
+    return toggleAttrs[attr];
   }
 
-  function mouseDown (ev) {
-    var currentShape = BoardData.getCurrentShape();
-    var currentTool = BoardData.getCurrentTool();
-    var socketID = BoardData.getSocketID();
+  var actions = {};
 
-    if (currentTool.name === 'eraser') {
-      toggleEraser();
-    } else if (currentTool.name === 'pan') {
-      togglePan();
-    } else if (currentTool.name === 'move') {
+  actions.eraser = {
+    mouseDown: function (ev) {
+    },
+    mouseHold: function (ev) {
+      var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
+      if (shape) {
+        Broadcast.deleteShape(shape.id, shape.data('socketID'));
+        EventHandler.deleteShape(shape.id, shape.data('socketID'));
+      }
+    },
+    mouseUp: function (ev) {
+    }
+  };
+
+  actions.pan = {
+    mouseDown: function (ev) {
+    },
+    mouseHold: function (ev) {
+      Zoom.pan(ev);
+    },
+    mouseUp: function (ev) {
+      Zoom.resetPan();
+    }
+  };
+
+  actions.move = {
+    mouseDown: function (ev) {
       var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
       if (shape) {
         BoardData.setEditorShape(shape);
       }
-    } else if (currentTool.name ==='text') {
+    },
+    mouseHold: function (ev) {
+      var currentEditorShape = BoardData.getEditorShape();
+      var mouseXY = getMouseXY(ev);
+
+      if (currentEditorShape) {
+        Visualizer.clearSelection();
+        Broadcast.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
+        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
+      } else {
+        Visualizer.visualizeSelection(mouseXY);
+      }
+    },
+    mouseUp: function (ev) {
+      var editorShape = BoardData.getEditorShape();
+      var currentTool = BoardData.getCurrentTool();
+      console.log(editorShape);
+
+      EventHandler.finishShape(editorShape.id, editorShape.data('socketID'), currentTool);
+      BoardData.unsetEditorShape();
+    }
+  };
+
+  actions.text = {
+    mouseDown: function (ev) {
       var id = BoardData.generateShapeID();
       var mouseXY = getMouseXY(ev);
       EventHandler.createShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
@@ -71,88 +107,115 @@ angular.module('whiteboard.services.inputhandler', [])
           editorShape.attr('text', '');
         }
       }
-    } else {
-      // !!! boardCtrl.createShape(ev);
+    },
+    mouseHold: function (ev) {
+    },
+    mouseUp: function (ev) {
+    }
+  };
+
+  actions.shape = {
+    mouseDown: function (ev) {
       var id = BoardData.generateShapeID();
+      var socketID = BoardData.getSocketID();
+      var currentTool = BoardData.getCurrentTool();
       var mouseXY = getMouseXY(ev);
-
-      //this snaps the initial point to any available snapping points
       var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y);
-      console.log(mouseXY, coords);
 
-      // broadcast to server
       EventHandler.createShape(id, socketID, currentTool, coords[0], coords[1]);
       BoardData.setCurrentShape(id);
       Broadcast.newShape(id, socketID, currentTool, coords[0], coords[1]);
-    }
-
-  }
-
-  function mouseMove (ev) {
-    var currentTool = BoardData.getCurrentTool();
-    var socketID = BoardData.getSocketID();
-    var id = BoardData.getCurrentShapeID();
-    var currentShape = BoardData.getCurrentShape();
-    var mouseXY = getMouseXY(ev);
-
-      //moving shape w/ move tool
-    if (currentTool.name === 'move') {
-      var currentEditorShape = BoardData.getEditorShape();
-      if (currentEditorShape) {
-        console.log(currentEditorShape)
-        Visualizer.clearSelection();
-        Broadcast.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
-        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
-      } else {
-        Visualizer.visualizeSelection(mouseXY);
-      }
-    } else if (currentTool.name === 'pan' && panOn) {
-      Zoom.pan(ev);
-      //creating shape w/ drag
-    } else if (currentShape) {
+    },
+    mouseHold: function (ev) {
+      var id = BoardData.getCurrentShapeID();
+      var socketID = BoardData.getSocketID();
+      var currentTool = BoardData.getCurrentTool();
       var mouseXY = getMouseXY(ev);
+
       Broadcast.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       EventHandler.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+    },
+    mouseUp: function (ev) {
+      var id = BoardData.getCurrentShapeID();
+      var socketID = BoardData.getSocketID();
+      var currentTool = BoardData.getCurrentTool();
 
-      //deleting shapes w/ eraser
-    } else if (currentTool.name === 'eraser' && eraserOn) {
-      var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
-      if (shape) {
-        Broadcast.deleteShape(shape.id, shape.data('socketID'));
-        EventHandler.deleteShape(shape.id, shape.data('socketID'));
-      }
-    } else {
-      Snap.snapToPoints(mouseXY.x, mouseXY.y);
-    }
-  }
-
-  function mouseUp (ev) {
-    var currentTool = BoardData.getCurrentTool();
-    var socketID = BoardData.getSocketID();
-    var id = BoardData.getCurrentShapeID();
-    var currentShape = BoardData.getCurrentShape();
-    var editorShape = BoardData.getEditorShape();
-
-    if (currentShape && currentShape.type !== 'text') {
       EventHandler.finishShape(id, socketID, currentTool);
       BoardData.unsetCurrentShape();
       Visualizer.clearSnaps();
       Broadcast.finishShape(id, currentTool);
-    } else if (editorShape && currentTool.name !== 'eraser') {
-      EventHandler.finishShape(editorShape.id, editorShape.data('socketID'), currentTool);
-      BoardData.unsetEditorShape();
-    } else if (currentTool.name === 'eraser') {
-      toggleEraser();
-    } else if (currentTool.name === 'pan') {
-      togglePan();
-      Zoom.resetPan();
-    } else {
-      Broadcast.finishShape(id, currentTool);
+    }
+  };
+
+  actions.noTool = {
+    mouseDown: function (ev) {
+
+    },
+    mouseHold: function (ev) {
+      var mouseXY = getMouseXY(ev);
+      Snap.snapToPoints(mouseXY.x, mouseXY.y);
+    },
+    mouseUp: function (ev) {
+
+    }
+  };
+
+  function getMouseXY (ev) {
+    var canvasMarginXY = BoardData.getCanvasMargin();
+    var scalingFactor = BoardData.getScalingFactor();
+    var offsetXY = BoardData.getOffset();
+    return {
+      x: (ev.clientX - canvasMarginXY.x) * scalingFactor + offsetXY.x,
+      y: (ev.clientY - canvasMarginXY.y) * scalingFactor + offsetXY.y
+    };
+  }
+
+  var shapeTools = ['line','circle','path','rectangle'];
+  function isToolShape (toolName) {
+    for (var i = 0; i < shapeTools.length; i++) {
+      if (toolName === shapeTools[i]) {
+        return true;
+      }
     }
   }
 
+  function mouseDown (ev) {
+    var toolName = BoardData.getCurrentTool().name;
+    if (isToolShape(toolName)) {
+      toolName = 'shape';
+    }
+
+    if (toolName) {
+      toggle(toolName);
+    } else {
+      tool = 'noName';
+    }
+    actions[toolName].mouseDown(ev);
+  }
+
+  function mouseMove (ev) {
+    for (var key in actions) {
+      if (isToggled(key)) {
+        actions[key].mouseHold(ev);
+        return;
+      }
+    }
+    actions.noTool.mouseHold(ev);
+  }
+
+  function mouseUp (ev) {
+    for (var key in actions) {
+      if (isToggled(key)) {
+        toggle(key);
+        actions[key].mouseUp(ev);
+        return;
+      }
+    }
+    actions.noTool.mouseUp(ev);
+  }
+
   function doubleClick (ev) {
-    // !!! boardCtrl.zoom(ev);
+    //just in case
   }
 
   return {

@@ -17,6 +17,15 @@ angular.module('whiteboard.services.shapeeditor', [])
     x = coords[0];
     y = coords[1];
 
+    var deltaX = x - shape.initX;
+    var deltaY = y - shape.initY;
+
+    if (Math.abs(deltaY / deltaX) < 0.05) {
+      y = shape.initY;
+    } else if (Math.abs(deltaX / deltaY) < 0.05) {
+      x = shape.initX;
+    }
+
     var linePathOrigin = "M" + String(shape.initX) + "," + String(shape.initY);
     var linePathEnd = "L" + String(x) + "," + String(y);
     shape.attr('path', linePathOrigin + linePathEnd);

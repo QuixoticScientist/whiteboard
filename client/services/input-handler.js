@@ -9,6 +9,67 @@ angular.module('whiteboard.services.inputhandler', [])
     panOn ? panOn = false : panOn = true;
   }
 
+  var eraser = {
+    mouseDown: function (ev) {
+      toggleEraser();
+    },
+    mouseHold: function (ev) {
+    },
+    mouseUp: function (ev) {
+    }
+  };
+
+  var pan = {
+    mouseDown: function (ev) {
+      togglePan();
+    },
+    mouseHold: function (ev) {
+    },
+    mouseUp: function (ev) {
+    }
+  };
+
+  var move = {
+    mouseDown: function (ev) {
+      var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
+      if (shape) {
+        BoardData.setEditorShape(shape);
+      }
+    },
+    mouseHold: function (ev) {
+    },
+    mouseUp: function (ev) {
+    }
+  };
+
+  var text = {
+    mouseDown: function (ev) {
+    },
+    mouseHold: function (ev) {
+    },
+    mouseUp: function (ev) {
+    }
+  };
+
+  var shape = {
+    mouseDown: function (ev) {
+      var id = BoardData.generateShapeID();
+      var socketID = BoardData.getSocketID();
+      var currentTool = BoardData.getCurrentTool();
+
+      var mouseXY = getMouseXY(ev);
+      var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y);
+
+      EventHandler.createShape(id, socketID, currentTool, coords[0], coords[1]);
+      BoardData.setCurrentShape(id);
+      Broadcast.newShape(id, socketID, currentTool, coords[0], coords[1]);
+    },
+    mouseHold: function (ev) {
+    },
+    mouseUp: function (ev) {
+    }
+  };
+
   function getMouseXY (ev) {
     var canvasMarginXY = BoardData.getCanvasMargin();
     var scalingFactor = BoardData.getScalingFactor();
@@ -25,14 +86,11 @@ angular.module('whiteboard.services.inputhandler', [])
     var socketID = BoardData.getSocketID();
 
     if (currentTool.name === 'eraser') {
-      toggleEraser();
+      eraser.mouseDown(ev);
     } else if (currentTool.name === 'pan') {
-      togglePan();
+      pan.mouseDown(ev);
     } else if (currentTool.name === 'move') {
-      var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
-      if (shape) {
-        BoardData.setEditorShape(shape);
-      }
+      move.mouseDown(ev);
     } else if (currentTool.name ==='text') {
       var id = BoardData.generateShapeID();
       var mouseXY = getMouseXY(ev);
@@ -72,18 +130,7 @@ angular.module('whiteboard.services.inputhandler', [])
         }
       }
     } else {
-      // !!! boardCtrl.createShape(ev);
-      var id = BoardData.generateShapeID();
-      var mouseXY = getMouseXY(ev);
-
-      //this snaps the initial point to any available snapping points
-      var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y);
-      console.log(mouseXY, coords);
-
-      // broadcast to server
-      EventHandler.createShape(id, socketID, currentTool, coords[0], coords[1]);
-      BoardData.setCurrentShape(id);
-      Broadcast.newShape(id, socketID, currentTool, coords[0], coords[1]);
+      shape.onClick(ev);
     }
 
   }

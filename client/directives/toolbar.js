@@ -11,7 +11,11 @@ angular.module('whiteboard')
       wbColorSelect: '@'
     },
     // controller: function ($scope) {
-    	
+      
+    //   this.test = function () {
+    //     console.log('It Works!');
+    //   };
+      
     // },
     link: function (scope, element, attrs, ctrls) {
       

@@ -7,7 +7,10 @@ body, html{
 }
 
 h1.title {
-	position: absolute;
+  position: relative;
+  float: right;
+  margin-right: 20px;
+
 }
 
 .app-container {
@@ -33,8 +36,36 @@ svg {
 
 .toolbar {
   z-index: 1000000;
+  position: absolute;
+  top: 0px;
+  height: 100%;
+  width: 2px;
+  transition-duration: .2s;
+  transform: translate3d(0, 0, 0);
+}
+
+.toolbar:hover {
+	transition-duration: .2s;
+	transform: translate3d(150px, 0, 0);
+}
+
+.toolbar-container {
+	margin-left: -150px;
+	height: 100%;
+	width: 150px;
+	background-color: red;
+	position: relative;
+}
+
+/*.toolbar-container.show {
+	transition-duration: .5s;
+	transform: translate3d(150px, 0, 0);
+}*/
+
+/*.toolbar {
+  z-index: 1000000;
   position: relative;
-  /*margin-top: -50px;*/
+  margin-top: -50px;
 }
 
 .toolbar-container {
@@ -42,7 +73,7 @@ svg {
   left: -165px;
   width: 330px;
   height: 330px;
-  /*display: block;*/
+  display: block;
   position: relative;
   z-index: 99990
 }
@@ -99,7 +130,7 @@ svg {
   height: 480px;
   top: -75px;
   left: -75px;
-}
+}*/
 
 /* On hover */
 

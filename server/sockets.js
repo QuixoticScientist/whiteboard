@@ -27,7 +27,6 @@ module.exports = function(server) {
     });
 
     socket.on('newShape', function (data) {
-      console.log('Sockets.newShape ', data);
       socket.to(this.room).emit('shapeCreated', data);
       rooms.addShape(data, socket);
 
@@ -48,8 +47,8 @@ module.exports = function(server) {
     });
 
     socket.on('moveShape', function (data) {
-      rooms.editShape(data, socket);
       socket.to(this.room).emit('shapeMoved', data);
+      rooms.editShape(data, socket);
     });
 
     socket.on('deleteShape', function (data) {

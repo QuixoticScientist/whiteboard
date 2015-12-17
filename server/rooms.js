@@ -70,7 +70,6 @@ var roomsManager = {
       for (var member in rooms[roomId]) {
         count++;
       }
-      console.log(rooms[roomId]);
       console.log('Current room ' + roomId + ' has ' + count + ' members');
     });
   },

@@ -126,6 +126,7 @@ angular.module('whiteboard.services.inputhandler', [])
       EventHandler.finishShape(id, socketID, currentTool);
       BoardData.unsetCurrentShape();
       Visualizer.clearSnaps();
+      Broadcast.finishShape(id, currentTool);
     } else if (editorShape && currentTool.name !== 'eraser') {
       EventHandler.finishShape(editorShape.id, editorShape.data('socketID'), currentTool);
       BoardData.unsetEditorShape();

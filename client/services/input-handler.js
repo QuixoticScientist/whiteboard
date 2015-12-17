@@ -20,8 +20,8 @@ angular.module('whiteboard.services.inputhandler', [])
     mouseHold: function (ev) {
       var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
       if (shape) {
-        Broadcast.deleteShape(shape.id, shape.data('socketID'));
-        EventHandler.deleteShape(shape.id, shape.data('socketID'));
+        Broadcast.deleteShape(shape.id, shape.socketId);
+        EventHandler.deleteShape(shape.id, shape.socketId);
       }
     },
     mouseUp: function (ev) {
@@ -44,6 +44,8 @@ angular.module('whiteboard.services.inputhandler', [])
       var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
       if (shape) {
         BoardData.setEditorShape(shape);
+      } else {
+        toggle('move');
       }
     },
     mouseHold: function (ev) {
@@ -52,8 +54,8 @@ angular.module('whiteboard.services.inputhandler', [])
 
       if (currentEditorShape) {
         Visualizer.clearSelection();
-        Broadcast.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
-        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
+        Broadcast.moveShape(currentEditorShape.myid, currentEditorShape.socketId, mouseXY.x, mouseXY.y);
+        EventHandler.moveShape(currentEditorShape.myid, currentEditorShape.socketId, mouseXY.x, mouseXY.y);
       } else {
         Visualizer.visualizeSelection(mouseXY);
       }
@@ -61,9 +63,8 @@ angular.module('whiteboard.services.inputhandler', [])
     mouseUp: function (ev) {
       var editorShape = BoardData.getEditorShape();
       var currentTool = BoardData.getCurrentTool();
-      console.log(editorShape);
 
-      EventHandler.finishShape(editorShape.id, editorShape.data('socketID'), currentTool);
+      EventHandler.finishShape(editorShape.myid, editorShape.socketId, currentTool);
       BoardData.unsetEditorShape();
     }
   };

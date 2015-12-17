@@ -95,13 +95,12 @@ angular.module('whiteboard.services.shapeeditor', [])
     var shape = BoardData.getShapeByID(id, socketID);
 
     Snap.createSnaps(shape);
-    shape.data('socketID', socketID);
+    shape.socketId = socketID;
     ShapeManipulation.pathSmoother(tool, shape);
   };
 
   function deleteShape (id, socketID) {
     var shape = BoardData.getShapeByID(id, socketID);
-    //console.log(shape);
 
     Snap.deleteSnaps(shape);
     shape.remove();

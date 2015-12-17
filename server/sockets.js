@@ -49,6 +49,7 @@ module.exports = function(server) {
     socket.on('moveShape', function (data) {
       socket.to(this.room).emit('shapeMoved', data);
       rooms.editShape(data, socket);
+      rooms.completeShape(socket);
     });
 
     socket.on('deleteShape', function (data) {

@@ -92,6 +92,7 @@ angular.module('whiteboard.services.inputhandler', [])
     if (currentTool.name === 'move') {
       var currentEditorShape = BoardData.getEditorShape();
       if (currentEditorShape) {
+        console.log(currentEditorShape)
         Visualizer.clearSelection();
         Broadcast.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
         EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);

@@ -106,10 +106,8 @@ angular.module('whiteboard.services.inputhandler', [])
       } else {
         Visualizer.visualizeSelection(mouseXY);
       }
-
     } else if (currentTool.name === 'pan' && panOn) {
       Zoom.pan(ev);
-
       //creating shape w/ drag
     } else if (currentShape) {
       var mouseXY = getMouseXY(ev);

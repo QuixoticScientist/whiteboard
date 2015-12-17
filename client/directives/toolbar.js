@@ -14,8 +14,7 @@ angular.module('whiteboard')
     	
     // },
     link: function (scope, element, attrs, ctrls) {
-    	var isExpanded = false;
-
+      
       // FROM MERGE CONFLICT
       scope.wbStrokeWidthDown = function () {
         if (scope.wbStrokeWidth > 0.25) scope.wbStrokeWidth -= 0.25;
@@ -24,28 +23,6 @@ angular.module('whiteboard')
       scope.wbStrokeWidthUp = function () {
         scope.wbStrokeWidth += 0.25;
       };
-
-    	scope.expandMenu = function (menuSide) {
-    		//console.log(menuSide, element);
-    		if (!isExpanded) {
-    			var tbElements = element.find('.toolbar.left');
-    			tbElements.each(function (i, element) {
-    				$(element).addClass('expanded');
-    				isExpanded = true;
-    			})
-    		}
-    	};
-
-    	scope.shrinkMenu = function (menuSide) {
-    		//console.log(menuSide, element);
-    		if (isExpanded) {
-	    		var tbElements = element.find('.toolbar.left');
-	    		tbElements.each(function (i, element) {
-    				$(element).removeClass('expanded');
-    				isExpanded = false;
-    			})
-    		}
-    	}
 
       scope.wbZoomScaleDown = function () {
         scope.wbZoomScale -= 0.25;

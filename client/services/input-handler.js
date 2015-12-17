@@ -14,8 +14,14 @@ angular.module('whiteboard.services.inputhandler', [])
       toggleEraser();
     },
     mouseHold: function (ev) {
+      var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
+      if (shape) {
+        Broadcast.deleteShape(shape.id, shape.data('socketID'));
+        EventHandler.deleteShape(shape.id, shape.data('socketID'));
+      }
     },
     mouseUp: function (ev) {
+      toggleEraser();
     }
   };
 
@@ -24,8 +30,11 @@ angular.module('whiteboard.services.inputhandler', [])
       togglePan();
     },
     mouseHold: function (ev) {
+      Zoom.pan(ev);
     },
     mouseUp: function (ev) {
+      togglePan();
+      Zoom.resetPan();
     }
   };
 
@@ -37,61 +46,28 @@ angular.module('whiteboard.services.inputhandler', [])
       }
     },
     mouseHold: function (ev) {
+      var currentEditorShape = BoardData.getEditorShape();
+      var mouseXY = getMouseXY(ev);
+
+      if (currentEditorShape) {
+        Visualizer.clearSelection();
+        Broadcast.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
+        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
+      } else {
+        Visualizer.visualizeSelection(mouseXY);
+      }
     },
     mouseUp: function (ev) {
+      var editorShape = BoardData.getEditorShape();
+      var currentTool = BoardData.getCurrentTool();
+
+      EventHandler.finishShape(editorShape.id, editorShape.data('socketID'), currentTool);
+      BoardData.unsetEditorShape();
     }
   };
 
   var text = {
     mouseDown: function (ev) {
-    },
-    mouseHold: function (ev) {
-    },
-    mouseUp: function (ev) {
-    }
-  };
-
-  var shape = {
-    mouseDown: function (ev) {
-      var id = BoardData.generateShapeID();
-      var socketID = BoardData.getSocketID();
-      var currentTool = BoardData.getCurrentTool();
-
-      var mouseXY = getMouseXY(ev);
-      var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y);
-
-      EventHandler.createShape(id, socketID, currentTool, coords[0], coords[1]);
-      BoardData.setCurrentShape(id);
-      Broadcast.newShape(id, socketID, currentTool, coords[0], coords[1]);
-    },
-    mouseHold: function (ev) {
-    },
-    mouseUp: function (ev) {
-    }
-  };
-
-  function getMouseXY (ev) {
-    var canvasMarginXY = BoardData.getCanvasMargin();
-    var scalingFactor = BoardData.getScalingFactor();
-    var offsetXY = BoardData.getOffset();
-    return {
-      x: (ev.clientX - canvasMarginXY.x) * scalingFactor + offsetXY.x,
-      y: (ev.clientY - canvasMarginXY.y) * scalingFactor + offsetXY.y
-    };
-  }
-
-  function mouseDown (ev) {
-    var currentShape = BoardData.getCurrentShape();
-    var currentTool = BoardData.getCurrentTool();
-    var socketID = BoardData.getSocketID();
-
-    if (currentTool.name === 'eraser') {
-      eraser.mouseDown(ev);
-    } else if (currentTool.name === 'pan') {
-      pan.mouseDown(ev);
-    } else if (currentTool.name === 'move') {
-      move.mouseDown(ev);
-    } else if (currentTool.name ==='text') {
       var id = BoardData.generateShapeID();
       var mouseXY = getMouseXY(ev);
       EventHandler.createShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
@@ -129,45 +105,91 @@ angular.module('whiteboard.services.inputhandler', [])
           editorShape.attr('text', '');
         }
       }
+    },
+    mouseHold: function (ev) {
+    },
+    mouseUp: function (ev) {
+    }
+  };
+
+  var shape = {
+    mouseDown: function (ev) {
+      var id = BoardData.generateShapeID();
+      var socketID = BoardData.getSocketID();
+      var currentTool = BoardData.getCurrentTool();
+      var mouseXY = getMouseXY(ev);
+      var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y);
+
+      EventHandler.createShape(id, socketID, currentTool, coords[0], coords[1]);
+      BoardData.setCurrentShape(id);
+      Broadcast.newShape(id, socketID, currentTool, coords[0], coords[1]);
+    },
+    mouseHold: function (ev) {
+      var id = BoardData.getCurrentShapeID();
+      var socketID = BoardData.getSocketID();
+      var currentTool = BoardData.getCurrentTool();
+      var mouseXY = getMouseXY(ev);
+
+      Broadcast.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      EventHandler.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+    },
+    mouseUp: function (ev) {
+      var id = BoardData.getCurrentShapeID();
+      var socketID = BoardData.getSocketID();
+      var currentTool = BoardData.getCurrentTool();
+
+      EventHandler.finishShape(id, socketID, currentTool);
+      BoardData.unsetCurrentShape();
+      Visualizer.clearSnaps();
+      Broadcast.finishShape(id, currentTool);
+    }
+  };
+
+  function getMouseXY (ev) {
+    var canvasMarginXY = BoardData.getCanvasMargin();
+    var scalingFactor = BoardData.getScalingFactor();
+    var offsetXY = BoardData.getOffset();
+    return {
+      x: (ev.clientX - canvasMarginXY.x) * scalingFactor + offsetXY.x,
+      y: (ev.clientY - canvasMarginXY.y) * scalingFactor + offsetXY.y
+    };
+  }
+
+  function mouseDown (ev) {
+    var currentShape = BoardData.getCurrentShape();
+    var currentTool = BoardData.getCurrentTool();
+    var socketID = BoardData.getSocketID();
+
+    if (currentTool.name === 'eraser') {
+      eraser.mouseDown(ev);
+    } else if (currentTool.name === 'pan') {
+      pan.mouseDown(ev);
+    } else if (currentTool.name === 'move') {
+      move.mouseDown(ev);
+    } else if (currentTool.name ==='text') {
+      text.mouseDown(ev);
     } else {
-      shape.onClick(ev);
+      shape.mouseDown(ev);
     }
 
   }
 
   function mouseMove (ev) {
     var currentTool = BoardData.getCurrentTool();
-    var socketID = BoardData.getSocketID();
-    var id = BoardData.getCurrentShapeID();
     var currentShape = BoardData.getCurrentShape();
+    var editorShape = BoardData.getEditorShape();
     var mouseXY = getMouseXY(ev);
 
-      //moving shape w/ move tool
     if (currentTool.name === 'move') {
-      var currentEditorShape = BoardData.getEditorShape();
-      if (currentEditorShape) {
-        console.log(currentEditorShape)
-        Visualizer.clearSelection();
-        Broadcast.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
-        EventHandler.moveShape(currentEditorShape.id, currentEditorShape.data('socketID'), mouseXY.x, mouseXY.y);
-      } else {
-        Visualizer.visualizeSelection(mouseXY);
-      }
+      move.mouseHold(ev);
     } else if (currentTool.name === 'pan' && panOn) {
-      Zoom.pan(ev);
+      pan.mouseHold(ev);
       //creating shape w/ drag
     } else if (currentShape) {
-      var mouseXY = getMouseXY(ev);
-      Broadcast.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
-      EventHandler.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
-
+      shape.mouseHold(ev);
       //deleting shapes w/ eraser
     } else if (currentTool.name === 'eraser' && eraserOn) {
-      var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
-      if (shape) {
-        Broadcast.deleteShape(shape.id, shape.data('socketID'));
-        EventHandler.deleteShape(shape.id, shape.data('socketID'));
-      }
+      eraser.mouseHold(ev);
     } else {
       Snap.snapToPoints(mouseXY.x, mouseXY.y);
     }
@@ -175,24 +197,18 @@ angular.module('whiteboard.services.inputhandler', [])
 
   function mouseUp (ev) {
     var currentTool = BoardData.getCurrentTool();
-    var socketID = BoardData.getSocketID();
-    var id = BoardData.getCurrentShapeID();
     var currentShape = BoardData.getCurrentShape();
     var editorShape = BoardData.getEditorShape();
+    var mouseXY = getMouseXY(ev);
 
     if (currentShape && currentShape.type !== 'text') {
-      EventHandler.finishShape(id, socketID, currentTool);
-      BoardData.unsetCurrentShape();
-      Visualizer.clearSnaps();
-      Broadcast.finishShape(id, currentTool);
+      shape.mouseUp(ev);
     } else if (editorShape && currentTool.name !== 'eraser') {
-      EventHandler.finishShape(editorShape.id, editorShape.data('socketID'), currentTool);
-      BoardData.unsetEditorShape();
+      move.mouseUp(ev);
     } else if (currentTool.name === 'eraser') {
-      toggleEraser();
+      eraser.mouseUp(ev);
     } else if (currentTool.name === 'pan') {
-      togglePan();
-      Zoom.resetPan();
+      pan.mouseUp(ev);
     } else {
       Broadcast.finishShape(id, currentTool);
     }

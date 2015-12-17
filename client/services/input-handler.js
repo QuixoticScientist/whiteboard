@@ -1,8 +1,12 @@
 angular.module('whiteboard.services.inputhandler', [])
-.factory('InputHandler', ['BoardData','Snap', 'EventHandler', 'Broadcast', 'Visualizer', function (BoardData, Snap, EventHandler, Broadcast, Visualizer) {
+.factory('InputHandler', ['BoardData','Snap', 'EventHandler', 'Broadcast', 'Visualizer', 'Zoom', function (BoardData, Snap, EventHandler, Broadcast, Visualizer, Zoom) {
   var eraserOn;
+  var panOn;
   function toggleEraser () {
     eraserOn ? eraserOn = false : eraserOn = true;
+  }
+  function togglePan () {
+    panOn ? panOn = false : panOn = true;
   }
 
   function getMouseXY (ev) {
@@ -22,6 +26,8 @@ angular.module('whiteboard.services.inputhandler', [])
 
     if (currentTool.name === 'eraser') {
       toggleEraser();
+    } else if (currentTool.name === 'pan') {
+      togglePan();
     } else if (currentTool.name === 'move') {
       var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
       if (shape) {
@@ -71,12 +77,13 @@ angular.module('whiteboard.services.inputhandler', [])
       var mouseXY = getMouseXY(ev);
 
       //this snaps the initial point to any available snapping points
-      var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y, 15);
+      var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y);
+      console.log(mouseXY, coords);
 
       // broadcast to server
-      EventHandler.createShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      EventHandler.createShape(id, socketID, currentTool, coords[0], coords[1]);
       BoardData.setCurrentShape(id);
-      Broadcast.newShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      Broadcast.newShape(id, socketID, currentTool, coords[0], coords[1]);
     }
 
   }
@@ -100,6 +107,9 @@ angular.module('whiteboard.services.inputhandler', [])
         Visualizer.visualizeSelection(mouseXY);
       }
 
+    } else if (currentTool.name === 'pan' && panOn) {
+      Zoom.pan(ev);
+
       //creating shape w/ drag
     } else if (currentShape) {
       var mouseXY = getMouseXY(ev);
@@ -113,6 +123,8 @@ angular.module('whiteboard.services.inputhandler', [])
         Broadcast.deleteShape(shape.id, shape.data('socketID'));
         EventHandler.deleteShape(shape.id, shape.data('socketID'));
       }
+    } else {
+      Snap.snapToPoints(mouseXY.x, mouseXY.y);
     }
   }
 
@@ -133,6 +145,9 @@ angular.module('whiteboard.services.inputhandler', [])
       BoardData.unsetEditorShape();
     } else if (currentTool.name === 'eraser') {
       toggleEraser();
+    } else if (currentTool.name === 'pan') {
+      togglePan();
+      Zoom.resetPan();
     } else {
       Broadcast.finishShape(id, currentTool);
     }

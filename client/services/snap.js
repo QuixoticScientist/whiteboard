@@ -211,7 +211,6 @@ angular.module('whiteboard.services.snap', [])
     if (!tolerance) tolerance = this.tolerance;
     var searchBox = new Rectangle(x - tolerance, y - tolerance, x + tolerance, y + tolerance);
     var localTree = searchKDTree(endSnapTree, searchBox);
-    Visualizer.visualizeSnaps(localTree);
     for (var i = 0; i < localTree.length; i++) {
       var pointX = localTree[i].x;
       var pointY = localTree[i].y;
@@ -221,6 +220,7 @@ angular.module('whiteboard.services.snap', [])
         var closestDist = dist;
       }
     }
+    Visualizer.visualizeSnaps(localTree, closest);
     if (closest) {
       return [closest.x, closest.y];
     } else {
@@ -231,7 +231,7 @@ angular.module('whiteboard.services.snap', [])
   return {
     endSnaps: {},
     snapsEnabled: true,
-    tolerance: 15,
+    tolerance: 7,
     createSnaps: createSnaps,
     deleteSnaps: deleteSnaps,
     snapToPoints: snapToPoints

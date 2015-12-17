@@ -43,7 +43,6 @@ angular.module('whiteboard.services.boarddata', [])
     $canvas = element.find('svg');
     canvasMarginX = $canvas.position().left;
     canvasMarginY = $canvas.position().top;
-    //console.log(shapeStorage, 'createBoard');
   }
 
   function handleWindowResize (newPageSize) {
@@ -77,7 +76,7 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function setEditorShape (shape) {
-    editorShape = shapeStorage[shape.data('socketID')][shape.id];
+    editorShape = shape //shapeStorage[shape.socketId][shape.id];
   }
 
   function unsetEditorShape () {
@@ -147,7 +146,6 @@ angular.module('whiteboard.services.boarddata', [])
       shapeStorage[socketID] = {};
     }
     shapeStorage[socketID][id] = shape;
-    //console.log(shapeStorage);
   }
 
   function getShapeByID (id, socketID) {

@@ -209,13 +209,14 @@ angular.module('whiteboard.services.snap', [])
   var snapToPoints = function (x, y, tolerance) {
     if (!this.snapsEnabled || !endSnapTree || !endSnapTree.val) return [x, y];
     if (!tolerance) tolerance = this.tolerance;
-    var searchBox = new Rectangle(x - tolerance, y - tolerance, x + tolerance, y + tolerance);
+    var buffer = 50;
+    var searchBox = new Rectangle(x - (tolerance + buffer), y - (tolerance + buffer), x + (tolerance + buffer), y + (tolerance + buffer));
     var localTree = searchKDTree(endSnapTree, searchBox);
     for (var i = 0; i < localTree.length; i++) {
       var pointX = localTree[i].x;
       var pointY = localTree[i].y;
       var dist = Math.sqrt(Math.pow(x - pointX, 2) + Math.pow(y - pointY, 2));
-      if (!closest || dist < closestDist) {
+      if (dist < tolerance && (!closest || dist < closestDist)) {
         var closest = localTree[i];
         var closestDist = dist;
       }

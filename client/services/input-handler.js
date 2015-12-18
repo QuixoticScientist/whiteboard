@@ -87,14 +87,20 @@ angular.module('whiteboard.services.inputhandler', [])
         var editorShape = BoardData.getEditorShape();
         if (editorShape.attr('text') === 'Insert Text') {
           editorShape.attr('text', '');
+          currentTool.text = '';
         }
         if (ev.keyCode === 8) {
+          // backspace key
           editorShape.attr('text', editorShape.attr('text').slice(0, editorShape.attr('text').length - 1));
+          currentTool.text = editorShape.attr('text').slice(0, editorShape.attr('text').length - 1);
         } else if (ev.keyCode === 13) {
+          // enter key
           Broadcast.finishShape(id, currentTool);
           editorShape = null;
         } else {
+          // typing text
           editorShape.attr('text', editorShape.attr('text') + String.fromCharCode(ev.keyCode));
+          currentTool.text = editorShape.attr('text') + String.fromCharCode(ev.keyCode);
         }
       }
 

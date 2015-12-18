@@ -95,13 +95,15 @@ angular.module('whiteboard.services.inputhandler', [])
         }
         
         if (ev.keyCode === 13) {
-          // enter key
+          // enter key to complete text insertion process
           Broadcast.finishShape(id, currentTool);
           editorShape = null;
         } else {
           // typing text
           editorShape.attr('text', editorShape.attr('text') + String.fromCharCode(ev.keyCode));
           currentTool.text = editorShape.attr('text');
+          Broadcast.editShape(id, socketID, currentTool, editorShape.initX, editorShape.initY);
+          EventHandler.editShape(id, socketID, currentTool, editorShape.initX, editorShape.initY);
         }
       }
 

@@ -94,6 +94,12 @@ angular.module('whiteboard.services.shapeeditor', [])
 
   function finishShape (id, socketID, tool) {
     var shape = BoardData.getShapeByID(id, socketID);
+    if (tool.name === 'text') {
+      shape.attr({
+        text: tool.text
+      });
+    }
+    console.log(shape);
 
     Snap.createSnaps(shape);
     shape.socketId = socketID;

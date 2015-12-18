@@ -75,6 +75,7 @@ angular.module('whiteboard.services.inputhandler', [])
       var mouseXY = getMouseXY(ev);
       var socketID = BoardData.getSocketID();
       var currentTool = BoardData.getCurrentTool();
+      currentTool.text = 'Insert Text';
 
       EventHandler.createShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       BoardData.setCurrentShape(id);

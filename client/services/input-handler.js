@@ -93,12 +93,8 @@ angular.module('whiteboard.services.inputhandler', [])
           editorShape.attr('text', '');
           currentTool.text = '';
         }
-        if (ev.keyCode === 8 || ev.keyCode === 46) {
-          // backspace key - this event is not firing
-          // editorShape.attr('text', editorShape.attr('text').slice(0, editorShape.attr('text').length - 1));
-          // currentTool.text = editorShape.attr('text').slice(0, editorShape.attr('text').length - 1);
-          console.log('hi');
-        } else if (ev.keyCode === 13) {
+        
+        if (ev.keyCode === 13) {
           // enter key
           Broadcast.finishShape(id, currentTool);
           editorShape = null;

@@ -28,11 +28,11 @@ angular.module('whiteboard.services.shapebuilder', [])
       'rectangle': function (x,y) {
         return BoardData.getBoard().rect(x, y, 0, 0);
       },
-      'text': function (x,y) {
-        return BoardData.getBoard().text(x, y, 'Insert Text');
+      'text': function (x, y, text) {
+        return !!text ? BoardData.getBoard().text(x, y, text) : BoardData.getBoard().text(x, y, 'Insert Text');
       }
     };
-    var shape = shapeConstructors[tool.name](x, y);
+    var shape = !!tool.text ? shapeConstructors[tool.name](x, y, tool.text) : shapeConstructors[tool.name](x, y);
     shape.initX = x;
     shape.initY = y;
     setColor(shape, tool.colors);

@@ -148,14 +148,17 @@ angular.module('whiteboard.services.snap', [])
         shape.attr('path', shape.pathDProps);
       }
       var path = shape.attr('path');
-      if (path[1]) {
+      if (path.length <= 1) {
+        shape.remove();
+      } else if (path.length === 2) {
         startPoint = new Point(path[0][1], path[0][2]);
         endPoint = new Point(path[1][1], path[1][2]);
         midPoint = new Point(startPoint.x + (endPoint.x - startPoint.x) / 2, startPoint.y + (endPoint.y - startPoint.y) / 2);
         newSnaps.push(startPoint, midPoint, endPoint);
       } else {
-        //this line has no length, delete it
-        shape.remove();
+        startPoint = new Point(path[0][1], path[0][2]);
+        endPoint = new Point(path[path.length - 1][1], path[path.length - 1][2]);
+        newSnaps.push(startPoint, endPoint);
       }
     } else if (shape.type === 'circle') {
       var cx = shape.attr('cx');

@@ -64,7 +64,7 @@ angular.module('whiteboard.services.inputhandler', [])
       var editorShape = BoardData.getEditorShape();
       var currentTool = BoardData.getCurrentTool();
 
-      EventHandler.finishShape(editorShape.myid, editorShape.socketId, currentTool);
+      EventHandler.finishMovingShape(editorShape.myid, editorShape.socketId);
       BoardData.unsetEditorShape();
     }
   };

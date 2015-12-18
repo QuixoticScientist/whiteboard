@@ -25,6 +25,10 @@ angular.module('whiteboard.services.eventhandler', [])
     ShapeManipulation.moveShape(id, socketID, x, y);
   }
 
+  function finishMovingShape (id, socketID) {
+    ShapeManipulation.finishMovingShape (id, socketID);
+  }
+
   function cursor (screenPosition) {
     var cursor = BoardData.getCursor() || BoardData.setCursor();
     BoardData.moveCursor(screenPosition);
@@ -57,6 +61,7 @@ angular.module('whiteboard.services.eventhandler', [])
     finishShape: finishShape,
     deleteShape: deleteShape,
     moveShape: moveShape,
+    finishMovingShape: finishMovingShape,
     grabShape: grabShape
   };
 }]);

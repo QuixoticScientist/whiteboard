@@ -20,8 +20,8 @@ angular.module('whiteboard.services.inputhandler', [])
     mouseHold: function (ev) {
       var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
       if (shape) {
-        Broadcast.deleteShape(shape.id, shape.socketId);
-        EventHandler.deleteShape(shape.id, shape.socketId);
+        Broadcast.deleteShape(shape.myid, shape.socketId);
+        EventHandler.deleteShape(shape.myid, shape.socketId);
       }
     },
     mouseUp: function (ev) {

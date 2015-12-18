@@ -43,6 +43,8 @@ angular.module('whiteboard.services.shapemanipulation', [])
       'rect': moveRectangle
       // 'text': moveText
     };
+
+    //console.log(arguments, ' Shape Manip Args')
     var shape = BoardData.getShapeByID(id, socketId).toFront();
     if (!grabPoint) {
       grabPoint = {x: x, y: y};

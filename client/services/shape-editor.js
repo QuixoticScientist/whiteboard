@@ -105,7 +105,6 @@ angular.module('whiteboard.services.shapeeditor', [])
       });
     }
 
-    // console.log(shape);
     Snap.createSnaps(shape);
     shape.socketId = socketId;
     if (shape.id && tool.name === 'path') ShapeManipulation.pathSmoother(tool, shape);

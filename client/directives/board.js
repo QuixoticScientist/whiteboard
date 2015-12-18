@@ -41,7 +41,7 @@ angular.module('whiteboard')
         scope.wbZoomScale += 0.25;
       };
 
-      scope.wbToolSelect = scope.wbToolSelect === undefined ? 'path' : scope.wbToolSelect;
+      scope.wbToolSelect = scope.wbToolSelect === undefined ? 'move' : scope.wbToolSelect;
       scope.$watch('wbToolSelect', function(newTool, prevTool) {
         BoardData.setCurrentToolName(newTool);
       }, false);

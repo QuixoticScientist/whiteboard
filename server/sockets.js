@@ -34,7 +34,7 @@ module.exports = function(server) {
     socket.on('shapeCompleted', function (data) {
       socket.to(this.room).emit('shapeCompleted', {
         socketId: socket.id,
-        shapeId: data.shapeId,
+        id: data.id,
         tool: data.tool
       });
       rooms.completeShape(data, socket);
@@ -50,9 +50,13 @@ module.exports = function(server) {
       socket.to(this.room).emit('shapeMoved', data);
     });
 
+    socket.on('finishMovingShape', function (data) {
+      rooms.completeShape(data, socket);
+    });
+
     socket.on('deleteShape', function (data) {
       rooms.deleteShape(data, socket);
-      socket.to(this.room).emit('shapeDeleted', {shapeId: data.shapeId, socketId: data.socketId});
+      socket.to(this.room).emit('shapeDeleted', {id: data.id, socketId: data.socketId});
     });
 
     socket.on('disconnect', function () {

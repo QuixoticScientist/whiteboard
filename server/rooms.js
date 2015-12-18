@@ -79,33 +79,34 @@ var roomsManager = {
   },
 
   addShape: function (shape, socket) {
-    rooms[socket.room][shape.socketId][shape.shapeId] = shape;
+    rooms[socket.room][shape.socketId][shape.id] = shape;
   },
 
   editShape: function (shape, socket) {
-    rooms[socket.room][shape.socketId][shape.shapeId]['mouseX'] = shape.mouseX;
-    rooms[socket.room][shape.socketId][shape.shapeId]['mouseY'] = shape.mouseY;   
+    rooms[socket.room][shape.socketId][shape.id]['mouseX'] = shape.mouseX;
+    rooms[socket.room][shape.socketId][shape.id]['mouseY'] = shape.mouseY;   
   },
 
   moveShape: function (shape, socket) {
-    rooms[socket.room][shape.socketId][shape.shapeId]['initX'] = shape.initX;
-    rooms[socket.room][shape.socketId][shape.shapeId]['initY'] = shape.initY;
+    console.log(shape);
+    rooms[socket.room][shape.socketId][shape.id]['initX'] = shape.initX;
+    rooms[socket.room][shape.socketId][shape.id]['initY'] = shape.initY;
   },
 
   completePath: function (shape, socket) {
-    rooms[socket.room][socket.id][shape.shapeId]['pathDProps'] = shape.pathDProps;
+    rooms[socket.room][socket.id][shape.id]['pathDProps'] = shape.pathDProps;
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
   },
 
   completeShape: function (shape, socket) {
-    if (shape.tool.text) {
-      rooms[socket.room][socket.id][shape.shapeId]['tool']['text'] = shape.tool.text;
-    }
+    // if (shape.tool.text) {
+    //   rooms[socket.room][socket.id][shape.id]['tool']['text'] = shape.tool.text;
+    // }
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
   },
 
   deleteShape: function (shape, socket) {
-    delete rooms[socket.room][shape.socketId][shape.shapeId];
+    delete rooms[socket.room][shape.socketId][shape.id];
   }
 
 }

@@ -57,13 +57,15 @@ angular.module('whiteboard.services.inputhandler', [])
       var mouseXY = getMouseXY(ev);
 
       Visualizer.clearSelection();
-      Broadcast.moveShape(currentEditorShape.myid, currentEditorShape.socketId, mouseXY.x, mouseXY.y);
-      EventHandler.moveShape(currentEditorShape.myid, currentEditorShape.socketId, mouseXY.x, mouseXY.y);
+
+      Broadcast.moveShape(currentEditorShape, mouseXY.x, mouseXY.y);
+      EventHandler.moveShape(currentEditorShape, mouseXY.x, mouseXY.y);
     },
     mouseUp: function (ev) {
       var editorShape = BoardData.getEditorShape();
       var currentTool = BoardData.getCurrentTool();
 
+      Broadcast.finishMovingShape(editorShape);
       EventHandler.finishMovingShape(editorShape.myid, editorShape.socketId);
       BoardData.unsetEditorShape();
     },
@@ -155,7 +157,6 @@ angular.module('whiteboard.services.inputhandler', [])
       var currentTool = BoardData.getCurrentTool();
       var shape = BoardData.getCurrentShape();
       shape.tool = currentTool;
-      // console.log(shape);
       EventHandler.finishShape(shape);
       BoardData.unsetCurrentShape();
       Visualizer.clearSnaps();

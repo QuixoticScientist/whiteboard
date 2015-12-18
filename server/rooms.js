@@ -1,5 +1,6 @@
 var utils = require('./utils/util');
 var client = require('./db/config');
+var _ = require('underscore');
 
 var rooms = {};
 
@@ -45,11 +46,14 @@ var roomsManager = {
     socket.room = roomId;
     socket.join(roomId);
 
-    var storedRoom;
+    if (!rooms[roomId]) {
+      rooms[roomId] = {};
+    }
+
     client.get(roomId, function (err, reply) {
       if (reply) {
-        // deal with returning reply to board for new member
         storedRoom = JSON.parse(reply);
+        _.extend(rooms[roomId], storedRoom);
       } else {
         client.set(roomId, JSON.stringify({}));
         rooms[roomId] = {};
@@ -60,6 +64,7 @@ var roomsManager = {
       }
 
       // add member to room based on socket id
+      console.log(rooms[roomId]);
       var socketId = socket.id;
       rooms[roomId][socketId] = {};
       socket.emit('showExisting', rooms[roomId]);

@@ -29,6 +29,10 @@ angular.module('whiteboard.services.eventhandler', [])
     ShapeManipulation.finishMovingShape (id, socketID);
   }
 
+  function drawExistingPath (id, socketID) {
+    ShapeEditor.drawExistingPath(id, socketID);
+  }
+
   function cursor (screenPosition) {
     var cursor = BoardData.getCursor() || BoardData.setCursor();
     BoardData.moveCursor(screenPosition);
@@ -62,6 +66,7 @@ angular.module('whiteboard.services.eventhandler', [])
     deleteShape: deleteShape,
     moveShape: moveShape,
     finishMovingShape: finishMovingShape,
+    drawExistingPath: drawExistingPath,
     grabShape: grabShape
   };
 }]);

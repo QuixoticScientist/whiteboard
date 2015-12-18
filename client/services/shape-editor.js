@@ -37,6 +37,7 @@ angular.module('whiteboard.services.shapeeditor', [])
 
   var changePath = function (shape, x, y) {
     //"M10,20L30,40"
+
     shape.pathDProps += shape.pathDProps === '' ? 'M' + shape.initX + ',' + shape.initY + 'L' + x + ',' + y : 'L' + x + ',' + y;
     //this custom function is in raphael
     shape.customSetPathD(shape.pathDProps);
@@ -115,12 +116,18 @@ angular.module('whiteboard.services.shapeeditor', [])
 
     Snap.deleteSnaps(shape);
     shape.remove();
-  }
+  };
+
+  function drawExistingPath (id, socketID) {
+    var shape = BoardData.getShapeByID(id, socketID);
+    shape.customSetPathD(shape.pathDProps);
+  };
 
   return {
     editShape: editShape,
     finishShape: finishShape,
-    deleteShape: deleteShape
+    deleteShape: deleteShape,
+    drawExistingPath: drawExistingPath
   };
 
 }]);

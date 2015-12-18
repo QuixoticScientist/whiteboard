@@ -1,0 +1,302 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/iojs',
+1 verbose cli   '/Users/Christian/.node/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'typescript' ]
+2 info using npm@3.4.0
+3 info using node@v3.3.1
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readGlobalPackageData
+7 silly fetchPackageMetaData typescript
+8 silly fetchNamedPackageData typescript
+9 silly mapToRegistry name typescript
+10 silly mapToRegistry using default registry
+11 silly mapToRegistry registry https://registry.npmjs.org/
+12 silly mapToRegistry uri https://registry.npmjs.org/typescript
+13 verbose request uri https://registry.npmjs.org/typescript
+14 verbose request no auth needed
+15 info attempt registry request try #1 at 5:47:17 PM
+16 verbose request id e85434e57efa3e8a
+17 http request GET https://registry.npmjs.org/typescript
+18 http 200 https://registry.npmjs.org/typescript
+19 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+19 verbose headers   etag: '"1L9GADLWFOBI01GKV5DFAG8WB"',
+19 verbose headers   'content-type': 'application/json',
+19 verbose headers   'cache-control': 'max-age=300',
+19 verbose headers   'content-length': '254585',
+19 verbose headers   'accept-ranges': 'bytes',
+19 verbose headers   date: 'Fri, 18 Dec 2015 01:47:18 GMT',
+19 verbose headers   via: '1.1 varnish',
+19 verbose headers   age: '6',
+19 verbose headers   connection: 'keep-alive',
+19 verbose headers   'x-served-by': 'cache-sjc3133-SJC',
+19 verbose headers   'x-cache': 'HIT',
+19 verbose headers   'x-cache-hits': '1',
+19 verbose headers   'x-timer': 'S1450403238.794694,VS0,VE2',
+19 verbose headers   vary: 'Accept' }
+20 silly get cb [ 200,
+20 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+20 silly get     etag: '"1L9GADLWFOBI01GKV5DFAG8WB"',
+20 silly get     'content-type': 'application/json',
+20 silly get     'cache-control': 'max-age=300',
+20 silly get     'content-length': '254585',
+20 silly get     'accept-ranges': 'bytes',
+20 silly get     date: 'Fri, 18 Dec 2015 01:47:18 GMT',
+20 silly get     via: '1.1 varnish',
+20 silly get     age: '6',
+20 silly get     connection: 'keep-alive',
+20 silly get     'x-served-by': 'cache-sjc3133-SJC',
+20 silly get     'x-cache': 'HIT',
+20 silly get     'x-cache-hits': '1',
+20 silly get     'x-timer': 'S1450403238.794694,VS0,VE2',
+20 silly get     vary: 'Accept' } ]
+21 verbose get saving typescript to /Users/Christian/.npm/registry.npmjs.org/typescript/.cache.json
+22 silly install normalizeTree
+23 silly loadCurrentTree Finishing
+24 silly loadIdealTree Starting
+25 silly install loadIdealTree
+26 silly cloneCurrentTree Starting
+27 silly install cloneCurrentTreeToIdealTree
+28 silly cloneCurrentTree Finishing
+29 silly loadShrinkwrap Starting
+30 silly install loadShrinkwrap
+31 silly loadShrinkwrap Finishing
+32 silly loadAllDepsIntoIdealTree Starting
+33 silly install loadAllDepsIntoIdealTree
+34 silly resolveWithNewModule typescript@1.7.5 checking installable status
+35 silly cache add args [ 'typescript', null ]
+36 verbose cache add spec typescript
+37 silly cache add parsed spec Result {
+37 silly cache add   raw: 'typescript',
+37 silly cache add   scope: null,
+37 silly cache add   name: 'typescript',
+37 silly cache add   rawSpec: '',
+37 silly cache add   spec: '*',
+37 silly cache add   type: 'range' }
+38 silly addNamed typescript@*
+39 verbose addNamed "*" is a valid semver range for typescript
+40 silly addNameRange { name: 'typescript', range: '*', hasData: false }
+41 silly mapToRegistry name typescript
+42 silly mapToRegistry using default registry
+43 silly mapToRegistry registry https://registry.npmjs.org/
+44 silly mapToRegistry uri https://registry.npmjs.org/typescript
+45 verbose addNameRange registry:https://registry.npmjs.org/typescript not in flight; fetching
+46 verbose get https://registry.npmjs.org/typescript not expired, no request
+47 silly addNameRange number 2 { name: 'typescript', range: '*', hasData: true }
+48 silly addNameRange versions [ 'typescript',
+48 silly addNameRange   [ '0.8.0',
+48 silly addNameRange     '0.8.1',
+48 silly addNameRange     '0.8.1-1',
+48 silly addNameRange     '0.8.2',
+48 silly addNameRange     '0.8.3',
+48 silly addNameRange     '0.9.0',
+48 silly addNameRange     '0.9.0-1',
+48 silly addNameRange     '0.9.1',
+48 silly addNameRange     '0.9.1-1',
+48 silly addNameRange     '0.9.5',
+48 silly addNameRange     '0.9.7',
+48 silly addNameRange     '1.0.0',
+48 silly addNameRange     '1.0.1',
+48 silly addNameRange     '1.1.0-1',
+48 silly addNameRange     '1.3.0',
+48 silly addNameRange     '1.4.1',
+48 silly addNameRange     '1.5.0-alpha',
+48 silly addNameRange     '1.5.0-beta',
+48 silly addNameRange     '1.5.3',
+48 silly addNameRange     '1.6.0-dev.20150722.1',
+48 silly addNameRange     '1.6.0-dev.20150723',
+48 silly addNameRange     '1.6.0-dev.20150724',
+48 silly addNameRange     '1.6.0-dev.20150725',
+48 silly addNameRange     '1.6.0-dev.20150726',
+48 silly addNameRange     '1.6.0-dev.20150727',
+48 silly addNameRange     '1.6.0-dev.20150728',
+48 silly addNameRange     '1.6.0-dev.20150729',
+48 silly addNameRange     '1.6.0-dev.20150730',
+48 silly addNameRange     '1.6.0-dev.20150731',
+48 silly addNameRange     '1.6.0-dev.20150801',
+48 silly addNameRange     '1.6.0-dev.20150802',
+48 silly addNameRange     '1.6.0-dev.20150803',
+48 silly addNameRange     '1.6.0-dev.20150804',
+48 silly addNameRange     '1.6.0-dev.20150805',
+48 silly addNameRange     '1.6.0-dev.20150806',
+48 silly addNameRange     '1.6.0-dev.20150807',
+48 silly addNameRange     '1.6.0-dev.20150808',
+48 silly addNameRange     '1.6.0-dev.20150809',
+48 silly addNameRange     '1.6.0-dev.20150810',
+48 silly addNameRange     '1.6.0-dev.20150811',
+48 silly addNameRange     '1.6.0-dev.20150812',
+48 silly addNameRange     '1.6.0-dev.20150813',
+48 silly addNameRange     '1.6.0-dev.20150814',
+48 silly addNameRange     '1.6.0-dev.20150815',
+48 silly addNameRange     '1.6.0-dev.20150816',
+48 silly addNameRange     '1.6.0-dev.20150817',
+48 silly addNameRange     '1.6.0-dev.20150818',
+48 silly addNameRange     '1.6.0-dev.20150819',
+48 silly addNameRange     '1.6.0-dev.20150820',
+48 silly addNameRange     '1.6.0-dev.20150821',
+48 silly addNameRange     '1.6.0-dev.20150822',
+48 silly addNameRange     '1.6.0-dev.20150823',
+48 silly addNameRange     '1.6.0-dev.20150824',
+48 silly addNameRange     '1.6.0-dev.20150825',
+48 silly addNameRange     '1.7.0-dev.20150826',
+48 silly addNameRange     '1.7.0-dev.20150827',
+48 silly addNameRange     '1.7.0-dev.20150828',
+48 silly addNameRange     '1.7.0-dev.20150829',
+48 silly addNameRange     '1.7.0-dev.20150830',
+48 silly addNameRange     '1.7.0-dev.20150831',
+48 silly addNameRange     '1.7.0-dev.20150901',
+48 silly addNameRange     '1.7.0-dev.20150902',
+48 silly addNameRange     '1.6.0-beta',
+48 silly addNameRange     '1.7.0-dev.20150903',
+48 silly addNameRange     '1.7.0-dev.20150904',
+48 silly addNameRange     '1.6.0-dev.20150905',
+48 silly addNameRange     '1.6.0-dev.20150906',
+48 silly addNameRange     '1.6.0-dev.20150907',
+48 silly addNameRange     '1.6.0-dev.20150908',
+48 silly addNameRange     '1.6.0-dev.20150909',
+48 silly addNameRange     '1.6.0-dev.20150910',
+48 silly addNameRange     '1.6.0-dev.20150911',
+48 silly addNameRange     '1.6.0-dev.20150912',
+48 silly addNameRange     '1.6.0-dev.20150913',
+48 silly addNameRange     '1.6.0-dev.20150914',
+48 silly addNameRange     '1.6.0-dev.20150915',
+48 silly addNameRange     '1.7.0-dev.20150916',
+48 silly addNameRange     '1.6.2',
+48 silly addNameRange     '1.7.0-dev.20150917',
+48 silly addNameRange     '1.7.0-dev.20150918',
+48 silly addNameRange     '1.7.0-dev.20150919',
+48 silly addNameRange     '1.7.0-dev.20150920',
+48 silly addNameRange     '1.7.0-dev.20150921',
+48 silly addNameRange     '1.7.0-dev.20150922',
+48 silly addNameRange     '1.7.0-dev.20150923',
+48 silly addNameRange     '1.7.0-dev.20150924',
+48 silly addNameRange     '1.7.0-dev.20150925',
+48 silly addNameRange     '1.7.0-dev.20150926',
+48 silly addNameRange     '1.7.0-dev.20150927',
+48 silly addNameRange     '1.7.0-dev.20150928',
+48 silly addNameRange     '1.7.0-dev.20150929',
+48 silly addNameRange     '1.7.0-dev.20150930',
+48 silly addNameRange     '1.7.0-dev.20151001',
+48 silly addNameRange     '1.7.0-dev.20151002',
+48 silly addNameRange     '1.7.0-dev.20151003',
+48 silly addNameRange     '1.7.0-dev.20151004',
+48 silly addNameRange     '1.7.0-dev.20151005',
+48 silly addNameRange     '1.7.0-dev.20151006',
+48 silly addNameRange     '1.7.0-dev.20151014',
+48 silly addNameRange     '1.7.0-dev.20151015',
+48 silly addNameRange     '1.7.0-dev.20151016',
+48 silly addNameRange     '1.8.0-dev.20151017',
+48 silly addNameRange     '1.8.0-dev.20151018',
+48 silly addNameRange     '1.8.0-dev.20151019',
+48 silly addNameRange     '1.8.0-dev.20151020',
+48 silly addNameRange     '1.8.0-dev.20151021',
+48 silly addNameRange     '1.8.0-dev.20151022',
+48 silly addNameRange     '1.8.0-dev.20151023',
+48 silly addNameRange     '1.8.0-dev.20151024',
+48 silly addNameRange     '1.8.0-dev.20151025',
+48 silly addNameRange     '1.8.0-dev.20151026',
+48 silly addNameRange     '1.8.0-dev.20151027',
+48 silly addNameRange     '1.8.0-dev.20151028',
+48 silly addNameRange     '1.8.0-dev.20151029',
+48 silly addNameRange     '1.8.0-dev.20151030',
+48 silly addNameRange     '1.8.0-dev.20151031',
+48 silly addNameRange     '1.8.0-dev.20151101',
+48 silly addNameRange     '1.8.0-dev.20151102',
+48 silly addNameRange     '1.8.0-dev.20151103',
+48 silly addNameRange     '1.8.0-dev.20151104',
+48 silly addNameRange     '1.8.0-dev.20151105',
+48 silly addNameRange     '1.8.0-dev.20151106',
+48 silly addNameRange     '1.8.0-dev.20151107',
+48 silly addNameRange     '1.8.0-dev.20151108',
+48 silly addNameRange     '1.8.0-dev.20151109',
+48 silly addNameRange     '1.8.0-dev.20151110',
+48 silly addNameRange     '1.8.0-dev.20151111',
+48 silly addNameRange     '1.8.0-dev.20151112',
+48 silly addNameRange     '1.8.0-dev.20151113',
+48 silly addNameRange     '1.8.0-dev.20151114',
+48 silly addNameRange     '1.8.0-dev.20151115',
+48 silly addNameRange     '1.8.0-dev.20151116',
+48 silly addNameRange     '1.8.0-dev.20151117',
+48 silly addNameRange     '1.8.0-dev.20151118',
+48 silly addNameRange     '1.8.0-dev.20151119',
+48 silly addNameRange     '1.8.0-dev.20151120',
+48 silly addNameRange     '1.8.0-dev.20151121',
+48 silly addNameRange     '1.8.0-dev.20151122',
+48 silly addNameRange     '1.8.0-dev.20151123',
+48 silly addNameRange     '1.8.0-dev.20151124',
+48 silly addNameRange     '1.8.0-dev.20151125',
+48 silly addNameRange     '1.8.0-dev.20151126',
+48 silly addNameRange     '1.8.0-dev.20151127',
+48 silly addNameRange     '1.8.0-dev.20151128',
+48 silly addNameRange     '1.8.0-dev.20151129',
+48 silly addNameRange     '1.8.0-dev.20151130',
+48 silly addNameRange     '1.7.3',
+48 silly addNameRange     '1.8.0-dev.20151201',
+48 silly addNameRange     '1.8.0-dev.20151202',
+48 silly addNameRange     '1.8.0-dev.20151203',
+48 silly addNameRange     '1.8.0-dev.20151204',
+48 silly addNameRange     '1.8.0-dev.20151210',
+48 silly addNameRange     '1.8.0-dev.20151211',
+48 silly addNameRange     '1.8.0-dev.20151212',
+48 silly addNameRange     '1.8.0-dev.20151213',
+48 silly addNameRange     '1.8.0-dev.20151214',
+48 silly addNameRange     '1.7.5',
+48 silly addNameRange     '1.8.0-dev.20151215',
+48 silly addNameRange     '1.8.0-dev.20151216',
+48 silly addNameRange     '1.8.0-dev.20151217' ] ]
+49 silly addNamed typescript@1.7.5
+50 verbose addNamed "1.7.5" is a plain semver version for typescript
+51 silly mapToRegistry name typescript
+52 silly mapToRegistry using default registry
+53 silly mapToRegistry registry https://registry.npmjs.org/
+54 silly mapToRegistry uri https://registry.npmjs.org/typescript
+55 verbose addRemoteTarball https://registry.npmjs.org/typescript/-/typescript-1.7.5.tgz not in flight; adding
+56 verbose addRemoteTarball [ 'https://registry.npmjs.org/typescript/-/typescript-1.7.5.tgz',
+56 verbose addRemoteTarball   'a80fc231d9b95afeb9d10f0589560428dd0a045e' ]
+57 info retry fetch attempt 1 at 5:47:17 PM
+58 info attempt registry request try #1 at 5:47:17 PM
+59 http fetch GET https://registry.npmjs.org/typescript/-/typescript-1.7.5.tgz
+60 http fetch 200 https://registry.npmjs.org/typescript/-/typescript-1.7.5.tgz
+61 silly fetchAndShaCheck shasum a80fc231d9b95afeb9d10f0589560428dd0a045e
+62 verbose addTmpTarball /var/folders/4_/xr7fm1k91pq2zf3qw_xvrx4h0000gn/T/npm-6199-d6973c7c/registry.npmjs.org/typescript/-/typescript-1.7.5.tgz not in flight; adding
+63 verbose addTmpTarball already have metadata; skipping unpack for typescript@1.7.5
+64 silly cache afterAdd typescript@1.7.5
+65 verbose afterAdd /Users/Christian/.npm/typescript/1.7.5/package/package.json not in flight; writing
+66 verbose afterAdd /Users/Christian/.npm/typescript/1.7.5/package/package.json written
+67 silly loadAllDepsIntoIdealTree Finishing
+68 silly idealTree:prePrune lib
+68 silly idealTree:prePrune └── typescript@1.7.5
+69 silly loadIdealTree Finishing
+70 silly currentTree lib
+71 silly idealTree lib
+71 silly idealTree └── typescript@1.7.5
+72 silly generateActionsToTake Starting
+73 silly install generateActionsToTake
+74 warn checkPermissions Missing write access to /usr/local/lib/node_modules
+75 silly rollbackFailedOptional Starting
+76 silly rollbackFailedOptional Finishing
+77 silly runTopLevelLifecycles Starting
+78 silly runTopLevelLifecycles Finishing
+79 silly install printInstalled
+80 verbose stack Error: EACCES: permission denied, access '/usr/local/lib/node_modules'
+80 verbose stack     at Error (native)
+81 verbose cwd /Users/Christian/Desktop/HR/work/whiteboard
+82 error Darwin 15.0.0
+83 error argv "/usr/local/bin/iojs" "/Users/Christian/.node/bin/npm" "install" "-g" "typescript"
+84 error node v3.3.1
+85 error npm  v3.4.0
+86 error path /usr/local/lib/node_modules
+87 error code EACCES
+88 error errno -13
+89 error syscall access
+90 error Error: EACCES: permission denied, access '/usr/local/lib/node_modules'
+90 error     at Error (native)
+90 error  { [Error: EACCES: permission denied, access '/usr/local/lib/node_modules']
+90 error   errno: -13,
+90 error   code: 'EACCES',
+90 error   syscall: 'access',
+90 error   path: '/usr/local/lib/node_modules' }
+91 error Please try running this command again as root/Administrator.
+92 verbose exit [ -13, true ]

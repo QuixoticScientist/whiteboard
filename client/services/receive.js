@@ -6,8 +6,10 @@ angular.module('whiteboard.services.receive', [])
       if (Object.keys(data[socketId]).length) {
         for (shapeId in data[socketId]) {
           var thisShape = data[socketId][shapeId];
-          if (thisShape.initX && thisShape.initY) {
-            console.log('Receive.showExisting: ', thisShape);
+          if (thisShape.tool.name === 'path') {
+            EventHandler.drawExistingPath(shapeId, socketId);
+            EventHandler.finishShape(shapeId, socketId, thisShape.tool);
+          } else if (thisShape.initX && thisShape.initY) {
             EventHandler.createShape(shapeId, socketId, thisShape.tool, thisShape.initX, thisShape.initY);
             if (thisShape.tool.name !== 'text') {
               EventHandler.editShape(shapeId, socketId, thisShape.tool, thisShape.mouseX, thisShape.mouseY);

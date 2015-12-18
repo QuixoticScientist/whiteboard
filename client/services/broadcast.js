@@ -33,6 +33,14 @@ angular.module('whiteboard.services.broadcast', [])
     Sockets.emit('editShape', data);
   };
 
+  var finishPath = function (shapeId, currentTool, pathDProps) {
+    Sockets.emit('pathCompleted', {
+      shapeId: shapeId,
+      tool: currentTool,
+      pathDProps: pathDProps
+    })
+  };
+
   var finishShape = function (shapeId, currentTool) {
     Sockets.emit('shapeCompleted', {
       shapeId: shapeId,
@@ -61,6 +69,7 @@ angular.module('whiteboard.services.broadcast', [])
     saveSocketId: saveSocketId,
     newShape: newShape,
     editShape: editShape,
+    finishPath: finishPath,
     finishShape: finishShape,
     deleteShape: deleteShape,
     moveShape: moveShape

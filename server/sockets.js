@@ -27,6 +27,7 @@ module.exports = function(server) {
 
     socket.on('editShape', function (data) {
       socket.to(this.room).emit('shapeEdited', data);
+      // socket.emit('shapeEdited', data);
       rooms.editShape(data, socket);
     });
 
@@ -37,6 +38,10 @@ module.exports = function(server) {
         tool: data.tool
       });
       rooms.completeShape(socket);
+    });
+
+    socket.on('pathCompleted', function (data) {
+      rooms.completePath(data, socket);
     });
 
     socket.on('moveShape', function (data) {

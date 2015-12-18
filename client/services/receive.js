@@ -9,7 +9,9 @@ angular.module('whiteboard.services.receive', [])
           if (thisShape.initX && thisShape.initY) {
             console.log('Receive.showExisting: ', thisShape);
             EventHandler.createShape(shapeId, socketId, thisShape.tool, thisShape.initX, thisShape.initY);
-            EventHandler.editShape(shapeId, socketId, thisShape.tool, thisShape.mouseX, thisShape.mouseY);
+            if (thisShape.tool.name !== 'text') {
+              EventHandler.editShape(shapeId, socketId, thisShape.tool, thisShape.mouseX, thisShape.mouseY);
+            }
             EventHandler.finishShape(shapeId, socketId, thisShape.tool);
           }
         }

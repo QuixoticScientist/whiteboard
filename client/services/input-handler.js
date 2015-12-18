@@ -89,6 +89,9 @@ angular.module('whiteboard.services.inputhandler', [])
         }
         if (ev.keyCode === 8) {
           editorShape.attr('text', editorShape.attr('text').slice(0, editorShape.attr('text').length - 1));
+        } else if (ev.keyCode === 13) {
+          Broadcast.finishShape(id, currentTool);
+          editorShape = null;
         } else {
           editorShape.attr('text', editorShape.attr('text') + String.fromCharCode(ev.keyCode));
         }
@@ -105,9 +108,6 @@ angular.module('whiteboard.services.inputhandler', [])
         }
       }
 
-      document.onclick = function (ev) {
-        editorShape = null;
-      }
     },
     mouseHold: function (ev) {
     },

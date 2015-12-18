@@ -35,7 +35,7 @@ angular.module('whiteboard.services.shapemanipulation', [])
     });
   }
 
-  function moveShape (id, socketID, x, y) {
+  function moveShape (id, socketId, x, y) {
     var shapeHandlers = {
       'circle': moveCircle,
       // 'path': movePath,
@@ -43,7 +43,7 @@ angular.module('whiteboard.services.shapemanipulation', [])
       'rect': moveRectangle
       // 'text': moveText
     };
-    var shape = BoardData.getShapeByID(id, socketID).toFront();
+    var shape = BoardData.getShapeByID(id, socketId).toFront();
     if (!grabPoint) {
       grabPoint = {x: x, y: y};
       origin = shape.attr();
@@ -51,10 +51,10 @@ angular.module('whiteboard.services.shapemanipulation', [])
     shapeHandlers[shape.type](shape, x, y);
   }
 
-  function finishMovingShape (id, socketID) {
+  function finishMovingShape (id, socketId) {
     grabPoint = null;
     origin = null;
-    var shape = BoardData.getShapeByID(id, socketID);
+    var shape = BoardData.getShapeByID(id, socketId);
     Snap.createSnaps(shape);
   }
 

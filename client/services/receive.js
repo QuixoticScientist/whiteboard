@@ -7,14 +7,15 @@ angular.module('whiteboard.services.receive', [])
         for (shapeId in data[socketId]) {
           var thisShape = data[socketId][shapeId];
           if (thisShape.tool.name === 'path') {
-            EventHandler.drawExistingPath(shapeId, socketId);
-            EventHandler.finishShape(shapeId, socketId, thisShape.tool);
+            EventHandler.drawExistingPath(thisShape);
+            EventHandler.finishShape(thisShape);
           } else if (thisShape.initX && thisShape.initY) {
             EventHandler.createShape(shapeId, socketId, thisShape.tool, thisShape.initX, thisShape.initY);
             if (thisShape.tool.name !== 'text') {
               EventHandler.editShape(shapeId, socketId, thisShape.tool, thisShape.mouseX, thisShape.mouseY);
             }
-            EventHandler.finishShape(shapeId, socketId, thisShape.tool);
+            console.log(thisShape);
+            EventHandler.finishShape(thisShape);
           }
         }
       }
@@ -30,7 +31,7 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeCompleted', function (data) {
-    EventHandler.finishShape(data.shapeId, data.socketId, data.tool);
+    EventHandler.finishShape(data);
   });
 
   Sockets.on('shapeCreated', function (data) {

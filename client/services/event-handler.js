@@ -9,28 +9,28 @@ angular.module('whiteboard.services.eventhandler', [])
     ShapeBuilder.newShape(id, socketId, tool, x, y);
   }
 
-  function editShape (id, socketID, tool, x, y) {
-  	ShapeEditor.editShape(id, socketID, tool, x, y);
+  function editShape (id, socketId, tool, x, y) {
+  	ShapeEditor.editShape(id, socketId, tool, x, y);
   }
 
-  function finishShape (id, socketID, tool) {
-    ShapeEditor.finishShape(id, socketID, tool);
+  function finishShape (shape) {
+    ShapeEditor.finishShape(shape.id, shape.socketId, shape.tool);
   }
 
-  function deleteShape (id, socketID) {
-    ShapeEditor.deleteShape(id, socketID);
+  function deleteShape (id, socketId) {
+    ShapeEditor.deleteShape(id, socketId);
   }
 
-  function moveShape (id, socketID, x, y) {
-    ShapeManipulation.moveShape(id, socketID, x, y);
+  function moveShape (id, socketId, x, y) {
+    ShapeManipulation.moveShape(id, socketId, x, y);
   }
 
-  function finishMovingShape (id, socketID) {
-    ShapeManipulation.finishMovingShape (id, socketID);
+  function finishMovingShape (id, socketId) {
+    ShapeManipulation.finishMovingShape (id, socketId);
   }
 
-  function drawExistingPath (id, socketID) {
-    ShapeEditor.drawExistingPath(id, socketID);
+  function drawExistingPath (id, socketId) {
+    ShapeBuilder.drawExistingPath(id, socketId);
   }
 
   function cursor (screenPosition) {

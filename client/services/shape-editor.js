@@ -85,7 +85,7 @@ angular.module('whiteboard.services.shapeeditor', [])
     });
   };
 
-  function editShape (id, socketID, tool, x, y) {
+  function editShape (id, socketId, tool, x, y) {
     var shapeHandlers = {
       'circle': changeCircle,
       'path': changePath,
@@ -93,41 +93,35 @@ angular.module('whiteboard.services.shapeeditor', [])
       'rectangle': changeRectangle,
       'text': changeText
     };
-    var shape = BoardData.getShapeByID(id, socketID);
+    var shape = BoardData.getShapeByID(id, socketId);
     shapeHandlers[tool.name](shape, x, y);
   };
 
-  function finishShape (id, socketID, tool) {
-    var shape = BoardData.getShapeByID(id, socketID);
+  function finishShape (id, socketId, tool) {
+    var shape = BoardData.getShapeByID(id, socketId);
     if (tool.name === 'text') {
       shape.attr({
         text: tool.text
       });
     }
-    console.log(shape);
 
+    console.log(shape);
     Snap.createSnaps(shape);
-    shape.socketId = socketID;
+    shape.socketId = socketId;
     if (shape.id && tool.name === 'path') ShapeManipulation.pathSmoother(tool, shape);
   };
 
-  function deleteShape (id, socketID) {
-    var shape = BoardData.getShapeByID(id, socketID);
+  function deleteShape (id, socketId) {
+    var shape = BoardData.getShapeByID(id, socketId);
 
     Snap.deleteSnaps(shape);
     shape.remove();
   };
 
-  function drawExistingPath (id, socketID) {
-    var shape = BoardData.getShapeByID(id, socketID);
-    shape.customSetPathD(shape.pathDProps);
-  };
-
   return {
     editShape: editShape,
     finishShape: finishShape,
-    deleteShape: deleteShape,
-    drawExistingPath: drawExistingPath
+    deleteShape: deleteShape
   };
 
 }]);

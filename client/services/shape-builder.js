@@ -10,7 +10,13 @@ angular.module('whiteboard.services.shapebuilder', [])
     }
   }
 
-  function newShape (id, socketID, tool, x, y) {
+  function drawExistingPath (shape) {
+    newShape(shape.id, shape.socketId, shape.tool, shape.initX, shape.initY);
+    var shape = BoardData.getShapeByID(shape.id, shape.socketId);
+    shape.customSetPathD(shape.pathDProps);
+  };
+
+  function newShape (id, socketId, tool, x, y) {
     //old args: type, initX, initY, colors
     var shapeConstructors = {
       'circle': function (x, y) {
@@ -37,12 +43,13 @@ angular.module('whiteboard.services.shapebuilder', [])
     shape.initY = y;
     setColor(shape, tool.colors);
     shape.myid = id;
-    shape.socketId = socketID;
-    BoardData.pushToStorage(id, socketID, shape);
+    shape.socketId = socketId;
+    BoardData.pushToStorage(id, socketId, shape);
   };
 
   return {
-    newShape: newShape
+    newShape: newShape,
+    drawExistingPath: drawExistingPath
   };
   
 }]);

@@ -14,17 +14,24 @@ angular.module('whiteboard.services.shapemanipulation', [])
     pathElement.attr('path', newPath);
   };
 
+  var grabPoint;
+  var origin;
   function moveCircle (shape, x, y) {
+    var deltaX = x - grabPoint.x;
+    var deltaY = y - grabPoint.y;
+    var circleProps = shape.attr();
     shape.attr({
-      cx: x,
-      cy: y
+      cx: origin.cx + deltaX,
+      cy: origin.cy + deltaY
     });
   }
 
-  function moveRectangle (shape, cursorX, cursorY) {
+  function moveRectangle (shape, x, y) {
+    var deltaX = x - grabPoint.x;
+    var deltaY = y - grabPoint.y;
     shape.attr({
-      x: cursorX - shape.attr('width') / 2,
-      y: cursorY - shape.attr('height') / 2
+      x: origin.x + deltaX,
+      y: origin.y + deltaY
     });
   }
 
@@ -37,18 +44,24 @@ angular.module('whiteboard.services.shapemanipulation', [])
       // 'text': moveText
     };
     var shape = BoardData.getShapeByID(id, socketID).toFront();
-    console.log(shape.type);
+    if (!grabPoint) {
+      grabPoint = {x: x, y: y};
+      origin = shape.attr();
+    }
     shapeHandlers[shape.type](shape, x, y);
   }
 
   function finishMovingShape (id, socketID) {
+    grabPoint = null;
+    origin = null;
     var shape = BoardData.getShapeByID(id, socketID);
     Snap.createSnaps(shape);
   }
 
   return {
     pathSmoother: pathSmoother,
-    moveShape: moveShape
+    moveShape: moveShape,
+    finishMovingShape: finishMovingShape
   };
 
 }]);

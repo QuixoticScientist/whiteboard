@@ -25,6 +25,8 @@ angular.module('whiteboard.services.inputhandler', [])
       }
     },
     mouseUp: function (ev) {
+    },
+    mouseOver: function (ev) {
     }
   };
 
@@ -36,6 +38,8 @@ angular.module('whiteboard.services.inputhandler', [])
     },
     mouseUp: function (ev) {
       Zoom.resetPan();
+    },
+    mouseOver: function (ev) {
     }
   };
 
@@ -52,13 +56,9 @@ angular.module('whiteboard.services.inputhandler', [])
       var currentEditorShape = BoardData.getEditorShape();
       var mouseXY = getMouseXY(ev);
 
-      if (currentEditorShape) {
-        Visualizer.clearSelection();
-        Broadcast.moveShape(currentEditorShape.myid, currentEditorShape.socketId, mouseXY.x, mouseXY.y);
-        EventHandler.moveShape(currentEditorShape.myid, currentEditorShape.socketId, mouseXY.x, mouseXY.y);
-      } else {
-        Visualizer.visualizeSelection(mouseXY);
-      }
+      Visualizer.clearSelection();
+      Broadcast.moveShape(currentEditorShape.myid, currentEditorShape.socketId, mouseXY.x, mouseXY.y);
+      EventHandler.moveShape(currentEditorShape.myid, currentEditorShape.socketId, mouseXY.x, mouseXY.y);
     },
     mouseUp: function (ev) {
       var editorShape = BoardData.getEditorShape();
@@ -66,6 +66,10 @@ angular.module('whiteboard.services.inputhandler', [])
 
       EventHandler.finishMovingShape(editorShape.myid, editorShape.socketId);
       BoardData.unsetEditorShape();
+    },
+    mouseOver: function (ev) {
+      var mouseXY = getMouseXY(ev);
+      Visualizer.visualizeSelection(mouseXY);
     }
   };
 
@@ -120,6 +124,8 @@ angular.module('whiteboard.services.inputhandler', [])
     mouseHold: function (ev) {
     },
     mouseUp: function (ev) {
+    },
+    mouseOver: function (ev) {
     }
   };
 
@@ -159,19 +165,21 @@ angular.module('whiteboard.services.inputhandler', [])
       } else {
         Broadcast.finishShape(id, currentTool);
       }
+    },
+    mouseOver: function (ev) {
+      var mouseXY = getMouseXY(ev);
+      Snap.snapToPoints(mouseXY.x, mouseXY.y);
     }
   };
 
   actions.noTool = {
     mouseDown: function (ev) {
-
     },
     mouseHold: function (ev) {
-      var mouseXY = getMouseXY(ev);
-      Snap.snapToPoints(mouseXY.x, mouseXY.y);
     },
     mouseUp: function (ev) {
-
+    },
+    mouseOver: function (ev) {
     }
   };
 
@@ -186,47 +194,42 @@ angular.module('whiteboard.services.inputhandler', [])
   }
 
   var shapeTools = ['line','circle','path','rectangle'];
-  function isToolShape (toolName) {
+  function parseToolName (toolName) {
     for (var i = 0; i < shapeTools.length; i++) {
       if (toolName === shapeTools[i]) {
-        return true;
+        toolName = 'shape';
       }
     }
+    if (!toolName) {
+      toolName = 'noName';
+    }
+    return toolName;
   }
 
   function mouseDown (ev) {
-    var toolName = BoardData.getCurrentTool().name;
-    if (isToolShape(toolName)) {
-      toolName = 'shape';
-    }
+    var toolName = parseToolName(BoardData.getCurrentTool().name)
 
-    if (toolName) {
-      toggle(toolName);
-    } else {
-      tool = 'noName';
-    }
+    toggle(toolName);
     actions[toolName].mouseDown(ev);
   }
 
   function mouseMove (ev) {
-    for (var key in actions) {
-      if (isToggled(key)) {
-        actions[key].mouseHold(ev);
-        return;
-      }
+    var toolName = parseToolName(BoardData.getCurrentTool().name)
+
+    if (isToggled(toolName)) {
+      actions[toolName].mouseHold(ev);
+    } else {
+      actions[toolName].mouseOver(ev);
     }
-    actions.noTool.mouseHold(ev);
   }
 
   function mouseUp (ev) {
-    for (var key in actions) {
-      if (isToggled(key)) {
-        toggle(key);
-        actions[key].mouseUp(ev);
-        return;
-      }
+    var toolName = parseToolName(BoardData.getCurrentTool().name)
+
+    if (isToggled(toolName)) {
+      toggle(toolName);
+      actions[toolName].mouseUp(ev);
     }
-    actions.noTool.mouseUp(ev);
   }
 
   function doubleClick (ev) {

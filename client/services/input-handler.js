@@ -68,8 +68,7 @@ angular.module('whiteboard.services.inputhandler', [])
       BoardData.unsetEditorShape();
     },
     mouseOver: function (ev) {
-      var mouseXY = getMouseXY(ev);
-      Visualizer.visualizeSelection(mouseXY);
+      Visualizer.visualizeSelection(ev);
     }
   };
 

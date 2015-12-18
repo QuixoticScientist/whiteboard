@@ -17,7 +17,12 @@ angular.module('whiteboard')
     link: function (scope, element, attrs, ctrls) {
       var boardCtrl = ctrls[0];
       BoardData.createBoard(element);
-      BoardData.getCanvas().bind('mousedown mouseup mousemove dblclick keypress', boardCtrl.handleEvent);
+      BoardData.getCanvas().bind('mousedown mouseup mousemove dblclick', boardCtrl.handleEvent);
+
+      $('body').on('keypress', function (ev) {
+        boardCtrl.handleEvent(ev);
+      });
+
     }
   }
 }])

@@ -112,7 +112,6 @@ angular.module('whiteboard.services.inputhandler', [])
         var editorShape = BoardData.getEditorShape();
         if (ev.which === 8) {
           ev.preventDefault();
-          console.log('hi')
           if (editorShape) {
             editorShape.attr('text', editorShape.attr('text').slice(0, editorShape.attr('text').length - 1));
             currentTool.text = editorShape.attr('text');
@@ -239,11 +238,14 @@ angular.module('whiteboard.services.inputhandler', [])
   }
 
   function keyPress (ev) {
-    console.log(ev);
-  }
+    var toolName = parseToolName(BoardData.getCurrentTool().name);
 
-  function keyDown (ev) {
-    //
+    if (toolName !== 'text') {
+      // keycode value for lowercase m
+      if (ev.keyCode === 109) {
+        console.log('m has been typed');
+      }
+    }
   }
 
   return {
@@ -251,6 +253,6 @@ angular.module('whiteboard.services.inputhandler', [])
     mousemove: mouseMove,
     mouseup: mouseUp,
     dblclick: doubleClick,
-    keypress: keyPress,
+    keypress: keyPress
   };
 }]);

@@ -140,11 +140,17 @@ angular.module('whiteboard.services.inputhandler', [])
       var id = BoardData.getCurrentShapeID();
       var socketID = BoardData.getSocketID();
       var currentTool = BoardData.getCurrentTool();
+      var shape = BoardData.getCurrentShape();
 
       EventHandler.finishShape(id, socketID, currentTool);
       BoardData.unsetCurrentShape();
       Visualizer.clearSnaps();
-      Broadcast.finishShape(id, currentTool);
+
+      if (currentTool.name === 'path') {
+        Broadcast.finishPath(id, currentTool, shape.pathDProps);
+      } else {
+        Broadcast.finishShape(id, currentTool);
+      }
     }
   };
 

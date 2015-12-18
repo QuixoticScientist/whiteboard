@@ -63,7 +63,7 @@ var roomsManager = {
       var socketId = socket.id;
       rooms[roomId][socketId] = {};
       socket.emit('showExisting', rooms[roomId]);
-      console.log(rooms[roomId]);
+      //console.log(rooms[roomId]);
       
       var count = 0;
       for (var member in rooms[roomId]) {
@@ -79,12 +79,17 @@ var roomsManager = {
 
   editShape: function (shape, socket) {
     rooms[socket.room][shape.socketId][shape.shapeId]['mouseX'] = shape.mouseX;
-    rooms[socket.room][shape.socketId][shape.shapeId]['mouseY'] = shape.mouseY;
+    rooms[socket.room][shape.socketId][shape.shapeId]['mouseY'] = shape.mouseY;   
   },
 
   moveShape: function (shape, socket) {
     rooms[socket.room][shape.socketId][shape.shapeId]['initX'] = shape.initX;
     rooms[socket.room][shape.socketId][shape.shapeId]['initY'] = shape.initY;
+  },
+
+  completePath: function (shape, socket) {
+    rooms[socket.room][socket.id][shape.shapeId]['pathDProps'] = shape.pathDProps;
+    client.set(socket.room, JSON.stringify(rooms[socket.room]));
   },
 
   completeShape: function (socket) {

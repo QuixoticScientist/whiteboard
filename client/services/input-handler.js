@@ -112,8 +112,12 @@ angular.module('whiteboard.services.inputhandler', [])
         var editorShape = BoardData.getEditorShape();
         if (ev.which === 8) {
           ev.preventDefault();
+          console.log('hi')
           if (editorShape) {
             editorShape.attr('text', editorShape.attr('text').slice(0, editorShape.attr('text').length - 1));
+            currentTool.text = editorShape.attr('text');
+            Broadcast.editShape(id, socketID, currentTool, editorShape.initX, editorShape.initY);
+            EventHandler.editShape(id, socketID, currentTool, editorShape.initX, editorShape.initY);
           }
         }
       }
@@ -205,14 +209,14 @@ angular.module('whiteboard.services.inputhandler', [])
   }
 
   function mouseDown (ev) {
-    var toolName = parseToolName(BoardData.getCurrentTool().name)
+    var toolName = parseToolName(BoardData.getCurrentTool().name);
 
     toggle(toolName);
     actions[toolName].mouseDown(ev);
   }
 
   function mouseMove (ev) {
-    var toolName = parseToolName(BoardData.getCurrentTool().name)
+    var toolName = parseToolName(BoardData.getCurrentTool().name);
 
     if (isToggled(toolName)) {
       actions[toolName].mouseHold(ev);
@@ -222,7 +226,7 @@ angular.module('whiteboard.services.inputhandler', [])
   }
 
   function mouseUp (ev) {
-    var toolName = parseToolName(BoardData.getCurrentTool().name)
+    var toolName = parseToolName(BoardData.getCurrentTool().name);
 
     if (isToggled(toolName)) {
       toggle(toolName);
@@ -234,10 +238,19 @@ angular.module('whiteboard.services.inputhandler', [])
     //just in case
   }
 
+  function keyPress (ev) {
+    console.log(ev);
+  }
+
+  function keyDown (ev) {
+    //
+  }
+
   return {
     mousedown: mouseDown,
     mousemove: mouseMove,
     mouseup: mouseUp,
-    dblclick: doubleClick
+    dblclick: doubleClick,
+    keypress: keyPress,
   };
 }]);

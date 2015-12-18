@@ -92,7 +92,10 @@ var roomsManager = {
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
   },
 
-  completeShape: function (socket) {
+  completeShape: function (shape, socket) {
+    if (shape.tool.text) {
+      rooms[socket.room][socket.id][shape.shapeId]['tool']['text'] = shape.tool.text;
+    }
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
   },
 

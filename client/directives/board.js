@@ -13,31 +13,6 @@ angular.module('whiteboard')
       this.handleEvent = function (ev) {
         InputHandler[ev.type](ev);
       }
-      // //onkeypress listener is for text entry
-      // document.onkeypress = function(e) {
-      //   var currentShape = $scope.selectedShape.el;
-      //   if (currentShape && currentShape.type === 'text') {
-      //     if (currentShape.attr('text') === 'Insert Text') {
-      //       currentShape.attr('text', '');
-      //     }
-      //     if (e.keyCode === 8) {
-      //       currentShape.attr('text', currentShape.attr('text').slice(0, currentShape.attr('text').length - 1));
-      //     } else {
-      //       currentShape.attr('text', currentShape.attr('text') + String.fromCharCode(e.keyCode));
-      //     }
-      //   }
-      // };
-      // //onkeydown listener is solely for backspace
-      // document.onkeydown = function(e) {
-      //   if (e.which === 8) {
-      //     e.preventDefault();
-      //     var currentShape = $scope.selectedShape.el;
-      //     if (currentShape && currentShape.type === 'text') {
-      //       currentShape.attr('text', currentShape.attr('text').slice(0, currentShape.attr('text').length - 1));
-      //     }
-      //   }
-      // };
-
     },
     link: function (scope, element, attrs, ctrls) {
       var boardCtrl = ctrls[0];

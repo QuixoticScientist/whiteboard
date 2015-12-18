@@ -73,6 +73,10 @@ angular.module('whiteboard.services.inputhandler', [])
     mouseDown: function (ev) {
       var id = BoardData.generateShapeID();
       var mouseXY = getMouseXY(ev);
+      var socketID = BoardData.getSocketID();
+      var currentTool = BoardData.getCurrentTool();
+      currentTool.text = 'Insert Text';
+
       EventHandler.createShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
       BoardData.setCurrentShape(id);
       Broadcast.newShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
@@ -83,11 +87,21 @@ angular.module('whiteboard.services.inputhandler', [])
         var editorShape = BoardData.getEditorShape();
         if (editorShape.attr('text') === 'Insert Text') {
           editorShape.attr('text', '');
+          currentTool.text = '';
         }
-        if (ev.keyCode === 8) {
-          editorShape.attr('text', editorShape.attr('text').slice(0, editorShape.attr('text').length - 1));
+        if (ev.keyCode === 8 || ev.keyCode === 46) {
+          // backspace key - this event is not firing
+          // editorShape.attr('text', editorShape.attr('text').slice(0, editorShape.attr('text').length - 1));
+          // currentTool.text = editorShape.attr('text').slice(0, editorShape.attr('text').length - 1);
+          console.log('hi');
+        } else if (ev.keyCode === 13) {
+          // enter key
+          Broadcast.finishShape(id, currentTool);
+          editorShape = null;
         } else {
+          // typing text
           editorShape.attr('text', editorShape.attr('text') + String.fromCharCode(ev.keyCode));
+          currentTool.text = editorShape.attr('text');
         }
       }
 
@@ -102,12 +116,6 @@ angular.module('whiteboard.services.inputhandler', [])
         }
       }
 
-      document.onclick = function (ev) {
-        editorShape = null;
-        if (editorShape.attr('text') === 'Insert Text') {
-          editorShape.attr('text', '');
-        }
-      }
     },
     mouseHold: function (ev) {
     },

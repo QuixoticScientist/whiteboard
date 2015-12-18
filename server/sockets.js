@@ -37,7 +37,7 @@ module.exports = function(server) {
         shapeId: data.shapeId,
         tool: data.tool
       });
-      rooms.completeShape(socket);
+      rooms.completeShape(data, socket);
     });
 
     socket.on('pathCompleted', function (data) {

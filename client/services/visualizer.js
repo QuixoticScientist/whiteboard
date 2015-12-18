@@ -2,10 +2,10 @@ angular.module('whiteboard.services.visualizer', [])
 .factory('Visualizer', ['BoardData', function (BoardData) {
   var selectionGlow;
   var selected;
-  function visualizeSelection (mouseXY) {
+  function visualizeSelection (ev) {
     var board = BoardData.getBoard();
     var scale = BoardData.getZoomScale()
-    var selection = board.getElementByPoint(mouseXY.x, mouseXY.y);
+    var selection = board.getElementByPoint(ev.clientX, ev.clientY);
     if (!selection || !(selection === selected)) {
       if (selectionGlow) {
         selectionGlow.remove();
@@ -17,7 +17,6 @@ angular.module('whiteboard.services.visualizer', [])
       selected = selection;
       selectionGlow = selection.glow({
         'color': 'blue',
-        // 'fill': true,
         'width': 10 * scale
       });
     }

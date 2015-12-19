@@ -37,6 +37,7 @@ angular.module('whiteboard.services.shapeeditor', [])
 
   var changePath = function (shape, x, y) {
     //"M10,20L30,40"
+
     shape.pathDProps += shape.pathDProps === '' ? 'M' + shape.initX + ',' + shape.initY + 'L' + x + ',' + y : 'L' + x + ',' + y;
     //this custom function is in raphael
     shape.customSetPathD(shape.pathDProps);
@@ -84,7 +85,7 @@ angular.module('whiteboard.services.shapeeditor', [])
     });
   };
 
-  function editShape (id, socketID, tool, x, y) {
+  function editShape (id, socketId, tool, x, y) {
     var shapeHandlers = {
       'circle': changeCircle,
       'path': changePath,
@@ -92,30 +93,29 @@ angular.module('whiteboard.services.shapeeditor', [])
       'rectangle': changeRectangle,
       'text': changeText
     };
-    var shape = BoardData.getShapeByID(id, socketID);
+    var shape = BoardData.getShapeByID(id, socketId);
     shapeHandlers[tool.name](shape, x, y);
   };
 
-  function finishShape (id, socketID, tool) {
-    var shape = BoardData.getShapeByID(id, socketID);
+  function finishShape (id, socketId, tool) {
+    var shape = BoardData.getShapeByID(id, socketId);
     if (tool.name === 'text') {
       shape.attr({
         text: tool.text
       });
     }
-    console.log(shape);
 
     Snap.createSnaps(shape);
-    shape.socketId = socketID;
+    shape.socketId = socketId;
     if (shape.id && tool.name === 'path') ShapeManipulation.pathSmoother(tool, shape);
   };
 
-  function deleteShape (id, socketID) {
-    var shape = BoardData.getShapeByID(id, socketID);
+  function deleteShape (id, socketId) {
+    var shape = BoardData.getShapeByID(id, socketId);
 
     Snap.deleteSnaps(shape);
     shape.remove();
-  }
+  };
 
   return {
     editShape: editShape,

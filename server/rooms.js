@@ -1,5 +1,6 @@
 var utils = require('./utils/util');
 var client = require('./db/config');
+var _ = require('underscore');
 
 var rooms = {};
 
@@ -45,11 +46,14 @@ var roomsManager = {
     socket.room = roomId;
     socket.join(roomId);
 
-    var storedRoom;
+    if (!rooms[roomId]) {
+      rooms[roomId] = {};
+    }
+
     client.get(roomId, function (err, reply) {
       if (reply) {
-        // deal with returning reply to board for new member
         storedRoom = JSON.parse(reply);
+        _.extend(rooms[roomId], storedRoom);
       } else {
         client.set(roomId, JSON.stringify({}));
         rooms[roomId] = {};
@@ -60,6 +64,7 @@ var roomsManager = {
       }
 
       // add member to room based on socket id
+      console.log(rooms[roomId]);
       var socketId = socket.id;
       rooms[roomId][socketId] = {};
       socket.emit('showExisting', rooms[roomId]);
@@ -74,33 +79,39 @@ var roomsManager = {
   },
 
   addShape: function (shape, socket) {
-    rooms[socket.room][shape.socketId][shape.shapeId] = shape;
+    rooms[socket.room][shape.socketId][shape.id] = shape;
   },
 
   editShape: function (shape, socket) {
-    rooms[socket.room][shape.socketId][shape.shapeId]['mouseX'] = shape.mouseX;
-    rooms[socket.room][shape.socketId][shape.shapeId]['mouseY'] = shape.mouseY;   
+    rooms[socket.room][shape.socketId][shape.id]['mouseX'] = shape.mouseX;
+    rooms[socket.room][shape.socketId][shape.id]['mouseY'] = shape.mouseY;   
   },
 
   moveShape: function (shape, socket) {
-    rooms[socket.room][shape.socketId][shape.shapeId]['initX'] = shape.initX;
-    rooms[socket.room][shape.socketId][shape.shapeId]['initY'] = shape.initY;
+    console.log(shape);
+    // var deltaX = shape.mouseX - shape.initX;
+    // var deltaY = shape.mouseY - shape.initY;
+    // rooms[socket.room][shape.socketId][shape.id]['initX'] = shape.initX;
+    // rooms[socket.room][shape.socketId][shape.id]['initY'] = shape.initY;
+    // rooms[socket.room][shape.socketId][shape.id]['mouseX'] = shape.mouseX + deltaX;
+    // rooms[socket.room][shape.socketId][shape.id]['mouseY'] = shape.mouseY + deltaY;
+    rooms[socket.room][shape.socketId][shape.id].attr = shape.attr;
   },
 
   completePath: function (shape, socket) {
-    rooms[socket.room][socket.id][shape.shapeId]['pathDProps'] = shape.pathDProps;
+    rooms[socket.room][socket.id][shape.id]['pathDProps'] = shape.pathDProps;
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
   },
 
   completeShape: function (shape, socket) {
-    if (shape.tool.text) {
-      rooms[socket.room][socket.id][shape.shapeId]['tool']['text'] = shape.tool.text;
-    }
+    // if (shape.tool.text) {
+    //   rooms[socket.room][socket.id][shape.id]['tool']['text'] = shape.tool.text;
+    // }
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
   },
 
   deleteShape: function (shape, socket) {
-    delete rooms[socket.room][shape.socketId][shape.shapeId];
+    delete rooms[socket.room][shape.socketId][shape.id];
   }
 
 }

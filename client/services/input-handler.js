@@ -57,13 +57,14 @@ angular.module('whiteboard.services.inputhandler', [])
       var mouseXY = getMouseXY(ev);
 
       Visualizer.clearSelection();
-      Broadcast.moveShape(currentEditorShape.myid, currentEditorShape.socketId, mouseXY.x, mouseXY.y);
-      EventHandler.moveShape(currentEditorShape.myid, currentEditorShape.socketId, mouseXY.x, mouseXY.y);
+      Broadcast.moveShape(currentEditorShape, mouseXY.x, mouseXY.y);
+      EventHandler.moveShape(currentEditorShape, mouseXY.x, mouseXY.y);
     },
     mouseUp: function (ev) {
       var editorShape = BoardData.getEditorShape();
       var currentTool = BoardData.getCurrentTool();
 
+      Broadcast.finishMovingShape(editorShape);
       EventHandler.finishMovingShape(editorShape.myid, editorShape.socketId);
       BoardData.unsetEditorShape();
     },
@@ -76,13 +77,13 @@ angular.module('whiteboard.services.inputhandler', [])
     mouseDown: function (ev) {
       var id = BoardData.generateShapeID();
       var mouseXY = getMouseXY(ev);
-      var socketID = BoardData.getSocketID();
+      var socketId = BoardData.getSocketID();
       var currentTool = BoardData.getCurrentTool();
       currentTool.text = 'Insert Text';
 
-      EventHandler.createShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      EventHandler.createShape(id, socketId, currentTool, mouseXY.x, mouseXY.y);
       BoardData.setCurrentShape(id);
-      Broadcast.newShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      Broadcast.newShape(id, socketId, currentTool, mouseXY.x, mouseXY.y);
       var currentShape = BoardData.getCurrentShape();
 
       document.onkeypress = function (ev) {
@@ -131,31 +132,31 @@ angular.module('whiteboard.services.inputhandler', [])
   actions.shape = {
     mouseDown: function (ev) {
       var id = BoardData.generateShapeID();
-      var socketID = BoardData.getSocketID();
+      var socketId = BoardData.getSocketID();
       var currentTool = BoardData.getCurrentTool();
       var mouseXY = getMouseXY(ev);
       var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y);
 
-      EventHandler.createShape(id, socketID, currentTool, coords[0], coords[1]);
+      EventHandler.createShape(id, socketId, currentTool, coords[0], coords[1]);
       BoardData.setCurrentShape(id);
-      Broadcast.newShape(id, socketID, currentTool, coords[0], coords[1]);
+      Broadcast.newShape(id, socketId, currentTool, coords[0], coords[1]);
     },
     mouseHold: function (ev) {
       var id = BoardData.getCurrentShapeID();
-      var socketID = BoardData.getSocketID();
+      var socketId = BoardData.getSocketID();
       var currentTool = BoardData.getCurrentTool();
       var mouseXY = getMouseXY(ev);
 
-      Broadcast.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
-      EventHandler.editShape(id, socketID, currentTool, mouseXY.x, mouseXY.y);
+      Broadcast.editShape(id, socketId, currentTool, mouseXY.x, mouseXY.y);
+      EventHandler.editShape(id, socketId, currentTool, mouseXY.x, mouseXY.y);
     },
     mouseUp: function (ev) {
       var id = BoardData.getCurrentShapeID();
-      var socketID = BoardData.getSocketID();
+      var socketId = BoardData.getSocketID();
       var currentTool = BoardData.getCurrentTool();
       var shape = BoardData.getCurrentShape();
-
-      EventHandler.finishShape(id, socketID, currentTool);
+      shape.tool = currentTool;
+      EventHandler.finishShape(shape);
       BoardData.unsetCurrentShape();
       Visualizer.clearSnaps();
 

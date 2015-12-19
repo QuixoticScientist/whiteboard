@@ -22,7 +22,7 @@ angular.module('whiteboard.services.boarddata', [])
   var currentShape;
   var currentShapeID;
   var editorShape;
-  var socketID;
+  var socketId;
 
   var tool = {
     name: 'path',
@@ -134,22 +134,22 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function setSocketID (id) {
-    socketID = id;
+    socketId = id;
   }
 
   function getSocketID () {
-    return socketID;
+    return socketId;
   }
 
-  function pushToStorage (id, socketID, shape) {
-    if (!shapeStorage[socketID]) {
-      shapeStorage[socketID] = {};
+  function pushToStorage (id, socketId, shape) {
+    if (!shapeStorage[socketId]) {
+      shapeStorage[socketId] = {};
     }
-    shapeStorage[socketID][id] = shape;
+    shapeStorage[socketId][id] = shape;
   }
 
-  function getShapeByID (id, socketID) {
-    return shapeStorage[socketID][id];
+  function getShapeByID (id, socketId) {
+    return shapeStorage[socketId][id];
   }
 
   function getCurrentShape () {
@@ -157,7 +157,7 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function setCurrentShape (id) {
-    currentShape = shapeStorage[socketID][id];
+    currentShape = shapeStorage[socketId][id];
   }
 
   function unsetCurrentShape () {

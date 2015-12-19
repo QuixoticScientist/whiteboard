@@ -10,3 +10,5 @@ dump.rdb
 
 .elasticbeanstalk
 Dockerfile
+
+*.log

@@ -110,7 +110,7 @@ angular.module('whiteboard.services.shapeeditor', [])
     }
 
     Snap.createSnaps(shape);
-    if (tool.name === 'path') ShapeManipulation.pathSmoother(shape);
+    if ((shape.id || shape.id === 0) && tool.name === 'path') ShapeManipulation.pathSmoother(shape);
   };
 
   function deleteShape (id, socketId) {

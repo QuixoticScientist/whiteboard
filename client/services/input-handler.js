@@ -176,6 +176,21 @@ angular.module('whiteboard.services.inputhandler', [])
     }
   };
 
+  actions.magnify = {
+    mouseDown: function (ev) {
+    },
+    mouseHold: function (ev) {
+      var mouseXY = getMouseXY(ev);
+
+      Zoom.zoom(ev, mouseXY);
+    },
+    mouseUp: function (ev) {
+      Zoom.resetZoom();
+    },
+    mouseOver: function (ev) {
+    }
+  };
+
   actions.noTool = {
     mouseDown: function (ev) {
     },

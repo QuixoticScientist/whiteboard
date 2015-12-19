@@ -1,18 +1,27 @@
 angular.module('whiteboard.services.zoom', [])
 .factory('Zoom', ['BoardData', function (BoardData) {
-  function zoom (ev) {
+  var last;
+  function zoom (ev, mouseXY) {
     var board = BoardData.getBoard();
-    var scalingFactor = BoardData.getScalingFactor();
+    var scalingFactor = BoardData.getZoomScale();
     var offset = BoardData.getOffset();
     var originalDims = BoardData.getOriginalDims();
     var currentDims = BoardData.getViewBoxDims();
 
-    if (ev) {
-      var canvasMargin = BoardData.getCanvasMargin();
-      var mousePosition = {
-        x: (ev.clientX - canvasMargin.x) * scalingFactor + offset.x,
-        y: (ev.clientY - canvasMargin.y) * scalingFactor + offset.y
-      };
+    if (mouseXY) {
+      if (last) {
+        var up;
+        if (ev.clientY > last) {
+          up = 1.05;
+        } else if (ev.clientY < last) {
+          up = 0.95;
+        } else {
+          up = 1;
+        }
+        scalingFactor = scalingFactor * up;
+        BoardData.setZoomScale(1 / scalingFactor);
+      }
+      last = ev.clientY;
     }
 
     var newViewBoxDims = {
@@ -21,10 +30,12 @@ angular.module('whiteboard.services.zoom', [])
     };
     BoardData.setViewBoxDims(newViewBoxDims);
 
-    if (ev) {
-      newOffset = {
-        x: mousePosition.x - newViewBoxDims.width / 2,
-        y: mousePosition.y - newViewBoxDims.height / 2
+    if (mouseXY) {
+      var newOffset = {
+        x: offset.x,
+        y: offset.y
+        // x: mouseXY.x - newViewBoxDims.width / 2,
+        // y: mouseXY.y - newViewBoxDims.height / 2
       };
     } else {
       var newOffset = {
@@ -36,6 +47,10 @@ angular.module('whiteboard.services.zoom', [])
 
     board.setViewBox(newOffset.x, newOffset.y, newViewBoxDims.width, newViewBoxDims.height);
   };
+
+  function resetZoom () {
+    last = null;
+  }
 
   var startPanCoords;
   var startPanOffset;
@@ -72,6 +87,7 @@ angular.module('whiteboard.services.zoom', [])
 
   return {
     zoom: zoom,
+    resetZoom: resetZoom,
     pan: pan,
     resetPan: resetPan
   }

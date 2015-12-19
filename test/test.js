@@ -18,11 +18,18 @@ describe('HTTP', function () {
     server.end();
   });
   
-  describe('GET /getToken', function () {
+  describe('GET /:id', function () {
 
-    it('should get /getToken', function (done) {
+    it('should get /:id', function (done) {
+      var id = '';
+      var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      var length = 5;
+      for (var i = 0; i < length; i++) {
+        id += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+
       request(serverUrl)
-      .get('/getToken')
+      .get('/:' + id)
       .expect(200, done);
     });
   });

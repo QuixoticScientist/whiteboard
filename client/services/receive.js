@@ -6,9 +6,7 @@ angular.module('whiteboard.services.receive', [])
         for (id in data[socketId]) {
           var thisShape = data[socketId][id];
           if (thisShape.tool.name === 'path') {
-            EventHandler.createShape(id, socketId, thisShape.tool, thisShape.initX, thisShape.initY);
             EventHandler.drawExistingPath(thisShape);
-            EventHandler.finishShape(thisShape);
           } else if (thisShape.initX && thisShape.initY) {
             EventHandler.createShape(id, socketId, thisShape.tool, thisShape.initX, thisShape.initY);
             if (thisShape.tool.name !== 'text') {

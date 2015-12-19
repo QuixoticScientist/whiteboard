@@ -26,6 +26,7 @@ angular.module('whiteboard.services.boarddata', [])
 
   var tool = {
     name: 'path',
+    'stroke-width': 1,
     colors: {
       fill: 'transparent',
       stroke: '#000000'
@@ -198,6 +199,14 @@ angular.module('whiteboard.services.boarddata', [])
     return shapeStorage;
   }
 
+  function setStrokeWidth (width) {
+    tool['stroke-width'] = width;
+  }
+
+  function getStrokeWidth () {
+    return tool['stroke-width'];
+  }
+
   return {
     getShapeStorage: getShapeStorage,
     getCursor: getCursor,
@@ -229,6 +238,8 @@ angular.module('whiteboard.services.boarddata', [])
     getOriginalDims: getOriginalDims,
     setEditorShape: setEditorShape,
     unsetEditorShape: unsetEditorShape,
-    getEditorShape: getEditorShape
+    getEditorShape: getEditorShape,
+    setStrokeWidth: setStrokeWidth,
+    getStrokeWidth: getStrokeWidth
   }
 });

@@ -26,7 +26,7 @@ angular.module('whiteboard')
     }
   }
 }])
-.directive('wbToolbar', ['BoardData', 'Zoom', function (BoardData, Zoom) {
+.directive('wbToolbar', ['BoardData', function (BoardData) {
   return {
     restrict: 'A',
     replace: true,
@@ -34,16 +34,16 @@ angular.module('whiteboard')
     require: ['^wbBoard'],
     scope: { 
       wbToolSelect: '@',
-      wbZoomScale: '@',
+      wbStrokeWidth: '@',
       wbColorSelect: '@'
     },
     link: function (scope, element, attrs, ctrls) {
-      scope.wbZoomScaleDown = function () {
-        scope.wbZoomScale -= 0.25;
+      scope.wbStrokeWidthDown = function () {
+        if (scope.wbStrokeWidth > 0.25) scope.wbStrokeWidth -= 0.25;
       };
 
-      scope.wbZoomScaleUp = function () {
-        scope.wbZoomScale += 0.25;
+      scope.wbStrokeWidthUp = function () {
+        scope.wbStrokeWidth += 0.25;
       };
 
       scope.wbToolSelect = scope.wbToolSelect === undefined ? 'move' : scope.wbToolSelect;
@@ -59,12 +59,9 @@ angular.module('whiteboard')
         BoardData.setColors(vals[0], vals[1]);
       }, false);
       
-      scope.wbZoomScale = scope.wbZoomScale === undefined ? 1 : scope.wbZoomScale;
-      scope.$watch('wbZoomScale', function(newScale, prevScale) {
-        if (newScale != 0 && !isNaN(newScale)) {
-          BoardData.setZoomScale(newScale);
-          Zoom.zoom();
-        }
+      scope.wbStrokeWidth = scope.wbStrokeWidth === undefined ? 1 : scope.wbStrokeWidth;
+      scope.$watch('wbStrokeWidth', function(newScale, prevScale) {
+        BoardData.setStrokeWidth(newScale);
       }, false);
     }
   };

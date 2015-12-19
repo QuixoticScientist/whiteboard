@@ -39,24 +39,142 @@ svg {
   position: absolute;
   top: 0px;
   height: 100%;
+  /*width: 2px;*/
+  color: white;
+  /*transition-duration: .2s;
+  transform: translate3d(0, 0, 0);*/
+}
+
+.toolbar .menu-opener {
+  height: 100%;
   width: 2px;
-  transition-duration: .2s;
+  position: absolute;
+  z-index: 1000001;
+  transform: translate3d(-10px, 0, 0);
+}
+
+.toolbar .menu-opener.show,
+.menu.first-level.show {
   transform: translate3d(0, 0, 0);
 }
 
-.toolbar:hover {
-	transition-duration: .2s;
-	transform: translate3d(150px, 0, 0);
+.menu.first-level {
+  height: 100%;
+  width: 200px;
+  position: absolute;
+  z-index: 1000002;
+  transform: translate3d(-200px, 0, 0);
+  background-color: red;
 }
 
-.toolbar-container {
-	margin-left: -150px;
+.menu .sub.wb-first-level {
+  height: 33.33%;
+  width: 100%;
+}
+
+.menu.second-level {
+  height: 100%;
+  width: 200px;
+  position: absolute;
+  z-index: 1000003;
+  left: -200px;
+  background-color: orange;
+}
+
+.menu.second-level.show {
+  transform: translate3d(400px, 0, 0);
+}
+
+.menu .sub.wb-second-level {
+  height: 25%;
+  width: 100%;
+}
+
+
+
+
+
+
+
+
+
+/*.toolbar p {
+  z-index: 10;
+  position: relative;
+  pointer-events: none;
+}
+
+.toolbar.show {
+  width: 200px;
+}*/
+
+/*.toolbar:hover {
+	transition-duration: .2s;
+	transform: translate3d(200px, 0, 0);
+}
+*/
+/*.first-level {
+	margin-left: -200px;
 	height: 100%;
-	width: 150px;
+	width: 200px;
 	background-color: red;
 	position: relative;
+}*/
+
+/*.first-level.show {
+  transition-duration: .2s;
+  transform: translate3d(200px, 0, 0);
 }
 
+.menu-box {
+  height: 33.33%;
+  text-align: center;
+}*/
+
+/*.show {
+  transition-duration: .2s;
+  transform: translate3d(200px, 0, 0);
+}
+*/
+/*.hide {
+  transition-duration: .2s;
+  transform: translate3d(-200px, 0, 0);
+}*/
+/*.active-area {
+  float: right;
+  position: relative;
+  background-color: black;
+  width: 50%;
+  height: 100%;
+  margin-top: -30px;
+}*/
+
+/*.second-level {
+  width: 200px;
+  height: 100%;
+  position: absolute;
+  margin-top: -30px;
+  margin-left: -200px;
+  background-color: green;*/
+  /*transition-duration: .2s;
+  transform: translate3d(-140px, 0, 0);*/
+/*}
+
+.second-level.show {
+  transform: translate3d(400px, 0, 0);
+}
+
+.sub-second {
+  width: 100%;
+  height: 25%;
+}*/
+
+/*.active-area:hover .second-level {
+  transition-duration: .2s;
+  transform: translate3d(200px, 0, 0);
+  width: 200px;
+  left: 200px;
+}*/
 /*.toolbar-container.show {
 	transition-duration: .5s;
 	transform: translate3d(150px, 0, 0);

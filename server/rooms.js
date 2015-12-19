@@ -89,8 +89,13 @@ var roomsManager = {
 
   moveShape: function (shape, socket) {
     console.log(shape);
-    rooms[socket.room][shape.socketId][shape.id]['initX'] = shape.initX;
-    rooms[socket.room][shape.socketId][shape.id]['initY'] = shape.initY;
+    // var deltaX = shape.mouseX - shape.initX;
+    // var deltaY = shape.mouseY - shape.initY;
+    // rooms[socket.room][shape.socketId][shape.id]['initX'] = shape.initX;
+    // rooms[socket.room][shape.socketId][shape.id]['initY'] = shape.initY;
+    // rooms[socket.room][shape.socketId][shape.id]['mouseX'] = shape.mouseX + deltaX;
+    // rooms[socket.room][shape.socketId][shape.id]['mouseY'] = shape.mouseY + deltaY;
+    rooms[socket.room][shape.socketId][shape.id].attr = shape.attr;
   },
 
   completePath: function (shape, socket) {

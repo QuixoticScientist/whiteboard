@@ -60,14 +60,16 @@ angular.module('whiteboard.services.broadcast', [])
       id: shape.id,
       socketId: shape.socketId,
       initX: x,
-      initY: y
+      initY: y,
+      attr: shape.attr()
     })
   };
 
   var finishMovingShape = function (shape) {
     Sockets.emit('finishMovingShape', {
       id: shape.id,
-      socketId: shape.socketId
+      socketId: shape.socketId,
+      attr: shape.attr()
     })
   }
 

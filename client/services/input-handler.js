@@ -57,7 +57,6 @@ angular.module('whiteboard.services.inputhandler', [])
       var mouseXY = getMouseXY(ev);
 
       Visualizer.clearSelection();
-
       Broadcast.moveShape(currentEditorShape, mouseXY.x, mouseXY.y);
       EventHandler.moveShape(currentEditorShape, mouseXY.x, mouseXY.y);
     },

@@ -51,6 +51,7 @@ module.exports = function(server) {
     });
 
     socket.on('finishMovingShape', function (data) {
+      console.log(data);
       rooms.completeShape(data, socket);
     });
 

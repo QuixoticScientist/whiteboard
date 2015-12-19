@@ -45,6 +45,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     setColor(shape, tool.colors);
     shape.myid = id;
     shape.socketId = socketId;
+    shape.attr('stroke-width', BoardData.getStrokeWidth());
     BoardData.pushToStorage(id, socketId, shape);
   };
 

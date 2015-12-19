@@ -44,11 +44,6 @@ angular.module('whiteboard.services.shapemanipulation', [])
       'rect': moveRectangle
       // 'text': moveText
     };
-<<<<<<< d43e66416703937aaddeac0ef20a1cf8391d4f8e
-
-    //console.log(arguments, ' Shape Manip Args')
-=======
->>>>>>> Convert all 'ID's to 'Id' for code consistency
     var shape = BoardData.getShapeByID(id, socketId).toFront();
     if (!grabPoint) {
       grabPoint = {x: x, y: y};
@@ -60,11 +55,8 @@ angular.module('whiteboard.services.shapemanipulation', [])
   function finishMovingShape (id, socketId) {
     grabPoint = null;
     origin = null;
-<<<<<<< d43e66416703937aaddeac0ef20a1cf8391d4f8e
-    var shape = BoardData.getShapeByID(id, socketId);
-=======
+
     var shape = BoardData.getShapeById(id, socketId);
->>>>>>> Convert all 'ID's to 'Id' for code consistency
     Snap.createSnaps(shape);
   }
 

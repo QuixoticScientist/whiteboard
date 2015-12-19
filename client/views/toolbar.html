@@ -5,7 +5,51 @@
     <div class="toolbar left toolbelt"></div>
   </div> -->
 
-  <div class="toolbar-container"></div>
+  <div class="toolbar menu-opener show"></div>
+  <div class="menu first-level">
+    <div class="sub wb-first-level" wb-sub-menu-name="draw">DRAW</div>
+    <div class="sub wb-first-level" wb-sub-menu-name="tool">TOOL</div>
+    <div class="sub wb-first-level" wb-sub-menu-name="color">COLOR</div>
+  </div>
+  <div id="draw" class="menu second-level">
+    <div class="sub wb-second-level" wb-sub-menu-name="">Line</div>
+    <div class="sub wb-second-level" wb-sub-menu-name="">Arrow</div>
+    <div class="sub wb-second-level" wb-sub-menu-name="">Rectangle</div>
+    <div class="sub wb-second-level" wb-sub-menu-name="">Circle</div>
+  </div>
+  <div id="tool" class="menu second-level">
+    <div class="sub wb-second-level" wb-sub-menu-name="">Zoom</div>
+    <div class="sub wb-second-level" wb-sub-menu-name="">Eraser</div>
+    <div class="sub wb-second-level" wb-sub-menu-name="">Pan</div>
+    <div class="sub wb-second-level" wb-sub-menu-name="">Move</div>
+    <div class="sub wb-second-level" wb-sub-menu-name="">Copy</div>
+  </div>
+  <div id="color" class="menu second-level">
+    <div class="sub wb-second-level" wb-sub-menu-name="">Set Fill</div>
+    <div class="sub wb-second-level" wb-sub-menu-name="">Set Stroke</div>
+    <div class="sub wb-second-level" wb-sub-menu-name="">Eyedropper</div>
+    <div class="sub wb-second-level" wb-sub-menu-name="">Bucket</div>
+  </div>
+<!-- 
+  <div class="tb first-level">
+    <div class="menu-box" menu-name="draw">
+      <p>DRAW</p>
+      <div id="draw" class="tb second-level">
+        <div class="sub-second">Line</div>
+        <div class="sub-second">Arrow</div>
+        <div class="sub-second">Rectangle</div>
+        <div class="sub-second">Circle</div>
+      </div>
+    </div>
+    <div class="menu-box" menu-name="tool">
+      <p>TOOLS</p>
+      <div id="tools" class="second-level"></div>
+    </div>
+    <div class="menu-box">
+      <p>COLORS</p>
+      <div id="colors" class="second-level"></div>
+    </div>
+  </div> -->
   <!-- <select name="tools" ng-model="wbToolSelect">
     <option value="line" selected>Line</option> 
 >>>>>>> Work on marchin menu
@@ -29,5 +73,18 @@
   <button ng-click="wbZoomScaleDown()">-</button>
     <input ng-model="wbZoomScale" placeholder="Zoom Scale" style="width:50px;">
   <button ng-click="wbZoomScaleUp()">+</button> -->
+
+  <!-- Line 
+DRAW  Path
+      Rectangle
+      Circle
+      Text
+TOOL  Eraser
+      Move shape
+      Pan
+      Zoom
+COLOR Change fill
+      Change Stroke
+ -->
 </div>
 

@@ -53,7 +53,7 @@ angular.module('whiteboard.services.eventhandler', [])
         currentEditorShape = BoardData.getEditorShape();
       }
     } else {
-      moveShape(currentEditorShape.id, currentEditorShape.socketId, x, y);
+      moveShape(currentEditorShape, x, y);
     }
   }
 

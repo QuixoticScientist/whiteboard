@@ -1,7 +1,7 @@
 angular.module('whiteboard.services.shapemanipulation', [])
 .factory('ShapeManipulation', ['BoardData', 'ShapeBuilder', 'Snap', function (BoardData, ShapeBuilder, Snap) {
 
-  var pathSmoother = function (tool, pathElement) {
+  var pathSmoother = function (pathElement) {
     var path = pathElement.attr('path');
     var interval = 5;
     var newPath = path.reduce(function (newPathString, currentPoint, index, path) {

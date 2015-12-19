@@ -102,15 +102,15 @@ angular.module('whiteboard.services.shapeeditor', [])
 
   function finishShape (id, socketId, tool) {
     var shape = BoardData.getShapeById(id, socketId);
-    if (tool.name === 'text') {
+
+    if (shape.type === 'text') {
       shape.attr({
         text: tool.text
       });
     }
 
     Snap.createSnaps(shape);
-    shape.socketId = socketId;
-    if (shape.id && tool.name === 'path') ShapeManipulation.pathSmoother(tool, shape);
+    if (shape.id && shape.type === 'path') ShapeManipulation.pathSmoother(shape);
   };
 
   function deleteShape (id, socketId) {

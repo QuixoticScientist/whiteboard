@@ -29,6 +29,7 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeCompleted', function (data) {
+    console.log(data, 'data in shapeCompleted')
     EventHandler.finishShape(data);
   });
 

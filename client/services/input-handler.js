@@ -157,7 +157,7 @@ angular.module('whiteboard.services.inputhandler', [])
       var currentTool = BoardData.getCurrentTool();
       var shape = BoardData.getCurrentShape();
 
-      EventHandler.finishShape(id, socketId, currentTool);
+      EventHandler.finishShape(shape);
       BoardData.unsetCurrentShape();
       Visualizer.clearSnaps();
 

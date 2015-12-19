@@ -83,13 +83,8 @@ var roomsManager = {
   },
 
   editShape: function (shape, socket) {
-<<<<<<< a4ddf0c1921d8093e038c9ada952645ab6f5efcc
     rooms[socket.room][shape.socketId][shape.id]['mouseX'] = shape.mouseX;
     rooms[socket.room][shape.socketId][shape.id]['mouseY'] = shape.mouseY;   
-=======
-    rooms[socket.room][shape.socketId][shape.shapeId]['mouseX'] = shape.mouseX;
-    rooms[socket.room][shape.socketId][shape.shapeId]['mouseY'] = shape.mouseY;
->>>>>>> Users can now see as someone else in room is typing
   },
 
   moveShape: function (shape, socket) {

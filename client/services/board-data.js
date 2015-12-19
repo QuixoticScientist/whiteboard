@@ -20,7 +20,7 @@ angular.module('whiteboard.services.boarddata', [])
   var cursor;
   var shapeStorage = {};
   var currentShape;
-  var currentShapeID;
+  var currentShapeId;
   var editorShape;
   var socketId;
 
@@ -133,11 +133,11 @@ angular.module('whiteboard.services.boarddata', [])
     return $canvas;
   }
 
-  function setSocketID (id) {
+  function setSocketId (id) {
     socketId = id;
   }
 
-  function getSocketID () {
+  function getSocketId () {
     return socketId;
   }
 
@@ -148,7 +148,7 @@ angular.module('whiteboard.services.boarddata', [])
     shapeStorage[socketId][id] = shape;
   }
 
-  function getShapeByID (id, socketId) {
+  function getShapeById (id, socketId) {
     return shapeStorage[socketId][id];
   }
 
@@ -164,13 +164,13 @@ angular.module('whiteboard.services.boarddata', [])
     currentShape = null;
   }
 
-  function getCurrentShapeID () {
-    return currentShapeID;
+  function getCurrentShapeId () {
+    return currentShapeId;
   }
 
-  function generateShapeID () {
-    currentShapeID = Raphael._oid;
-    return currentShapeID;
+  function generateShapeId () {
+    currentShapeId = Raphael._oid;
+    return currentShapeId;
   }
 
   function getCurrentTool () {
@@ -205,16 +205,16 @@ angular.module('whiteboard.services.boarddata', [])
     moveCursor: moveCursor,
     createBoard: createBoard,
     getCurrentShape: getCurrentShape,
-    getShapeByID: getShapeByID,
+    getShapeById: getShapeById,
     getCurrentTool: getCurrentTool,
-    generateShapeID: generateShapeID,
-    getCurrentShapeID: getCurrentShapeID,
+    generateShapeId: generateShapeId,
+    getCurrentShapeId: getCurrentShapeId,
     setColors: setColors,
     setZoomScale: setZoomScale,
     getZoomScale: getZoomScale,
     getCanvas: getCanvas,
-    setSocketID: setSocketID,
-    getSocketID: getSocketID,
+    setSocketId: setSocketId,
+    getSocketId: getSocketId,
     setCurrentToolName: setCurrentToolName,
     getBoard: getBoard,
     getScalingFactor: getScalingFactor,

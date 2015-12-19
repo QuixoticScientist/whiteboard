@@ -12,9 +12,9 @@ angular.module('whiteboard.services.shapebuilder', [])
 
   function drawExistingPath (shape) {
     newShape(shape.id, shape.socketId, shape.tool, shape.initX, shape.initY);
-    var shape = BoardData.getShapeByID(shape.id, shape.socketId);
+    var shape = BoardData.getShapeById(shape.id, shape.socketId);
     shape.customSetPathD(shape.pathDProps);
-  };
+  }
 
   function newShape (id, socketId, tool, x, y) {
     //old args: type, initX, initY, colors

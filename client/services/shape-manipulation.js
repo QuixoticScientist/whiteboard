@@ -1,7 +1,7 @@
 angular.module('whiteboard.services.shapemanipulation', [])
 .factory('ShapeManipulation', ['BoardData', 'ShapeBuilder', 'Snap', function (BoardData, ShapeBuilder, Snap) {
 
-  var pathSmoother = function (tool, pathElement) {
+  var pathSmoother = function (pathElement) {
     var path = pathElement.attr('path');
     var interval = 5;
     var newPath = path.reduce(function (newPathString, currentPoint, index, path) {
@@ -44,9 +44,7 @@ angular.module('whiteboard.services.shapemanipulation', [])
       'rect': moveRectangle
       // 'text': moveText
     };
-
-    //console.log(arguments, ' Shape Manip Args')
-    var shape = BoardData.getShapeByID(id, socketId).toFront();
+    var shape = BoardData.getShapeById(id, socketId).toFront();
     if (!grabPoint) {
       grabPoint = {x: x, y: y};
       origin = shape.attr();
@@ -57,7 +55,8 @@ angular.module('whiteboard.services.shapemanipulation', [])
   function finishMovingShape (id, socketId) {
     grabPoint = null;
     origin = null;
-    var shape = BoardData.getShapeByID(id, socketId);
+
+    var shape = BoardData.getShapeById(id, socketId);
     Snap.createSnaps(shape);
   }
 

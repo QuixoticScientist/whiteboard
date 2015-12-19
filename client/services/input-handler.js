@@ -75,9 +75,9 @@ angular.module('whiteboard.services.inputhandler', [])
 
   actions.text = {
     mouseDown: function (ev) {
-      var id = BoardData.generateShapeID();
+      var id = BoardData.generateShapeId();
       var mouseXY = getMouseXY(ev);
-      var socketId = BoardData.getSocketID();
+      var socketId = BoardData.getSocketId();
       var currentTool = BoardData.getCurrentTool();
       currentTool.text = 'Insert Text';
 
@@ -93,19 +93,19 @@ angular.module('whiteboard.services.inputhandler', [])
           editorShape.attr('text', '');
           currentTool.text = '';
         }
-        if (ev.keyCode === 8 || ev.keyCode === 46) {
-          // backspace key - this event is not firing
-          // editorShape.attr('text', editorShape.attr('text').slice(0, editorShape.attr('text').length - 1));
-          // currentTool.text = editorShape.attr('text').slice(0, editorShape.attr('text').length - 1);
-          console.log('hi');
-        } else if (ev.keyCode === 13) {
-          // enter key
+        
+        if (ev.keyCode === 13) {
+          // enter key to complete text insertion process
+          editorShape.tool = currentTool;
           Broadcast.finishShape(id, currentTool);
+          EventHandler.finishShape(editorShape);
           editorShape = null;
         } else {
           // typing text
           editorShape.attr('text', editorShape.attr('text') + String.fromCharCode(ev.keyCode));
           currentTool.text = editorShape.attr('text');
+          Broadcast.editShape(id, socketId, currentTool, editorShape.initX, editorShape.initY);
+          EventHandler.editShape(id, socketId, currentTool, editorShape.initX, editorShape.initY);
         }
       }
 
@@ -116,6 +116,9 @@ angular.module('whiteboard.services.inputhandler', [])
           ev.preventDefault();
           if (editorShape) {
             editorShape.attr('text', editorShape.attr('text').slice(0, editorShape.attr('text').length - 1));
+            currentTool.text = editorShape.attr('text');
+            Broadcast.editShape(id, socketId, currentTool, editorShape.initX, editorShape.initY);
+            EventHandler.editShape(id, socketId, currentTool, editorShape.initX, editorShape.initY);
           }
         }
       }
@@ -131,8 +134,8 @@ angular.module('whiteboard.services.inputhandler', [])
 
   actions.shape = {
     mouseDown: function (ev) {
-      var id = BoardData.generateShapeID();
-      var socketId = BoardData.getSocketID();
+      var id = BoardData.generateShapeId();
+      var socketId = BoardData.getSocketId();
       var currentTool = BoardData.getCurrentTool();
       var mouseXY = getMouseXY(ev);
       var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y);
@@ -142,8 +145,8 @@ angular.module('whiteboard.services.inputhandler', [])
       Broadcast.newShape(id, socketId, currentTool, coords[0], coords[1]);
     },
     mouseHold: function (ev) {
-      var id = BoardData.getCurrentShapeID();
-      var socketId = BoardData.getSocketID();
+      var id = BoardData.getCurrentShapeId();
+      var socketId = BoardData.getSocketId();
       var currentTool = BoardData.getCurrentTool();
       var mouseXY = getMouseXY(ev);
 
@@ -151,11 +154,12 @@ angular.module('whiteboard.services.inputhandler', [])
       EventHandler.editShape(id, socketId, currentTool, mouseXY.x, mouseXY.y);
     },
     mouseUp: function (ev) {
-      var id = BoardData.getCurrentShapeID();
-      var socketId = BoardData.getSocketID();
+      var id = BoardData.getCurrentShapeId();
+      var socketId = BoardData.getSocketId();
       var currentTool = BoardData.getCurrentTool();
       var shape = BoardData.getCurrentShape();
       shape.tool = currentTool;
+
       EventHandler.finishShape(shape);
       BoardData.unsetCurrentShape();
       Visualizer.clearSnaps();
@@ -207,14 +211,14 @@ angular.module('whiteboard.services.inputhandler', [])
   }
 
   function mouseDown (ev) {
-    var toolName = parseToolName(BoardData.getCurrentTool().name)
+    var toolName = parseToolName(BoardData.getCurrentTool().name);
 
     toggle(toolName);
     actions[toolName].mouseDown(ev);
   }
 
   function mouseMove (ev) {
-    var toolName = parseToolName(BoardData.getCurrentTool().name)
+    var toolName = parseToolName(BoardData.getCurrentTool().name);
 
     if (isToggled(toolName)) {
       actions[toolName].mouseHold(ev);
@@ -224,7 +228,7 @@ angular.module('whiteboard.services.inputhandler', [])
   }
 
   function mouseUp (ev) {
-    var toolName = parseToolName(BoardData.getCurrentTool().name)
+    var toolName = parseToolName(BoardData.getCurrentTool().name);
 
     if (isToggled(toolName)) {
       toggle(toolName);
@@ -236,10 +240,22 @@ angular.module('whiteboard.services.inputhandler', [])
     //just in case
   }
 
+  function keyPress (ev) {
+    var toolName = parseToolName(BoardData.getCurrentTool().name);
+
+    if (toolName !== 'text') {
+      // keycode value for lowercase m
+      if (ev.keyCode === 109) {
+        console.log('m has been typed');
+      }
+    }
+  }
+
   return {
     mousedown: mouseDown,
     mousemove: mouseMove,
     mouseup: mouseUp,
-    dblclick: doubleClick
+    dblclick: doubleClick,
+    keypress: keyPress
   };
 }]);

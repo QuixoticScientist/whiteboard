@@ -78,10 +78,11 @@ angular.module('whiteboard.services.shapeeditor', [])
     });
   }
 
-  var changeText = function (shape, x, y) {
+  var changeText = function (shape, x, y, tool) {
     shape.attr({
       x: x,
-      y: y
+      y: y,
+      text: tool.text
     });
   };
 
@@ -93,25 +94,27 @@ angular.module('whiteboard.services.shapeeditor', [])
       'rectangle': changeRectangle,
       'text': changeText
     };
-    var shape = BoardData.getShapeByID(id, socketId);
-    shapeHandlers[tool.name](shape, x, y);
+    var shape = BoardData.getShapeById(id, socketId);
+    
+    // optional tool argument for text change
+    shapeHandlers[tool.name](shape, x, y, tool);
   };
 
   function finishShape (id, socketId, tool) {
-    var shape = BoardData.getShapeByID(id, socketId);
-    if (tool.name === 'text') {
+    var shape = BoardData.getShapeById(id, socketId);
+
+    if (shape.type === 'text') {
       shape.attr({
         text: tool.text
       });
     }
 
     Snap.createSnaps(shape);
-    shape.socketId = socketId;
-    if (shape.id && tool.name === 'path') ShapeManipulation.pathSmoother(tool, shape);
+    if ((shape.id || shape.id === 0) && tool.name === 'path') ShapeManipulation.pathSmoother(shape);
   };
 
   function deleteShape (id, socketId) {
-    var shape = BoardData.getShapeByID(id, socketId);
+    var shape = BoardData.getShapeById(id, socketId);
 
     Snap.deleteSnaps(shape);
     shape.remove();

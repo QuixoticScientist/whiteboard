@@ -1,8 +1,8 @@
 angular.module('whiteboard.services.eventhandler', [])
 .factory('EventHandler', ['BoardData', 'ShapeBuilder', 'ShapeEditor', 'ShapeManipulation', 'Snap', function (BoardData, ShapeBuilder, ShapeEditor, ShapeManipulation, Snap) {
 
-  function setSocketID (socketId) {
-    BoardData.setSocketID(socketId);
+  function setSocketId (socketId) {
+    BoardData.setSocketId(socketId);
   };
 
   function createShape (id, socketId, tool, x, y) {
@@ -30,8 +30,8 @@ angular.module('whiteboard.services.eventhandler', [])
     ShapeManipulation.finishMovingShape (id, socketId);
   }
 
-  function drawExistingPath (id, socketId) {
-    ShapeBuilder.drawExistingPath(id, socketId);
+  function drawExistingPath (shape) {
+    ShapeBuilder.drawExistingPath(shape);
   }
 
   function cursor (screenPosition) {
@@ -60,7 +60,7 @@ angular.module('whiteboard.services.eventhandler', [])
 
   return {
     cursor: cursor,
-    setSocketID: setSocketID,
+    setSocketId: setSocketId,
     createShape: createShape,
     editShape: editShape,
     finishShape: finishShape,

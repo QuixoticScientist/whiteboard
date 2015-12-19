@@ -18,6 +18,11 @@ angular.module('whiteboard')
       var boardCtrl = ctrls[0];
       BoardData.createBoard(element);
       BoardData.getCanvas().bind('mousedown mouseup mousemove dblclick', boardCtrl.handleEvent);
+
+      $('body').on('keypress', function (ev) {
+        boardCtrl.handleEvent(ev);
+      });
+
     }
   }
 }])

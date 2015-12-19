@@ -104,9 +104,9 @@ var roomsManager = {
   },
 
   completeShape: function (shape, socket) {
-    // if (shape.tool.text) {
-    //   rooms[socket.room][socket.id][shape.id]['tool']['text'] = shape.tool.text;
-    // }
+    if (shape.tool.text) {
+      rooms[socket.room][socket.id][shape.id]['tool']['text'] = shape.tool.text;
+    }
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
   },
 

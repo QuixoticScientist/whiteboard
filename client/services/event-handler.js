@@ -1,8 +1,8 @@
 angular.module('whiteboard.services.eventhandler', [])
 .factory('EventHandler', ['BoardData', 'ShapeBuilder', 'ShapeEditor', 'ShapeManipulation', 'Snap', function (BoardData, ShapeBuilder, ShapeEditor, ShapeManipulation, Snap) {
 
-  function setSocketID (socketId) {
-    BoardData.setSocketID(socketId);
+  function setSocketId (socketId) {
+    BoardData.setSocketId(socketId);
   };
 
   function createShape (id, socketId, tool, x, y) {
@@ -60,7 +60,7 @@ angular.module('whiteboard.services.eventhandler', [])
 
   return {
     cursor: cursor,
-    setSocketID: setSocketID,
+    setSocketId: setSocketId,
     createShape: createShape,
     editShape: editShape,
     finishShape: finishShape,

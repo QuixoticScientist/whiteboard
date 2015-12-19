@@ -21,7 +21,7 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('socketId', function (data) {
-    EventHandler.setSocketID(data.socketId);
+    EventHandler.setSocketId(data.socketId);
   });
 
   Sockets.on('shapeEdited', function (data) {

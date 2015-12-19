@@ -14,7 +14,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     newShape(shape.id, shape.socketId, shape.tool, shape.initX, shape.initY);
     var shape = BoardData.getShapeByID(shape.id, shape.socketId);
     shape.customSetPathD(shape.pathDProps);
-  };
+  }
 
   function newShape (id, socketId, tool, x, y) {
     //old args: type, initX, initY, colors

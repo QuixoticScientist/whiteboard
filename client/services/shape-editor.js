@@ -94,7 +94,6 @@ angular.module('whiteboard.services.shapeeditor', [])
       'rectangle': changeRectangle,
       'text': changeText
     };
-
     var shape = BoardData.getShapeByID(id, socketId);
     
     // optional tool argument for text change
@@ -102,7 +101,7 @@ angular.module('whiteboard.services.shapeeditor', [])
   };
 
   function finishShape (id, socketId, tool) {
-    var shape = BoardData.getShapeByID(id, socketId);
+    var shape = BoardData.getShapeById(id, socketId);
     if (tool.name === 'text') {
       shape.attr({
         text: tool.text
@@ -115,7 +114,7 @@ angular.module('whiteboard.services.shapeeditor', [])
   };
 
   function deleteShape (id, socketId) {
-    var shape = BoardData.getShapeByID(id, socketId);
+    var shape = BoardData.getShapeById(id, socketId);
 
     Snap.deleteSnaps(shape);
     shape.remove();

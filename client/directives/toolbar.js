@@ -4,19 +4,23 @@ angular.module('whiteboard')
     restrict: 'A',
     replace: true,
     templateUrl: 'views/toolbar.html',
-    require: ['^wbBoard'],
+    require: ['^wbBoard', 'wbToolbar'],
     scope: { 
       wbToolSelect: '@',
       wbZoomScale: '@',
       wbColorSelect: '@'
     },
-    // controller: function ($scope) {
+    controller: function (MenuHandler) {
+
+      this.setToolbarElements = function (element) {
+        MenuHandler.setToolbarElements(element);
+      };
+
+      this.showMenu = function (ev) {
+        MenuHandler.showFirstLevel(ev);
+      };
       
-    //   this.test = function () {
-    //     console.log('It Works!');
-    //   };
-      
-    // },
+    },
     link: function (scope, element, attrs, ctrls) {
       
       // FROM MERGE CONFLICT
@@ -27,6 +31,12 @@ angular.module('whiteboard')
       scope.wbStrokeWidthUp = function () {
         scope.wbStrokeWidth += 0.25;
       };
+
+      var toolbarCtrl = ctrls[1];
+
+      toolbarCtrl.setToolbarElements(element);
+
+      element.find('.menu-opener').bind('mouseover', toolbarCtrl.showMenu);
 
       scope.wbZoomScaleDown = function () {
         scope.wbZoomScale -= 0.25;
@@ -65,3 +75,22 @@ angular.module('whiteboard')
     }
   };
 }])
+.directive('wbFirstLevel', function () {
+  return {
+    restrict: 'C',
+    require: ['^wbToolbar', 'wbFirstLevel'],
+    controller: function (MenuHandler) {
+      this.secondLevelHandler = function (ev, child) {
+        console.log('a')
+        MenuHandler.secondLevelHandler(ev, child);
+      } 
+    },
+    link: function (scope, element, attrs, ctrls) {
+      var firstLevelCtrl = ctrls[1];
+      
+      element.bind('mousemove', function (ev) {
+        firstLevelCtrl.secondLevelHandler(ev, attrs.wbSubMenuName);
+      });
+    }
+  };
+});

@@ -94,7 +94,7 @@ angular.module('whiteboard.services.shapeeditor', [])
       'rectangle': changeRectangle,
       'text': changeText
     };
-    var shape = BoardData.getShapeByID(id, socketId);
+    var shape = BoardData.getShapeById(id, socketId);
     
     // optional tool argument for text change
     shapeHandlers[tool.name](shape, x, y, tool);

@@ -38,7 +38,7 @@ angular.module('whiteboard.services.broadcast', [])
       id: id,
       tool: currentTool,
       pathDProps: pathDProps
-    })
+    });
   };
 
   var finishShape = function (id, currentTool) {

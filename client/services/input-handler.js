@@ -158,6 +158,7 @@ angular.module('whiteboard.services.inputhandler', [])
       var socketId = BoardData.getSocketId();
       var currentTool = BoardData.getCurrentTool();
       var shape = BoardData.getCurrentShape();
+      shape.tool = currentTool;
 
       EventHandler.finishShape(shape);
       BoardData.unsetCurrentShape();

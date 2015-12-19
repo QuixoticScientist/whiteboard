@@ -30,8 +30,8 @@ angular.module('whiteboard.services.eventhandler', [])
     ShapeManipulation.finishMovingShape (id, socketId);
   }
 
-  function drawExistingPath (id, socketId) {
-    ShapeBuilder.drawExistingPath(id, socketId);
+  function drawExistingPath (shape) {
+    ShapeBuilder.drawExistingPath(shape);
   }
 
   function cursor (screenPosition) {

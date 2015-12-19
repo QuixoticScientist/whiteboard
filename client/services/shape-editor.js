@@ -111,7 +111,6 @@ angular.module('whiteboard.services.shapeeditor', [])
 
     Snap.createSnaps(shape);
     if (tool && tool.name === 'path') {
-      console.log('hi')
       ShapeManipulation.pathSmoother(shape);
     }
   };

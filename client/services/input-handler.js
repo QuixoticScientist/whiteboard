@@ -96,7 +96,9 @@ angular.module('whiteboard.services.inputhandler', [])
         
         if (ev.keyCode === 13) {
           // enter key to complete text insertion process
-          Broadcast.finishShape(editorShape);
+          editorShape.tool = currentTool;
+          Broadcast.finishShape(id, currentTool);
+          EventHandler.finishShape(editorShape);
           editorShape = null;
         } else {
           // typing text

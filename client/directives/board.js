@@ -23,6 +23,14 @@ angular.module('whiteboard')
         boardCtrl.handleEvent(ev);
       });
 
+      // Required for menu handling
+      BoardData.getCanvas().bind('mouseover', function (ev) {
+        console.log('mouseover')
+        scope.$broadcast('menu', {
+          action: 'close',
+          ev: ev
+        });
+      });      
     }
   }
 }]);

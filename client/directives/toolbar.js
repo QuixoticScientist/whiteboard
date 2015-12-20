@@ -30,15 +30,6 @@ angular.module('whiteboard')
       
     },
     link: function (scope, element, attrs, ctrls) {
-      
-      // FROM MERGE CONFLICT
-      scope.wbStrokeWidthDown = function () {
-        if (scope.wbStrokeWidth > 0.25) scope.wbStrokeWidth -= 0.25;
-      };
-
-      scope.wbStrokeWidthUp = function () {
-        scope.wbStrokeWidth += 0.25;
-      };
 
       var toolbarCtrl = ctrls[1];
 
@@ -48,13 +39,22 @@ angular.module('whiteboard')
         toolbarCtrl.firstLevelHandler(ev, 'show')
       });
 
-      scope.wbZoomScaleDown = function () {
-        scope.wbZoomScale -= 0.25;
-      };
+      // scope.wbZoomScaleDown = function () {
+      //   scope.wbZoomScale -= 0.25;
+      // };
 
-      scope.wbZoomScaleUp = function () {
-        scope.wbZoomScale += 0.25;
-      };
+      // scope.wbZoomScaleUp = function () {
+      //   scope.wbZoomScale += 0.25;
+      // };
+
+      // FROM MERGE CONFLICT
+      // scope.wbStrokeWidthDown = function () {
+      //   if (scope.wbStrokeWidth > 0.25) scope.wbStrokeWidth -= 0.25;
+      // };
+
+      // scope.wbStrokeWidthUp = function () {
+      //   scope.wbStrokeWidth += 0.25;
+      // };
 
       // scope.wbToolSelect = scope.wbToolSelect === undefined ? 'line' : scope.wbToolSelect;
       // scope.$watch('wbToolSelect', function(newTool, prevTool) {
@@ -69,19 +69,19 @@ angular.module('whiteboard')
         BoardData.setColors(vals[0], vals[1]);
       }, false);
       
-      scope.wbZoomScale = scope.wbZoomScale === undefined ? 1 : scope.wbZoomScale;
-      scope.$watch('wbZoomScale', function(newScale, prevScale) {
-        if (newScale != 0 && !isNaN(newScale)) {
-          BoardData.setZoomScale(newScale);
-          Zoom.zoom();
-        }
-      }, false);
+      // scope.wbZoomScale = scope.wbZoomScale === undefined ? 1 : scope.wbZoomScale;
+      // scope.$watch('wbZoomScale', function(newScale, prevScale) {
+      //   if (newScale != 0 && !isNaN(newScale)) {
+      //     BoardData.setZoomScale(newScale);
+      //     Zoom.zoom();
+      //   }
+      // }, false);
 
       // FROM MERGE CONFLICT
-      scope.wbStrokeWidth = scope.wbStrokeWidth === undefined ? 1 : scope.wbStrokeWidth;
-      scope.$watch('wbStrokeWidth', function(newScale, prevScale) {
-        BoardData.setStrokeWidth(newScale);
-      }, false);
+      // scope.wbStrokeWidth = scope.wbStrokeWidth === undefined ? 1 : scope.wbStrokeWidth;
+      // scope.$watch('wbStrokeWidth', function(newScale, prevScale) {
+      //   BoardData.setStrokeWidth(newScale);
+      // }, false);
     }
   };
 }])

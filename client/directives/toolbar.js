@@ -10,15 +10,23 @@ angular.module('whiteboard')
       wbZoomScale: '@',
       wbColorSelect: '@'
     },
-    controller: function (MenuHandler) {
+    controller: function ($scope, MenuHandler) {
+
+      $scope.$on("menu", function (name, args) {
+        console.log('Got it!, Going to close it right now');
+        MenuHandler.firstLevelHandler(args.ev, 'hide');
+      });
 
       this.setToolbarElements = function (element) {
         MenuHandler.setToolbarElements(element);
       };
 
-      this.showMenu = function (ev) {
-        MenuHandler.showFirstLevel(ev);
-      };
+      // this.showMenu = function (ev) {
+      //   MenuHandler.showFirstLevel(ev);
+      // };
+      this.firstLevelHandler = function (ev, action) {
+        MenuHandler.firstLevelHandler(ev, action);
+      } 
       
     },
     link: function (scope, element, attrs, ctrls) {
@@ -36,7 +44,9 @@ angular.module('whiteboard')
 
       toolbarCtrl.setToolbarElements(element);
 
-      element.find('.menu-opener').bind('mouseover', toolbarCtrl.showMenu);
+      element.find('.menu-opener').bind('mouseover', function (ev) {
+        toolbarCtrl.firstLevelHandler(ev, 'show')
+      });
 
       scope.wbZoomScaleDown = function () {
         scope.wbZoomScale -= 0.25;
@@ -46,10 +56,10 @@ angular.module('whiteboard')
         scope.wbZoomScale += 0.25;
       };
 
-      scope.wbToolSelect = scope.wbToolSelect === undefined ? 'line' : scope.wbToolSelect;
-      scope.$watch('wbToolSelect', function(newTool, prevTool) {
-        BoardData.setCurrentToolName(newTool);
-      }, false);
+      // scope.wbToolSelect = scope.wbToolSelect === undefined ? 'line' : scope.wbToolSelect;
+      // scope.$watch('wbToolSelect', function(newTool, prevTool) {
+      //   BoardData.setCurrentToolName(newTool);
+      // }, false);
       
       scope.wbFillColorSelect = scope.wbFillColorSelect === undefined ? 'transparent' : scope.wbFillColorSelect;
       scope.wbStrokeColorSelect = scope.wbStrokeColorSelect === undefined ? '#000000' : scope.wbStrokeColorSelect;
@@ -88,8 +98,26 @@ angular.module('whiteboard')
     link: function (scope, element, attrs, ctrls) {
       var firstLevelCtrl = ctrls[1];
       
-      element.bind('mousemove', function (ev) {
+      element.bind('mousemove mouseleave', function (ev) {
         firstLevelCtrl.secondLevelHandler(ev, attrs.wbSubMenuName);
+      });
+    }
+  };
+})
+.directive('wbSecondLevel', function () {
+  return {
+    restrict: 'C',
+    require: ['wbSecondLevel'],
+    controller: function (MenuHandler) {
+      this.selectToolHandler = function (ev, tool, element) {
+        MenuHandler.selectToolHandler(ev, tool, element);
+      } 
+    },
+    link: function (scope, element, attrs, ctrls) {
+      var secondLevelCtrl = ctrls[0];
+      
+      element.bind('mousemove mouseover mouseleave', function (ev) {
+          secondLevelCtrl.selectToolHandler(ev, attrs.wbSubMenuName, element);
       });
     }
   };

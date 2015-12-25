@@ -8,6 +8,9 @@ angular.module('whiteboard.services.menuhandler', [])
   var menuWidth = 200; // Pixels
   // This variable set the width of the area that trigger the 'show child menu' event
   var activeArea = menuWidth / 2;
+  var itemWithThirdLevel = {
+    'fill': false
+  };
 
   function setToolbarElements (element) {
     $menuOpener = element.find('.menu-opener');
@@ -21,6 +24,7 @@ angular.module('whiteboard.services.menuhandler', [])
     if (action === 'show') {
       showFirstLevel();
     } else if (action === 'hide'){
+      hideThirdLevel();
       hideSecondLevel();
       hideFirstLevel();
     }
@@ -43,15 +47,32 @@ angular.module('whiteboard.services.menuhandler', [])
   function selectToolHandler (ev, tool, element) {
     //console.log(tool);
     var x = ev.clientX;
-    
-    if (ev.type === 'mouseover') {
-      showTriggerSelect(element);
-    } else if (ev.type === 'mouseleave') {
-      hideTriggerSelect(element);
-    }
+    // console.log(itemWithThirdLevel[tool], tool)
+    if (itemWithThirdLevel[tool] === undefined) {
+      if (ev.type === 'mouseover') {
+        // console.log('mouseover :)')
+        showTriggerSelect(element);
+      } else if (ev.type === 'mouseleave') {
+        hideTriggerSelect(element);
+      }
 
-    if (x >= 380) {
-      BoardData.setCurrentToolName(tool);
+      if (x >= 380) {
+        BoardData.setCurrentToolName(tool);
+      }
+    } else { 
+      var child = element.find('.menu.third-level');
+      if (x < 400 && ev.type === 'mouseleave'){
+        hideThirdLevel(child);
+        console.log(1);
+      } else if (x > 300) {
+        // SHOw
+        showThirdLevel(child);
+        console.log(2);
+      } else {
+        // CLOSE
+        console.log(3);
+        hideThirdLevel(child);
+      }
     }
   }
 
@@ -74,6 +95,20 @@ angular.module('whiteboard.services.menuhandler', [])
       $secondLevelMenu.filter('#' + child).removeClass('show'); 
     } else {
       $secondLevelMenu.removeClass('show');  
+    }
+  }
+
+  function showThirdLevel (child) {
+    console.log(child)
+    child.addClass('show');
+  }
+
+  function hideThirdLevel (child) {
+    if (child) {
+      child.removeClass('show');
+    } else {
+      // FIX THIS SHIT
+      $('.menu.third-level').removeClass('show');
     }
   }
 

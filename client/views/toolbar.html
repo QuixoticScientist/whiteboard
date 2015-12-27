@@ -1,8 +1,22 @@
 <div class="toolbar">
-  <div class="menu level-one" ng-repeat="menu in menuStructure">
-    <p>{{menu[0]}}</p>
-    <div class="menu level-two" ng-repeat="subMenu in menu[1]">
-      <p>{{subMenu}}<p>
+  <div class="menu level-one wb-menu-opener" ng-repeat="menu in menuStructure" style="height: {{100/menuStructure.length}}%">
+    <p class="menu-text">{{menu[0]}}</p>
+    <div class="menu wb-submenu-opener" wb-level="2"></div>
+    <div class="menu level-two wb-submenu" wb-level="2">
+      <div class="level-two-items wb-submenu-items" wb-tool="{{setAttributeTool(subMenu)}}" ng-repeat="subMenu in menu[1]" style="height: {{100/menu[1].length}}%">
+        <div ng-if="subMenu.toUpperCase()">
+          <p>{{subMenu}}</p>
+        </div>
+        <div ng-if="!subMenu.toUpperCase()" style="height: 100%" class="level-three">
+          <p class="menu-text">{{subMenu[0]}}</p>
+          <div class="menu wb-submenu-opener" wb-level="3"></div>
+          <div class="menu level-three wb-submenu" wb-level="3">
+            <div class="level-three-items wb-submenu-items" wb-color="{{color}}" ng-repeat="color in subMenu[1]" style="height: {{100/subMenu[1].length}}%; background-color: {{color}}">
+              <p>{{color}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

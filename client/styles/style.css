@@ -30,3 +30,83 @@ svg {
   position: absolute;
 }
 
+/*
+ *
+ * TOOLBAR 
+ *
+ */
+
+.toolbar {
+  position: absolute;
+  top: 0px;
+  left: -150px;
+  height: 100%;
+  width: 200px
+}
+
+.toolbar.show {
+  left: 0;
+}
+
+.toolbar .menu {
+  width: 100%;
+  background-color: red;
+}
+
+.menu-text {
+  position: absolute;
+  right: 10px;
+}
+
+.menu .wb-submenu-opener {
+  width: 40%;
+  height: 100%;
+  float: right;
+  position: relative;
+  display: none;
+  background-color: transparent;
+}
+
+.menu .wb-submenu-opener.show {
+  display: block !important;
+}
+
+.toolbar .menu.level-two {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  margin-left: 200px;
+  background-color: orange;
+  top: 0px;
+  left: -400px;
+}
+
+.toolbar .menu.level-two.show {
+  left: 0;
+}
+
+.level-two-items {
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.toolbar .menu.level-three {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  margin-left: 200px;
+  background-color: yellow;
+  top: 0px;
+  left: -600px;
+}
+
+.toolbar .menu.level-three.show {
+  left: 0;
+}
+
+.level-three-items {
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}

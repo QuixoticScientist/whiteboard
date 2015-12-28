@@ -1,0 +1,98 @@
+<div class="toolbar">
+  <!-- <div class="toolbar-container" ng-mouseover="expandMenu('left')" ng-mouseleave="shrinkMenu('left')">
+    <div class="toolbar left fill"></div>
+    <div class="toolbar left stroke"></div>
+    <div class="toolbar left toolbelt"></div>
+  </div> -->
+
+  <div class="toolbar menu-opener show"></div>
+  <div class="menu first-level">
+    <div class="sub wb-first-level" wb-sub-menu-name="draw">DRAW</div>
+    <div class="sub wb-first-level" wb-sub-menu-name="tool">TOOL</div>
+    <div class="sub wb-first-level" wb-sub-menu-name="color">COLOR</div>
+  </div>
+
+  <div id="draw" class="menu second-level">
+    <div class="sub wb-second-level" wb-sub-menu-name="path">
+      <p>Path</p>
+      <div class="sub trigger-select-tool"></div>
+    </div>
+    <div class="sub wb-second-level" wb-sub-menu-name="line">
+      <p>Line</p>
+      <div class="sub trigger-select-tool"></div>
+    </div>
+    <div class="sub wb-second-level" wb-sub-menu-name="arrow">
+      <p>Arrow</p>
+      <div class="sub trigger-select-tool"></div>
+    </div>
+    <div class="sub wb-second-level" wb-sub-menu-name="rectangle">
+      <p>Rectangle</p>
+      <div class="sub trigger-select-tool"></div>
+    </div>
+    <div class="sub wb-second-level" wb-sub-menu-name="circle">
+      <p>Circle</p>
+      <div class="sub trigger-select-tool"></div>
+    </div>
+  </div>
+
+  <div id="tool" class="menu second-level">
+    <div class="sub wb-second-level" wb-sub-menu-name="magnify">
+      <p>Zoom</p>
+      <div class="sub trigger-select-tool"></div>
+    </div>
+    <div class="sub wb-second-level" wb-sub-menu-name="eraser">
+      <p>Eraser</p>
+      <div class="sub trigger-select-tool"></div>
+    </div>
+    <div class="sub wb-second-level" wb-sub-menu-name="pan">
+      <p>Pan</p>
+      <div class="sub trigger-select-tool"></div>
+    </div>
+    <div class="sub wb-second-level" wb-sub-menu-name="move">
+      <p>Move</p>
+      <div class="sub trigger-select-tool"></div>
+    </div>
+    <div class="sub wb-second-level" wb-sub-menu-name="copy">
+      <p>Copy</p>
+      <div class="sub trigger-select-tool"></div>
+    </div>
+  </div>
+
+  <div id="color" class="menu second-level">
+    <div class="sub wb-second-level" wb-sub-menu-name="fill">
+      <p>Set Fill</p>
+      <div id="color-picker" class="menu third-level">
+        <div ng-repeat="color in colors" style="background-color: {{color}}; height: {{100 / colors.length}}%">{{color}}</div>
+          <div class="sub trigger-select-tool"></div>
+        </div>
+    </div>
+    <div class="sub wb-second-level" wb-sub-menu-name="stroke">
+      <p>Set Stroke</p>
+      <div class="sub trigger-select-tool"></div>
+    </div>
+    <div class="sub wb-second-level" wb-sub-menu-name="eyedropper">
+      <p>Eyedropper</p>
+      <div class="sub trigger-select-tool"></div>
+    </div>
+    <div class="sub wb-second-level" wb-sub-menu-name="bucket">
+      <p>Bucket</p>
+      <div class="sub trigger-select-tool"></div>
+    </div>
+  </div>
+
+
+
+  <!-- Line 
+DRAW  Path
+      Rectangle
+      Circle
+      Text
+TOOL  Eraser
+      Move shape
+      Pan
+      Zoom
+COLOR Change fill
+      Change Stroke
+ -->
+</div>
+

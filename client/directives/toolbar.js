@@ -12,7 +12,7 @@ angular.module('whiteboard')
     // },
     controller: function ($scope, MenuHandler) {
 
-      var colors = [
+      var fill = [
         '#e74c3c', 
         '#e67e22', 
         '#f1c40f', 
@@ -25,10 +25,23 @@ angular.module('whiteboard')
         '#ecf0f1',
       ];
 
+      var stroke = [
+        '#c0392b',
+        '#d35400',
+        '#f39c12',
+        '#16a085',
+        '#27ae60',
+        '#2980b9',
+        '#8e44ad',
+        '#2c3e50',
+        '#7f8c8d',
+        '#bdc3c7',
+      ];
+
       $scope.menuStructure = [
         ['Draw', ['Path', 'Line', 'Arrow', 'Rectangle', 'Circle']], 
         ['Tool', ['Magnify', 'Eraser', 'Pan', 'Move', 'Copy']],
-        ['Color', [['Fill', colors], ['Stroke', colors]]]
+        ['Color', [['Fill', fill], ['Stroke', stroke]]]
       ];
 
       
@@ -103,9 +116,9 @@ angular.module('whiteboard')
     controller: function ($scope) {
 
       this.submenuOpener = function (action) {
-        if (action.level === 2) {
-          this.submenuCloser();
-        }
+        //if (action.level === 2) {
+        this.submenuCloser({action: 'hide', level: action.level});
+        //}
         $scope.$broadcast('toggleSubmenu', action);
       }
 
@@ -208,6 +221,14 @@ angular.module('whiteboard')
         BoardData.setCurrentToolName(toolName); 
       }
 
+      this.setColors = function (type, color) {
+        if (type === 'fill') {
+          BoardData.setColors(color, null); 
+        } else {
+          BoardData.setColors(null, color); 
+        }
+      }
+
     },
     link: function (scope, element, attrs, submenuItemsCtrl) {
 
@@ -218,9 +239,12 @@ angular.module('whiteboard')
 
       element.bind('mouseleave', function (ev) {
         ev.stopPropagation();
-        if (angular.element(ev.relatedTarget).is('svg')) {
+        if (attrs.wbTool && angular.element(ev.relatedTarget).is('svg')) {
           submenuItemsCtrl.setTool(attrs.wbTool)
-          scope.$emit('activateMenu', 'hide')
+          scope.$emit('activateMenu', 'hide');
+        } else if (attrs.wbColor && angular.element(ev.relatedTarget).is('svg')) {
+          submenuItemsCtrl.setColors(attrs.wbColorType, attrs.wbColor);
+          scope.$emit('activateMenu', 'hide');
         }
         // console.log(angular.element(ev.relatedTarget).is('svg'))
       })

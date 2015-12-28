@@ -58,6 +58,18 @@ svg {
   right: 10px;
 }
 
+.text-vertically-aligned {
+  /* code below to vertically align menu*/
+  text-align: center;
+  /*height: 33.33333%;*/
+  padding: 50% 0;
+}
+
+.show .text-vertically-aligned {
+  width: 100%;
+  right: 0;
+}
+
 .menu .wb-submenu-opener {
   width: 40%;
   height: 100%;
@@ -87,7 +99,7 @@ svg {
 
 .level-two-items {
   height: 100%;
-  position: relative;
+  /*position: relative;*/
   z-index: 1;
 }
 

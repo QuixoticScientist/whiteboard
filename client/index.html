@@ -4,10 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Whiteboard</title>
-  <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./styles/style.css">
-  <link rel="stylesheet" href="./styles/colorpicker.min.css">
-  <script src="/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/styles/style.css">
+  <link rel="stylesheet" href="/styles/colorpicker.min.css">
 </head>
 <body>
   <h1 class="title">Albus</h1>
@@ -17,28 +16,33 @@
   <script>
     document.onselectstart = function () { return false; };
   </script>
-  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
-  <script src="/lib/angular-socket-io/socket.js"></script>
 
+<!--   // <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  // <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  // <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  // <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script> -->
+
+  <!-- build:js js/vendor.js -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/raphael.js"></script>
+  <script src="/lib/jquery/dist/jquery.js"></script>
+  <script src="/lib/underscore/underscore.js"></script>
+  <script src="/lib/angular/angular.js"></script>
+  <script src="/lib/angular-route/angular-route.js"></script>
+  <script src="/lib/angular-socket-io/socket.js"></script>
   <script src="/js/bootstrap-colorpicker-module.min.js"></script>
-  <script src="./js/raphael.js"></script>
-  <script src="./js/resize-handler.js"></script>
+  <script src="/js/resize-handler.js"></script>
+  <!-- endbuild -->
   
   <!-- Leap Motion -->
   <script src="//js.leapmotion.com/leap-0.6.3.min.js"></script>
   <script src="//js.leapmotion.com/leap-plugins-0.1.11.js"></script>
   <script src="//js.leapmotion.com/leap-plugins-0.1.11-utils.js"></script>
   
+  <!-- build:js js/whiteboard.js -->
   <script src="./app.js"></script>
-  
-  <!-- Angular DIRECTIVES -->
   <script src="./directives/board.js"></script>
   <script src="./directives/toolbar.js"></script>
-  
-  <!-- Angular SERVICES -->
   <script src="./services/sockets.js"></script>
   <script src="./services/receive.js"></script>
   <script src="./services/broadcast.js"></script>
@@ -55,5 +59,6 @@
   <script src="./services/leap.js"></script>
   <script src="./services/visualizer.js"></script>
   <script src="./services/menu-handler.js"></script>
+  <!-- endbuild -->
 </body>
 </html>

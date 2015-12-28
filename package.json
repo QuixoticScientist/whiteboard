@@ -3,6 +3,35 @@
   "version": "1.0.0",
   "description": "whiteboard",
   "main": "server/server.js",
+  "jshintConfig": {
+    "bitwise": true,
+    "camelcase": true,
+    "curly": false,
+    "expr": true,
+    "eqeqeq": true,
+    "immed": true,
+    "indent": 4,
+    "latedef": "nofunct",
+    "newcap": true,
+    "undef": false,
+    "unused": false,
+    "strict": false,
+    "globalstrict": true,
+    "trailing": true,
+    "maxparams": 4,
+    "maxdepth": 2,
+    "maxcomplexity": 6,
+    "node": true,
+    "browser": true,
+    "jquery": true,
+    "globals": {
+      "moment": true,
+      "before": true,
+      "describe": true,
+      "expect": true,
+      "it": true
+    }
+  },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.1",
@@ -20,7 +49,19 @@
     "webshot": "^0.16.0"
   },
   "devDependencies": {
-    "grunt": "^0.4.5"
+    "grunt": "^0.4.5",
+    "matchdep": "",
+    "grunt-contrib-jshint": "",
+    "grunt-contrib-less": "",
+    "grunt-contrib-copy": "",
+    "grunt-contrib-clean": "",
+    "grunt-contrib-watch": "",
+    "grunt-express-server": "",
+    "grunt-contrib-cssmin": "",
+    "grunt-usemin": "",
+    "grunt-filerev": "",
+    "grunt-contrib-concat": "",
+    "grunt-contrib-uglify": ""
   },
   "scripts": {
     "start": "node server/server.js",

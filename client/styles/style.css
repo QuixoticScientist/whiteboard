@@ -50,7 +50,8 @@ svg {
 
 .toolbar .menu {
   width: 100%;
-  background-color: red;
+  /*background-color: red;*/
+  background-color: rgba(10, 10, 10, 0.7);
 }
 
 .menu-text {
@@ -88,7 +89,8 @@ svg {
   height: 100%;
   position: absolute;
   margin-left: 200px;
-  background-color: orange;
+  /*background-color: orange;*/
+  background-color: rgba(10, 10, 10, 0.8);
   top: 0px;
   left: -400px;
 }
@@ -121,4 +123,25 @@ svg {
   height: 100%;
   position: relative;
   z-index: 1;
+}
+
+
+/*
+ *
+ * ICONS
+ *
+ */
+
+.icon {
+  background-repeat: no-repeat;
+  background-size: 150px;
+  background-position: 50%;
+}
+
+.icon-stroke {
+  background-image: url('../assets/images/stroke.png');
+}
+
+.icon-fill {
+  background-image: url('../assets/images/fill.png');
 }

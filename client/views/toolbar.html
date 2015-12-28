@@ -7,7 +7,7 @@
         <div ng-if="subMenu.toUpperCase()">
           <p>{{subMenu}}</p>
         </div>
-        <div ng-if="!subMenu.toUpperCase()" style="height: 100%" class="level-three">
+        <div ng-if="!subMenu.toUpperCase()" style="height: 100%" class="level-three icon icon-{{subMenu[0].toLowerCase()}}">
           <p class="menu-text text-vertically-aligned">{{subMenu[0]}}</p>
           <div class="menu wb-submenu-opener" wb-level="3"></div>
           <div class="menu level-three wb-submenu" wb-level="3">

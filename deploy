@@ -1,3 +1,13 @@
 #!/bin/bash
 
-git pull --rebase upstream dev
+#find . -type f \( -name "*.js" ! -name "*-min*" \) -exec awk '1' {} + > compiled.js
+
+zip_file="whiteboard.zip"    # /   (root directory)
+if [ -e "$zip_file" ]
+then
+  rm $zip_file
+fi
+
+#git pull --rebase upstream dev
+zip -r whiteboard.zip .
+scp -i ~/.ssh/qskeys.pem whiteboard.zip ec2-user@ec2-54-201-253-197.us-west-2.compute.amazonaws.com:

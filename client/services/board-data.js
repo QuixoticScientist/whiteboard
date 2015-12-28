@@ -183,6 +183,9 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function setColors (fill, stroke) {
+    fill = fill || tool.colors.fill;
+    stroke = stroke || tool.colors.stroke;
+    
     tool.colors.fill = fill;
     tool.colors.stroke = stroke; 
   }

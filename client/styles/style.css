@@ -52,6 +52,8 @@ svg {
   width: 100%;
   /*background-color: red;*/
   background-color: rgba(10, 10, 10, 0.7);
+  /*padding-top: 40%;*/
+  /*display: table;*/
 }
 
 .menu-text {
@@ -59,16 +61,17 @@ svg {
   right: 10px;
 }
 
-.text-vertically-aligned {
-  /* code below to vertically align menu*/
-  text-align: center;
-  /*height: 33.33333%;*/
-  padding: 50% 0;
+.show .menu-text {
+  width: 100%;
 }
 
-.show .text-vertically-aligned {
-  width: 100%;
-  right: 0;
+.valign-text {
+  /*display: table-cell;
+  vertical-align: middle;*/
+  text-align: center;
+  display: flex;
+  justify-content: center; /* align horizontal */
+  align-items: center; /* align vertical */
 }
 
 .menu .wb-submenu-opener {
@@ -101,8 +104,9 @@ svg {
 
 .level-two-items {
   height: 100%;
-  /*position: relative;*/
+  /*padding-top: 40%;*/
   z-index: 1;
+  /*display: table;*/
 }
 
 .toolbar .menu.level-three {
@@ -110,9 +114,13 @@ svg {
   height: 100%;
   position: absolute;
   margin-left: 200px;
-  background-color: yellow;
+  /*background-color: yellow;*/
   top: 0px;
   left: -600px;
+}
+
+.toolbar .level-three.icon {
+  width: 100%;
 }
 
 .toolbar .menu.level-three.show {

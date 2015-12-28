@@ -19,7 +19,9 @@
     "underscore": "^1.8.3",
     "webshot": "^0.16.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt": "^0.4.5"
+  },
   "scripts": {
     "start": "node server/server.js",
     "server": "node-inspector & nodemon --debug ./server/server.js",

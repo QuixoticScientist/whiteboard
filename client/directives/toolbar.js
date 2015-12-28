@@ -68,8 +68,8 @@ angular.module('whiteboard')
         }
       });
       
-      scope.wbFillColorSelect = scope.wbFillColorSelect === undefined ? 'transparent' : scope.wbFillColorSelect;
-      scope.wbStrokeColorSelect = scope.wbStrokeColorSelect === undefined ? '#000000' : scope.wbStrokeColorSelect;
+      //scope.wbFillColorSelect = scope.wbFillColorSelect === undefined ? 'transparent' : scope.wbFillColorSelect;
+      //scope.wbStrokeColorSelect = scope.wbStrokeColorSelect === undefined ? '#000000' : scope.wbStrokeColorSelect;
       
     }
   };
@@ -146,7 +146,7 @@ angular.module('whiteboard')
             submenuOpenerCtrl.submenuCloser({action: 'hide', level: '3'});
           } else if (ev.type === 'mouseleave' && angular.element(ev.toElement).hasClass('wb-submenu-opener')) {
             console.log('Here is where i broke D:');
-            console.log(ev)
+            // console.log(ev)
             submenuOpenerCtrl.submenuCloser({action: 'hide', level: attrs.wbLevel});
           }
         });
@@ -159,7 +159,7 @@ angular.module('whiteboard')
       }
 
       scope.$on('toggleMouseEv', function (event, action) {
-        console.log('ACTION: ', action)
+        // console.log('ACTION: ', action)
         if (action === 'show') {
           element.addClass('show');
           bindMouseEv();
@@ -185,7 +185,7 @@ angular.module('whiteboard')
         console.log('Sono qui?')
       } else {
         scope.$on('toggleSubmenu', function (event, msg) {
-          console.log(msg, attrs.wbLevel);
+          // console.log(msg, attrs.wbLevel);
           if (msg.action === 'show') {
             if (msg.level === attrs.wbLevel) {
               element.addClass('show');
@@ -239,13 +239,15 @@ angular.module('whiteboard')
 
       element.bind('mouseleave', function (ev) {
         ev.stopPropagation();
-        console.log('!!!!!!!!!!!!!!!!!', attrs.wbTool, angular.element(ev.relatedTarget));
+        // console.log('!!!!!!!!!!!!!!!!!', attrs.wbTool, angular.element(ev.relatedTarget));
         if (attrs.wbTool && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
           submenuItemsCtrl.setTool(attrs.wbTool)
           scope.$emit('activateMenu', 'hide');
         } else if (attrs.wbColor && angular.element(ev.relatedTarget).is('svg')) {
           submenuItemsCtrl.setColors(attrs.wbColorType, attrs.wbColor);
           scope.$emit('activateMenu', 'hide');
+        } else if (angular.element(ev.relatedTarget).hasClass('menu')) {
+          scope.$emit('toggleAllSubmenu', {action: 'hide', level: '3'});
         }
         // console.log(angular.element(ev.relatedTarget).is('svg'))
       })

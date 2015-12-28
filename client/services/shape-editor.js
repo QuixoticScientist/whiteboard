@@ -41,7 +41,6 @@ angular.module('whiteboard.services.shapeeditor', [])
     shape.pathDProps += shape.pathDProps === '' ? 'M' + shape.initX + ',' + shape.initY + 'L' + x + ',' + y : 'L' + x + ',' + y;
     //this custom function is in raphael
     shape.customSetPathD(shape.pathDProps);
-    //console.log(shape);
   };
 
   var changeRectangle = function (shape, x, y) {

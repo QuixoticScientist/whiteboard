@@ -22,7 +22,6 @@ angular.module('whiteboard.services.eventhandler', [])
   }
 
   function moveShape (shape, x, y) {
-    //console.log(shape, ' Event Handler Shape');
     ShapeManipulation.moveShape(shape.id, shape.socketId, x, y);
   }
 

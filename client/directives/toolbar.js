@@ -239,7 +239,8 @@ angular.module('whiteboard')
 
       element.bind('mouseleave', function (ev) {
         ev.stopPropagation();
-        if (attrs.wbTool && angular.element(ev.relatedTarget).is('svg')) {
+        console.log('!!!!!!!!!!!!!!!!!', attrs.wbTool, angular.element(ev.relatedTarget));
+        if (attrs.wbTool && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
           submenuItemsCtrl.setTool(attrs.wbTool)
           scope.$emit('activateMenu', 'hide');
         } else if (attrs.wbColor && angular.element(ev.relatedTarget).is('svg')) {

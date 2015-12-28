@@ -12,3 +12,6 @@ dump.rdb
 Dockerfile
 
 *.log
+
+whiteboard.zip
+deploy

@@ -88,7 +88,7 @@ var roomsManager = {
   },
 
   moveShape: function (shape, socket) {
-    console.log(shape);
+    // console.log(shape);
     // var deltaX = shape.mouseX - shape.initX;
     // var deltaY = shape.mouseY - shape.initY;
     // rooms[socket.room][shape.socketId][shape.id]['initX'] = shape.initX;

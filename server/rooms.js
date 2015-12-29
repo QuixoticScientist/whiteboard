@@ -90,11 +90,11 @@ var roomsManager = {
   moveShape: function (shape, socket) {
     // var deltaX = shape.mouseX - shape.initX;
     // var deltaY = shape.mouseY - shape.initY;
-    // rooms[socket.room][shape.socketId][shape.id]['initX'] = shape.initX;
-    // rooms[socket.room][shape.socketId][shape.id]['initY'] = shape.initY;
-    // rooms[socket.room][shape.socketId][shape.id]['mouseX'] = shape.mouseX + deltaX;
-    // rooms[socket.room][shape.socketId][shape.id]['mouseY'] = shape.mouseY + deltaY;
-    // rooms[socket.room][shape.socketId][shape.id] = shape;
+    // rooms[socket.room][shape.socketId][shape.myid]['initX'] = shape.initX;
+    // rooms[socket.room][shape.socketId][shape.myid]['initY'] = shape.initY;
+    // rooms[socket.room][shape.socketId][shape.myid]['mouseX'] = shape.mouseX + deltaX;
+    // rooms[socket.room][shape.socketId][shape.myid]['mouseY'] = shape.mouseY + deltaY;
+    // rooms[socket.room][shape.socketId][shape.myid] = shape;
   },
 
   completePath: function (shape, socket) {
@@ -104,7 +104,7 @@ var roomsManager = {
 
   completeShape: function (shape, socket) {
     if (shape.tool && shape.tool.text) {
-      rooms[socket.room][socket.id][shape.id]['tool']['text'] = shape.tool.text;
+      rooms[socket.room][socket.id][shape.myid]['tool']['text'] = shape.tool.text;
     }
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
   },

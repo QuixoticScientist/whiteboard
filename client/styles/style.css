@@ -93,7 +93,15 @@ svg {
   text-align: center;
   display: flex;
   justify-content: center; /* align horizontal */
-  align-items: center; /* align vertical */
+  align-items: flex-end; /* align vertical */
+}
+
+/*.level-two-items .valign-text {
+  margin-top: 120px;
+}*/
+
+.level-three .valign-text {
+  line-height: 13;
 }
 
 .menu .wb-submenu-opener {
@@ -241,7 +249,7 @@ svg {
 /* Icons level two/one */
 .icon-magnify {
   background-image: url('../assets/images/magnify.png');
-  background-size: 75px;
+  background-size: 60px;
 }
 
 .icon-eraser {
@@ -288,3 +296,246 @@ svg {
   font-weight: 400;
   src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
 }
+
+/*
+ *
+ * MEDIA QUERIES
+ *
+ */
+
+ @media (max-height: 950px) {
+
+  .toolbar .menu.level-three {
+    height: 100%;
+  }  
+
+
+}
+
+@media (max-height: 900px) {
+  
+  .toolbar {
+    height: 99%;
+  }
+
+  /*.toolbar .menu.level-two {
+    height: 97.7%;
+  }*/
+
+  .toolbar .menu.level-two.tool,
+  .toolbar .menu.level-two.draw {
+    height: 94.9%;
+  }
+
+  .toolbar .menu.level-three {
+    height: 99.5%;%;
+  }  
+
+
+}
+
+@media (max-height: 800px) {
+  
+  .toolbar {
+    height: 99%;
+  }
+
+  .show .menu-text {
+    margin-top: 100%;
+  }
+
+  .valign-text {
+    line-height: 0;
+  }
+
+  .level-three .valign-text {
+    line-height: 9;
+  }
+
+  .toolbar .menu.level-two {
+    height: 97.7%;
+  }
+
+  .toolbar .menu.level-two.tool,
+  .toolbar .menu.level-two.draw {
+    height: 94.7%;
+  }
+
+  .toolbar .menu.level-three {
+    height: 98.5%;
+  }  
+
+
+}
+
+@media (max-height: 750px) {
+  
+  .toolbar .menu.level-three {
+    height: 97.9%;
+  }
+
+}
+
+@media (max-height: 700px) {
+  
+  .toolbar {
+    height: 99%;
+  }
+
+  .toolbar .menu.level-two {
+    height: 97.7%;
+  }
+
+  .toolbar .menu.level-two.tool,
+  .toolbar .menu.level-two.draw {
+    height: 94.4%;
+  }
+
+  .level-two-items.icon {
+    background-size: 70px;
+  }
+
+  .level-two-items.icon.icon-magnify {
+    background-size: 45px;
+  }
+
+  .level-two-items.icon.icon-arrow {
+    background-size: 65px;
+  }
+
+  .toolbar .menu.level-three {
+    height: 97.2%;
+  }  
+
+}
+
+@media (max-height: 660px) {
+  
+  .show .menu-text {
+    margin-top: 85%;
+  }
+
+  .valign-text {
+    line-height: 0;
+  }
+
+  .level-three .valign-text {
+    line-height: 9;
+  }
+
+  .toolbar .menu.level-two {
+    height: 97.9%;
+  }
+
+  .toolbar .menu.level-three {
+    height: 96.7%;
+  }
+
+}
+
+@media (max-height: 650px) {
+  
+  .toolbar .menu.level-three {
+    height: 96.6%;
+  }
+
+}
+
+@media (max-height: 600px) {
+  
+  .toolbar {
+    height: 98%;
+  }
+
+  .menu-text {
+    margin-top: 70%;
+  }
+
+  .toolbar .menu.level-two {
+    height: 98.1%;
+  }
+
+  .toolbar .menu.level-two.tool,
+  .toolbar .menu.level-two.draw {
+    height: 95.5%;
+  }
+
+  .toolbar .menu.level-three {
+    height: 95.4%;
+  }
+
+  .level-two-items.icon {
+    background-size: 50px;
+  }
+
+  .level-two-items.icon.icon-magnify {
+    background-size: 35px;
+  }
+
+  .level-two-items.icon.icon-arrow {
+    background-size: 45px;
+  }
+
+}
+
+@media (max-height: 550px) {
+ 
+  .toolbar .menu.level-two.tool,
+  .toolbar .menu.level-two.draw {
+    height: 93.7%;
+  }
+
+  .toolbar .menu.level-three {
+    height: 94.5%;
+  }
+
+  .show .menu-text {
+    margin-top: 75%;
+  }
+
+}
+
+@media (max-height: 500px) {
+  
+  .toolbar {
+    height: 97%;
+  }
+
+  .show .menu-text {
+    margin-top: 70%;
+  }
+
+  .toolbar .menu.level-two.tool,
+  .toolbar .menu.level-two.draw {
+    height: 93.3%;
+  }
+
+  .toolbar .menu.level-two {
+    height: 98.3%;
+  }
+
+  .toolbar .menu.level-three {
+    height: 92.9%;
+  }
+
+  .level-two-items.icon {
+    background-size: 40px;
+  }
+
+  .level-two-items.icon.icon-magnify {
+    background-size: 25px;
+  }
+
+  .level-two-items.icon.icon-arrow {
+    background-size: 30px;
+  }
+
+}
+
+
+
+
+
+
+
+

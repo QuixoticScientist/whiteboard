@@ -6,9 +6,10 @@ var bodyParser = require('body-parser');
 var util = require('./utils/util');
 var rooms = require('./rooms');
 var client = require('./db/config');
-var webshot = require('webshot');
 var fs = require('fs');
+var compression = require('compression');
 
+app.use(compression());
 app.use(express.static(__dirname + '/../client'));
 app.use(express.static(__dirname + '/lib'));
 app.use(bodyParser.json());
@@ -22,7 +23,7 @@ var server = http.createServer(app);
 var io = require('./sockets')(server, { serveClient: true });
 
 app.get('/:id', function (req, res) {
-  res.sendfile('client/index.html');
+  res.sendfile('./client/index.html');
 });
 
 app.get('/:id/screenShot', function (req, res) {

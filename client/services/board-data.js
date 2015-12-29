@@ -77,7 +77,7 @@ angular.module('whiteboard.services.boarddata', [])
   }
 
   function setEditorShape (shape) {
-    editorShape = shape //shapeStorage[shape.socketId][shape.id];
+    editorShape = shape //shapeStorage[shape.socketId][shape.myid];
   }
 
   function unsetEditorShape () {

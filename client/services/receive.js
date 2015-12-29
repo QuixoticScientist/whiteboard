@@ -1,6 +1,7 @@
 angular.module('whiteboard.services.receive', [])
 .factory('Receive', function (Sockets, EventHandler) {
   Sockets.on('showExisting', function (data) {
+    console.log(data);
     for (socketId in data) {
       if (Object.keys(data[socketId]).length) {
         for (id in data[socketId]) {
@@ -12,7 +13,7 @@ angular.module('whiteboard.services.receive', [])
             if (thisShape.tool.name !== 'text') {
               EventHandler.editShape(id, socketId, thisShape.tool, thisShape.mouseX, thisShape.mouseY);
             }
-            EventHandler.finishShape(thisShape);
+            EventHandler.finishShape(thisShape.myid, thisShape.socketId, thisShape.tool);
           }
         }
       }
@@ -24,7 +25,7 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeEdited', function (data) {
-    EventHandler.editShape(data.id, data.socketId, data.tool, data.mouseX, data.mouseY);
+    EventHandler.editShape(data.myid, data.socketId, data.tool, data.mouseX, data.mouseY);
   });
 
   Sockets.on('shapeCompleted', function (data) {
@@ -32,7 +33,7 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeCreated', function (data) {
-    EventHandler.createShape(data.id, data.socketId, data.tool, data.initX, data.initY);
+    EventHandler.createShape(data.myid, data.socketId, data.tool, data.initX, data.initY);
   });
 
   Sockets.on('shapeMoved', function (data) {
@@ -40,7 +41,7 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeDeleted', function (data) {
-    EventHandler.deleteShape(data.id, data.socketId);
+    EventHandler.deleteShape(data.myid, data.socketId);
   });
 
   return {};

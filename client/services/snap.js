@@ -181,12 +181,12 @@ angular.module('whiteboard.services.snap', [])
 
   var createSnaps = function (shape) {
     Visualizer.clearSnaps();
-    this.endSnaps[shape.id] = findSnaps(shape);
+    this.endSnaps[shape.myid] = findSnaps(shape);
     recreateKDTree(this.endSnaps);
   };
 
   var deleteSnaps = function (shape) {
-    this.endSnaps[shape.id] = null;
+    this.endSnaps[shape.myid] = null;
     recreateKDTree(this.endSnaps);
   }
 

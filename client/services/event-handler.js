@@ -13,8 +13,8 @@ angular.module('whiteboard.services.eventhandler', [])
   	ShapeEditor.editShape(id, socketId, tool, x, y);
   }
 
-  function finishShape (shape) {
-    ShapeEditor.finishShape(shape.id, shape.socketId, shape.tool);
+  function finishShape (id, socketId, tool) {
+    ShapeEditor.finishShape(id, socketId, tool);
   }
 
   function deleteShape (id, socketId) {
@@ -22,7 +22,7 @@ angular.module('whiteboard.services.eventhandler', [])
   }
 
   function moveShape (shape, x, y) {
-    ShapeManipulation.moveShape(shape.id, shape.socketId, x, y);
+    ShapeManipulation.moveShape(shape.myid, shape.socketId, x, y);
   }
 
   function finishMovingShape (id, socketId) {
@@ -31,7 +31,7 @@ angular.module('whiteboard.services.eventhandler', [])
 
   function drawExistingPath (shape) {
     ShapeBuilder.drawExistingPath(shape);
-    var currentShape = BoardData.getShapeById(shape.id, shape.socketId);
+    var currentShape = BoardData.getShapeById(shape.myid, shape.socketId);
     ShapeManipulation.pathSmoother(currentShape);
   }
 

@@ -47,6 +47,7 @@ angular.module('whiteboard.services.inputhandler', [])
     mouseDown: function (ev) {
       var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
       if (shape) {
+        console.log('Shape found!')
         BoardData.setEditorShape(shape);
       } else {
         toggle('move');
@@ -134,11 +135,11 @@ angular.module('whiteboard.services.inputhandler', [])
 
   actions.shape = {
     mouseDown: function (ev) {
-      var id = BoardData.generateShapeId();
       var socketId = BoardData.getSocketId();
       var currentTool = BoardData.getCurrentTool();
       var mouseXY = getMouseXY(ev);
       var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y);
+      var id = BoardData.generateShapeId();
 
       EventHandler.createShape(id, socketId, currentTool, coords[0], coords[1]);
       BoardData.setCurrentShape(id);
@@ -160,7 +161,7 @@ angular.module('whiteboard.services.inputhandler', [])
       var shape = BoardData.getCurrentShape();
       shape.tool = currentTool;
 
-      EventHandler.finishShape(shape);
+      EventHandler.finishShape(id, socketId, currentTool);
       BoardData.unsetCurrentShape();
       Visualizer.clearSnaps();
 

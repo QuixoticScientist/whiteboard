@@ -31,7 +31,7 @@ angular.module('whiteboard.services.eventhandler', [])
 
   function drawExistingPath (shape) {
     ShapeBuilder.drawExistingPath(shape);
-    var currentShape = BoardData.getShapeById(shape.id, shape.socketId);
+    var currentShape = BoardData.getShapeById(shape.myid, shape.socketId);
     ShapeManipulation.pathSmoother(currentShape);
   }
 

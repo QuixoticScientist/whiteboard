@@ -79,39 +79,39 @@ var roomsManager = {
   },
 
   addShape: function (shape, socket) {
-    rooms[socket.room][shape.socketId][shape.id] = shape;
+    rooms[socket.room][shape.socketId][shape.myid] = shape;
   },
 
   editShape: function (shape, socket) {
-    rooms[socket.room][shape.socketId][shape.id]['mouseX'] = shape.mouseX;
-    rooms[socket.room][shape.socketId][shape.id]['mouseY'] = shape.mouseY;   
+    rooms[socket.room][shape.socketId][shape.myid]['mouseX'] = shape.mouseX;
+    rooms[socket.room][shape.socketId][shape.myid]['mouseY'] = shape.mouseY;   
   },
 
   moveShape: function (shape, socket) {
     // console.log(shape);
     // var deltaX = shape.mouseX - shape.initX;
     // var deltaY = shape.mouseY - shape.initY;
-    // rooms[socket.room][shape.socketId][shape.id]['initX'] = shape.initX;
-    // rooms[socket.room][shape.socketId][shape.id]['initY'] = shape.initY;
-    // rooms[socket.room][shape.socketId][shape.id]['mouseX'] = shape.mouseX + deltaX;
-    // rooms[socket.room][shape.socketId][shape.id]['mouseY'] = shape.mouseY + deltaY;
-    rooms[socket.room][shape.socketId][shape.id].attr = shape.attr;
+    // rooms[socket.room][shape.socketId][shape.myid]['initX'] = shape.initX;
+    // rooms[socket.room][shape.socketId][shape.myid]['initY'] = shape.initY;
+    // rooms[socket.room][shape.socketId][shape.myid]['mouseX'] = shape.mouseX + deltaX;
+    // rooms[socket.room][shape.socketId][shape.myid]['mouseY'] = shape.mouseY + deltaY;
+    rooms[socket.room][shape.socketId][shape.myid].attr = shape.attr;
   },
 
   completePath: function (shape, socket) {
-    rooms[socket.room][socket.id][shape.id]['pathDProps'] = shape.pathDProps;
+    rooms[socket.room][socket.id][shape.myid]['pathDProps'] = shape.pathDProps;
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
   },
 
   completeShape: function (shape, socket) {
     if (shape.tool.text) {
-      rooms[socket.room][socket.id][shape.id]['tool']['text'] = shape.tool.text;
+      rooms[socket.room][socket.id][shape.myid]['tool']['text'] = shape.tool.text;
     }
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
   },
 
   deleteShape: function (shape, socket) {
-    delete rooms[socket.room][shape.socketId][shape.id];
+    delete rooms[socket.room][shape.socketId][shape.myid];
   }
 
 }

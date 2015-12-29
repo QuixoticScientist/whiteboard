@@ -13,9 +13,9 @@ angular.module('whiteboard.services.broadcast', [])
 
   Sockets.emit('idRequest');
 
-  var newShape = function (id, socketId, tool, mouseX, mouseY) {
+  var newShape = function (myid, socketId, tool, mouseX, mouseY) {
     Sockets.emit('newShape', {
-      id: id,
+      myid: myid,
       socketId: socketId,
       tool: tool,
       initX: mouseX,
@@ -23,41 +23,41 @@ angular.module('whiteboard.services.broadcast', [])
     });
   };
 
-  var editShape = function (id, socketId, currentTool, mouseX, mouseY) {
+  var editShape = function (myid, socketId, currentTool, mouseX, mouseY) {
     var data = {};
     data.mouseX = mouseX;
     data.mouseY = mouseY;
-    data.id = id;
+    data.myid = myid;
     data.socketId = socketId;
     data.tool = currentTool;
     Sockets.emit('editShape', data);
   };
 
-  var finishPath = function (id, currentTool, pathDProps) {
+  var finishPath = function (myid, currentTool, pathDProps) {
     Sockets.emit('pathCompleted', {
-      id: id,
+      myid: myid,
       tool: currentTool,
       pathDProps: pathDProps
     });
   };
 
-  var finishShape = function (id, currentTool) {
+  var finishShape = function (myid, currentTool) {
     Sockets.emit('shapeCompleted', {
-      id: id,
+      myid: myid,
       tool: currentTool
     });
   };
 
-  var deleteShape = function (id, socketId) {
+  var deleteShape = function (myid, socketId) {
     Sockets.emit('deleteShape', {
-      id: id,
+      myid: myid,
       socketId: socketId
     })
   };
 
   var moveShape = function (shape, x, y) {
     Sockets.emit('moveShape', {
-      id: shape.id,
+      myid: shape.myid,
       socketId: shape.socketId,
       initX: x,
       initY: y,
@@ -67,7 +67,7 @@ angular.module('whiteboard.services.broadcast', [])
 
   var finishMovingShape = function (shape) {
     Sockets.emit('finishMovingShape', {
-      id: shape.id,
+      myid: shape.myid,
       socketId: shape.socketId,
       attr: shape.attr()
     })

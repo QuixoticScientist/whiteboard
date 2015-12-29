@@ -11,11 +11,11 @@ angular.module('whiteboard.services.shapebuilder', [])
   }
 
   function drawExistingPath (shape) {
-    newShape(shape.id, shape.socketId, shape.tool, shape.initX, shape.initY);
-    var existingPath = BoardData.getShapeById(shape.id, shape.socketId);
+    newShape(shape.myid, shape.socketId, shape.tool, shape.initX, shape.initY);
+    var existingPath = BoardData.getShapeById(shape.myid, shape.socketId);
     existingPath.customSetPathD(shape.pathDProps);
     existingPath.pathDProps = shape.pathDProps;
-    BoardData.pushToStorage(shape.id, shape.socketId, existingPath);
+    BoardData.pushToStorage(shape.myid, shape.socketId, existingPath);
   }
 
   function newShape (id, socketId, tool, x, y) {
@@ -40,7 +40,7 @@ angular.module('whiteboard.services.shapebuilder', [])
       }
     };
     var shape = !!tool.text ? shapeConstructors[tool.name](x, y, tool.text) : shapeConstructors[tool.name](x, y);
-    // shape.id = id;
+    // shape.myid = id;
     shape.initX = x;
     shape.initY = y;
     setColor(shape, tool.colors);

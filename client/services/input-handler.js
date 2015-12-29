@@ -58,8 +58,8 @@ angular.module('whiteboard.services.inputhandler', [])
       var mouseXY = getMouseXY(ev);
 
       Visualizer.clearSelection();
-      Broadcast.moveShape(currentEditorShape, mouseXY.x, mouseXY.y);
       EventHandler.moveShape(currentEditorShape, mouseXY.x, mouseXY.y);
+      Broadcast.moveShape(currentEditorShape, mouseXY.x, mouseXY.y);
     },
     mouseUp: function (ev) {
       var editorShape = BoardData.getEditorShape();

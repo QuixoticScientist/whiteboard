@@ -56,13 +56,14 @@ angular.module('whiteboard.services.broadcast', [])
   };
 
   var moveShape = function (shape, x, y) {
+    var type = shape.type;
     Sockets.emit('moveShape', {
       myid: shape.myid,
       socketId: shape.socketId,
-      initX: x,
-      initY: y,
+      x: x,
+      y: y,
       attr: shape.attr()
-    })
+    });
   };
 
   var finishMovingShape = function (shape) {

@@ -30,7 +30,6 @@ angular.module('whiteboard.services.shapemanipulation', [])
   }
 
   function moveRectangle (shape, x, y) {
-    //console.log(shape.attr());
     var deltaX = x - grabPoint.x;
     var deltaY = y - grabPoint.y;
     shape.attr({

@@ -7,7 +7,7 @@ client/lib
 
 sandbox.js
 dump.rdb
-
+/ssh
 .elasticbeanstalk
 Dockerfile
 

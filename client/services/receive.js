@@ -1,6 +1,7 @@
 angular.module('whiteboard.services.receive', [])
 .factory('Receive', function (Sockets, EventHandler) {
   Sockets.on('showExisting', function (data) {
+    console.log(data);
     for (socketId in data) {
       if (Object.keys(data[socketId]).length) {
         for (id in data[socketId]) {
@@ -12,7 +13,7 @@ angular.module('whiteboard.services.receive', [])
             if (thisShape.tool.name !== 'text') {
               EventHandler.editShape(id, socketId, thisShape.tool, thisShape.mouseX, thisShape.mouseY);
             }
-            EventHandler.finishShape(thisShape);
+            EventHandler.finishShape(thisShape.id, thisShape.socketId, thisShape.tool);
           }
         }
       }

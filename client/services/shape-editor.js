@@ -111,8 +111,14 @@ angular.module('whiteboard.services.shapeeditor', [])
       });
     }
 
+    if (shape.pathDProps !== undefined) {
+      shape.attr('path', shape.pathDProps);
+    }
+    
     Snap.createSnaps(shape);
-    if ((shape.myid || shape.myid === 0) && tool.name === 'path') ShapeManipulation.pathSmoother(shape);
+    if ((shape.myid || shape.myid === 0) && tool.name === 'path') {
+      ShapeManipulation.pathSmoother(shape);
+    }
   };
 
   function deleteShape (id, socketId) {

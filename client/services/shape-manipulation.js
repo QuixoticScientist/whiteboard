@@ -38,11 +38,30 @@ angular.module('whiteboard.services.shapemanipulation', [])
     });
   }
 
+  function movePath (shape, x, y) {
+    var deltaX = x - grabPoint.x;
+    var deltaY = y - grabPoint.y;
+
+    var pathArr = shape.attr('path');
+    for (var seg in pathArr) {
+      pathArr[seg][1] = origin.path[seg][1] + deltaX;
+      pathArr[seg][2] = origin.path[seg][2] + deltaY;
+      if (pathArr[seg].length > 3) {
+        pathArr[seg][3] = origin.path[seg][3] + deltaX;
+        pathArr[seg][4] = origin.path[seg][4] + deltaY;
+        pathArr[seg][5] = origin.path[seg][5] + deltaX;
+        pathArr[seg][6] = origin.path[seg][6] + deltaY;
+      }
+    }
+
+    shape.attr('path',pathArr);
+  }
+
   function moveShape (id, socketId, x, y) {
     var shapeHandlers = {
       'circle': moveCircle,
-      // 'path': movePath,
-      // 'line': moveLine,
+      'path': movePath,
+      'line': movePath,
       'rect': moveRectangle
       // 'text': moveText
     };

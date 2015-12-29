@@ -52,12 +52,10 @@ module.exports = function(server) {
 
     socket.on('moveShape', function (data) {
       rooms.moveShape(data, socket);
-      // rooms.completeShape(socket);
       socket.to(this.room).emit('shapeMoved', data);
     });
 
     socket.on('finishMovingShape', function (data) {
-      console.log(data);
       rooms.completeShape(data, socket);
     });
 

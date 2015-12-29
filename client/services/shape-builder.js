@@ -10,6 +10,10 @@ angular.module('whiteboard.services.shapebuilder', [])
     }
   }
 
+  function setWidth (shape, width) {
+    shape.attr('stroke-width', width);
+  }
+
   function drawExistingPath (shape) {
     newShape(shape.myid, shape.socketId, shape.tool, shape.initX, shape.initY);
     var existingPath = BoardData.getShapeById(shape.myid, shape.socketId);
@@ -51,7 +55,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     setColor(shape, tool.colors);
     shape.myid = id;
     shape.socketId = socketId;
-    shape.attr('stroke-width', BoardData.getStrokeWidth());
+    setWidth(shape, tool['stroke-width']);
     BoardData.pushToStorage(id, socketId, shape);
   };
 

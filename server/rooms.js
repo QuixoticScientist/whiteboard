@@ -103,13 +103,8 @@ var roomsManager = {
   },
 
   completeShape: function (shape, socket) {
-<<<<<<< e4d46d53b05add63363fd8ed1a1e34c3a5671dd6
-    if (shape.tool.text) {
-      rooms[socket.room][socket.id][shape.myid]['tool']['text'] = shape.tool.text;
-=======
     if (shape.tool && shape.tool.text) {
       rooms[socket.room][socket.id][shape.id]['tool']['text'] = shape.tool.text;
->>>>>>> Working on persisting shape movement
     }
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
   },

@@ -99,7 +99,7 @@ angular.module('whiteboard.services.inputhandler', [])
           // enter key to complete text insertion process
           editorShape.tool = currentTool;
           Broadcast.finishShape(id, currentTool);
-          EventHandler.finishShape(editorShape);
+          EventHandler.finishShape(id, socketId, currentTool);
           editorShape = null;
         } else {
           // typing text

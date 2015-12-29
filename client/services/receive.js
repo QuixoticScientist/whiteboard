@@ -1,7 +1,6 @@
 angular.module('whiteboard.services.receive', [])
 .factory('Receive', function (Sockets, EventHandler) {
   Sockets.on('showExisting', function (data) {
-    console.log(data);
     for (socketId in data) {
       if (Object.keys(data[socketId]).length) {
         for (id in data[socketId]) {
@@ -29,7 +28,7 @@ angular.module('whiteboard.services.receive', [])
   });
 
   Sockets.on('shapeCompleted', function (data) {
-    EventHandler.finishShape(data);
+    EventHandler.finishShape(data.myid, data.socketId, data.tool);
   });
 
   Sockets.on('shapeCreated', function (data) {

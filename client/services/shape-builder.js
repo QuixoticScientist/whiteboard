@@ -37,6 +37,11 @@ angular.module('whiteboard.services.shapebuilder', [])
       },
       'text': function (x, y, text) {
         return !!text ? BoardData.getBoard().text(x, y, text) : BoardData.getBoard().text(x, y, 'Insert Text');
+      },
+      'arrow': function (x, y) {
+        var arrow = BoardData.getBoard().path("M" + String(x) + ',' + String(y));
+        arrow.attr('arrow-end', 'classic-wide-long');
+        return arrow;
       }
     };
     var shape = !!tool.text ? shapeConstructors[tool.name](x, y, tool.text) : shapeConstructors[tool.name](x, y);

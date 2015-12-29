@@ -90,6 +90,7 @@ angular.module('whiteboard.services.shapeeditor', [])
       'circle': changeCircle,
       'path': changePath,
       'line': changeLine,
+      'arrow': changeLine,
       'rectangle': changeRectangle,
       'text': changeText
     };

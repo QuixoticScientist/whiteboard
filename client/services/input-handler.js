@@ -213,7 +213,7 @@ angular.module('whiteboard.services.inputhandler', [])
     };
   }
 
-  var shapeTools = ['line','circle','path','rectangle'];
+  var shapeTools = ['line','circle','path','rectangle','arrow'];
   function parseToolName (toolName) {
     for (var i = 0; i < shapeTools.length; i++) {
       if (toolName === shapeTools[i]) {

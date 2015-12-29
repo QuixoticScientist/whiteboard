@@ -18,12 +18,14 @@ angular.module('whiteboard.services.shapeeditor', [])
     var deltaX = x - shape.initX;
     var deltaY = y - shape.initY;
 
-    if (Math.abs(deltaY / deltaX) < 0.05) {
-      y = shape.initY;
-    } else if (Math.abs(deltaX / deltaY) < 0.05) {
-      x = shape.initX;
+    if (Math.sqrt(Math.pow(deltaX,2) + Math.pow(deltaY,2)) > 20) {
+      if (Math.abs(deltaY) < 5) {
+        y = shape.initY;
+      } else if (Math.abs(deltaX) < 5) {
+        x = shape.initX;
+      }
     }
-    
+
     var coords = Snap.snapToPoints(x, y);
     if (!(shape.initX === coords[0] && shape.initY === coords[1])) {
       x = coords[0];

@@ -15,7 +15,7 @@ angular.module('whiteboard', [
   'whiteboard.services.zoom',
   'whiteboard.services.leapMotion',
   'whiteboard.services.visualizer',
-  'whiteboard.services.menuhandler',
+  // 'whiteboard.services.menuhandler',
   'colorpicker.module',
   'ngRoute'
 ])

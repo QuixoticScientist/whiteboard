@@ -10,7 +10,7 @@ angular.module('whiteboard')
     //   wbZoomScale: '@',
     //   wbColorSelect: '@'
     // },
-    controller: function ($scope, MenuHandler) {
+    controller: function ($scope) {
 
       var fill = [
         '#e74c3c', 
@@ -90,7 +90,6 @@ angular.module('whiteboard')
     link: function (scope, element, attrs, ctrl) {
       
       element.bind('mouseover mouseleave', function (ev) {
-        
         if (ev.type === 'mouseover' && angular.element(ev.relatedTarget).is('svg')) {
           // console.log(angular.element(ev.relatedTarget).is('svg'))
           // console.log('add class show');
@@ -138,7 +137,7 @@ angular.module('whiteboard')
           } else if (ev.type === 'mouseover' && attrs.wbLevel === '3') {
             console.log('Should open the color palette!')
             submenuOpenerCtrl.submenuOpener({action: 'show', level: '3'});
-          } else if (ev.type === 'mouseleave' && angular.element(ev.toElement).hasClass('level-one')){
+          } else if (ev.type === 'mouseleave' && angular.element(ev.toElement).hasClass('menu-text')){
             console.log('Should close submenu');
             submenuOpenerCtrl.submenuCloser({action: 'hide', level: '2'});
           } else if (ev.type === 'mouseleave' && angular.element(ev.toElement).hasClass('level-three')) {
@@ -239,11 +238,11 @@ angular.module('whiteboard')
 
       element.bind('mouseleave', function (ev) {
         ev.stopPropagation();
-        // console.log('!!!!!!!!!!!!!!!!!', attrs.wbTool, angular.element(ev.relatedTarget));
+        console.log('!!!!!!!!!!!!!!!!!', attrs.wbTool, angular.element(ev.relatedTarget));
         if (attrs.wbTool && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
           submenuItemsCtrl.setTool(attrs.wbTool)
           scope.$emit('activateMenu', 'hide');
-        } else if (attrs.wbColor && angular.element(ev.relatedTarget).is('svg')) {
+        } else if (attrs.wbColor && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
           submenuItemsCtrl.setColors(attrs.wbColorType, attrs.wbColor);
           scope.$emit('activateMenu', 'hide');
         } else if (angular.element(ev.relatedTarget).hasClass('menu')) {

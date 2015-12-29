@@ -1,6 +1,6 @@
 <div class="toolbar">
   <div class="menu level-one wb-menu-opener icon icon-{{menu[0].toLowerCase()}}" ng-repeat="menu in menuStructure" style="height: {{96.7/menuStructure.length}}%">
-    <p class="menu-text valign-text" style="height: {{96.7/menuStructure.length}}%" >{{menu[0]}}</p>
+    <p class="menu-text valign-text">{{menu[0]}}</p>
     <div class="menu wb-submenu-opener" wb-level="2"></div>
     <div class="menu level-two wb-submenu {{menu[0].toLowerCase()}}" wb-level="2">
       <div class="level-two-items wb-submenu-items valign-text icon icon-{{subMenu.toLowerCase()}}" wb-tool="{{setAttributeTool(subMenu)}}" ng-repeat="subMenu in menu[1]" style="height: {{100/menu[1].length}}%">

@@ -16,7 +16,7 @@ angular.module('whiteboard', [
   'whiteboard.services.leapMotion',
   'whiteboard.services.visualizer',
   // 'whiteboard.services.menuhandler',
-  'colorpicker.module',
+  // 'colorpicker.module',
   'ngRoute'
 ])
 .config(['$routeProvider', '$locationProvider', '$httpProvider',

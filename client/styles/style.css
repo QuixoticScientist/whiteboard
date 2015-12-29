@@ -4,6 +4,8 @@ body, html{
     overflow : hidden;
     height:100%;
     width:100%;
+    font-family: San Francisco;
+    font-weight: 200;
 }
 
 h1.title {
@@ -66,10 +68,23 @@ svg {
 .menu-text {
   position: absolute;
   right: 10px;
+  margin-top: 90%;
+}
+
+.icon-draw .menu-text {
+  right: 9px;
+}
+.icon-tool .menu-text {
+  right: 11px;
+}
+.icon-color .menu-text {
+  right: 8px;
 }
 
 .show .menu-text {
-  width: 100%;
+  width: 96%;
+  left: 8px;
+  margin-top: 110%;
 }
 
 .valign-text {
@@ -168,6 +183,7 @@ svg {
   margin: 8px 8px; 
 }
 */
+
 /*
  *
  * ICONS
@@ -209,6 +225,41 @@ svg {
   background-image: url('../assets/images/line.png');
 }
 
+.icon-arrow {
+  background-image: url('../assets/images/arrow.png');
+  background-size: 75px;
+}
+
+.icon-rectangle {
+  background-image: url('../assets/images/rectangle.png');
+}
+
+.icon-circle {
+  background-image: url('../assets/images/circle.png');
+}
+
+/* Icons level two/one */
+.icon-magnify {
+  background-image: url('../assets/images/magnify.png');
+  background-size: 75px;
+}
+
+.icon-eraser {
+  background-image: url('../assets/images/eraser.png');
+}
+
+.icon-pan {
+  background-image: url('../assets/images/pan.png');
+}
+
+.icon-move {
+  background-image: url('../assets/images/move.png');
+}
+
+.icon-copy {
+  background-image: url('../assets/images/copy.png');
+}
+
 /* Icons level two/three */
 .icon-stroke {
   background-image: url('../assets/images/stroke.png');
@@ -216,4 +267,24 @@ svg {
 
 .icon-fill {
   background-image: url('../assets/images/fill.png');
+}
+
+/*
+ *
+ * FONTS
+ *
+ */
+
+/** Thin */
+@font-face {
+  font-family: "San Francisco";
+  font-weight: 200;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.woff");
+}
+
+/** Regular */
+@font-face {
+  font-family: "San Francisco";
+  font-weight: 400;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
 }

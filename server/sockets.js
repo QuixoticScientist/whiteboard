@@ -42,6 +42,11 @@ module.exports = function(server) {
     });
 
     socket.on('pathCompleted', function (data) {
+      socket.to(this.room).emit('shapeCompleted', {
+        socketId: socket.id,
+        id: data.id,
+        tool: data.tool
+      });
       rooms.completePath(data, socket);
     });
 

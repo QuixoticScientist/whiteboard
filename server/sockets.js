@@ -57,6 +57,7 @@ module.exports = function(server) {
 
     socket.on('finishMovingShape', function (data) {
       rooms.completeShape(data, socket);
+      socket.to(this.room).emit('shapeFinishedMoving', data);
     });
 
     socket.on('deleteShape', function (data) {

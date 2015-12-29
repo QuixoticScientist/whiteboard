@@ -40,6 +40,10 @@ angular.module('whiteboard.services.receive', [])
     EventHandler.moveShape(data, data.x, data.y);
   });
 
+  Sockets.on('shapeFinishedMoving', function (data) {
+    EventHandler.finishMovingShape(data.myid, data.socketId);
+  });
+
   Sockets.on('shapeDeleted', function (data) {
     EventHandler.deleteShape(data.myid, data.socketId);
   });

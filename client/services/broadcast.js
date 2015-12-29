@@ -60,6 +60,8 @@ angular.module('whiteboard.services.broadcast', [])
     Sockets.emit('moveShape', {
       myid: shape.myid,
       socketId: shape.socketId,
+      x: x,
+      y: y,
       attr: shape.attr()
     });
   };

@@ -88,14 +88,18 @@ var roomsManager = {
   },
 
   moveShape: function (shape, socket) {
-    // console.log(shape);
-    // var deltaX = shape.mouseX - shape.initX;
-    // var deltaY = shape.mouseY - shape.initY;
-    rooms[socket.room][shape.socketId][shape.myid]['initX'] = shape.attr.x;
-    rooms[socket.room][shape.socketId][shape.myid]['initY'] = shape.attr.y;
-    // rooms[socket.room][shape.socketId][shape.myid]['mouseX'] = shape.mouseX + deltaX;
-    // rooms[socket.room][shape.socketId][shape.myid]['mouseY'] = shape.mouseY + deltaY;
-    console.log(rooms[socket.room][shape.socketId][shape.myid]);
+    var storedShape = rooms[socket.room][shape.socketId][shape.myid];
+    if (shape.attr.r) {
+      storedShape.initX = shape.attr.cx;
+      storedShape.initY = shape.attr.cy;
+      storedShape.mouseX = shape.attr.cx + shape.attr.r;
+      storedShape.mouseY = shape.attr.cy;
+    } else if (shape.attr.width) {
+      storedShape.initX = shape.attr.x;
+      storedShape.initY = shape.attr.y;
+      storedShape.mouseX = shape.attr.x + shape.attr.width;
+      storedShape.mouseY = shape.attr.y + shape.attr.height;
+    }
   },
 
   completePath: function (shape, socket) {

@@ -57,15 +57,11 @@ angular.module('whiteboard.services.broadcast', [])
 
   var moveShape = function (shape, x, y) {
     var type = shape.type;
-    if (type === 'rect') {
-      Sockets.emit('moveShape', {
-        myid: shape.myid,
-        socketId: shape.socketId,
-        // x: x,
-        // y: y,
-        attr: shape.attr()
-      });
-    }
+    Sockets.emit('moveShape', {
+      myid: shape.myid,
+      socketId: shape.socketId,
+      attr: shape.attr()
+    });
   };
 
   var finishMovingShape = function (shape) {

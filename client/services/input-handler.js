@@ -110,11 +110,23 @@ angular.module('whiteboard.services.inputhandler', [])
 
   actions.copy = {
     mouseDown: function (ev) {
-      var targetId = getClosestElementByArea(ev); // fix me
-      console.log(getClosestElementByArea(ev));
+      Visualizer.clearSelection();
+      var targetId = getClosestElementByArea(ev).id;
       var socketId = BoardData.getSocketId();
       var shape = BoardData.getShapeById(targetId, socketId);
-      console.log(targetId, socketId);
+      
+      var newId = BoardData.generateShapeId();
+      var mouseXY = getMouseXY(ev);
+
+      EventHandler.createShape(newId, socketId, shape.tool, mouseXY.x + 10, mouseXY.y + 10);
+      Broadcast.newShape(newId, socketId, shape.tool.name, mouseXY.x, mouseXY.y);
+
+      EventHandler.editShape(newId, socketId, shape.tool, mouseXY.x + 10, mouseXY.y + 10);
+      Broadcast.editShape(newId, socketId, shape.tool, mouseXY.x + 10, mouseXY.y + 10);
+
+      EventHandler.finishShape(newId, socketId, shape.tool, mouseXY.x + 10, mouseXY.y + 10);
+      Broadcast.finishShape(newId, shape.tool);
+
       console.log(BoardData.getShapeStorage());
     },
     mouseHold: function (ev) {

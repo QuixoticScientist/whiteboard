@@ -2,10 +2,9 @@ angular.module('whiteboard.services.visualizer', [])
 .factory('Visualizer', ['BoardData', function (BoardData) {
   var selectionGlow;
   var selected;
-  function visualizeSelection (ev) {
+  function visualizeSelection (selection) {
     var board = BoardData.getBoard();
     var scale = BoardData.getZoomScale()
-    var selection = board.getElementByPoint(ev.clientX, ev.clientY);
     if (!selection || !(selection === selected)) {
       if (selectionGlow) {
         selectionGlow.remove();

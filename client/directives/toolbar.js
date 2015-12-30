@@ -51,6 +51,10 @@ angular.module('whiteboard')
           // console.log('wbToolbar: closing all submenus')
           $scope.$broadcast('toggleSubmenu', msg)
         }
+      });
+
+      $scope.$on('resetAllBackgrounds', function () {
+        $scope.$broadcast('resetBackground');
       })
 
     },
@@ -256,6 +260,71 @@ angular.module('whiteboard')
         }
         // console.log(angular.element(ev.relatedTarget).is('svg'))
       })
+    }
+  };
+})
+.directive('wbMenuOverHandler', function () {
+  return {
+    restrict: 'A',
+    replace: false,
+    require: 'wbMenuOverHandler',
+    controller: function ($scope) {
+      var elemWidth;
+
+      this.storeElemWidth = function (width) {
+        elemWidth = width;
+      };
+
+      this.getElemWidth = function () {
+        return elemWidth;
+      };
+
+      this.calcBg = function (mouseX) {
+        var width = this.getElemWidth();
+
+        //100 : elemWidth = x : mouseX 
+        var bgSizes = {};
+        bgSizes.overed = mouseX * 100 / this.getElemWidth();
+        bgSizes.free = width - bgSizes.overed;
+
+        return bgSizes;
+      }; 
+
+    },
+    link: function (scope, element, attrs, ctrl) {
+      // {background: linear-gradient(90deg, rgba(53,53,53,0.99) {{overed}}%, rgba(53,53,53,0.89) free%)}
+
+      if (ctrl.getElemWidth() === undefined) {
+        ctrl.storeElemWidth(element.width())
+      }
+
+      var setBg = function (el, sizes) {
+        el.css({'background': 'linear-gradient(90deg, rgba(53,53,53,0.99) ' + sizes.overed + '%, rgba(53,53,53,0.89) ' + sizes.free + '%)'})
+      }
+
+      element.bind('mousemove', function (ev) {
+        ev.stopPropagation();
+
+        var $el = angular.element(ev.currentTarget);
+        
+        if ($el.hasClass('level-one')) {
+          // console.log('over level one');
+          var bgSizes = ctrl.calcBg(ev.clientX);
+          setBg($el, bgSizes);
+
+        } else if ($el.hasClass('level-two-items')) {
+          console.log('over level two')
+        }
+      });
+
+      element.bind('mouseleave', function (ev) {
+        scope.$emit('resetAllBackgrounds');
+      })
+
+      scope.$on('resetBackground', function () {
+        setBg(element, {overed: 0, free: 0});
+      })
+
     }
   };
 })

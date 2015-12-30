@@ -237,17 +237,21 @@ angular.module('whiteboard')
         // console.log(attrs.wbTool)
       })
 
-      element.bind('mouseout', function (ev) {
-        // ev.stopPropagation();
+      element.bind('mouseleave', function (ev) {
+        ev.stopPropagation();
         // console.log(angular.element(ev.currentTarget).hasClass('level-two-items'));
-        // console.log('!!!!!!!!!!!!!!!!!', attrs.wbTool, ev);
-        if (attrs.wbTool && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
-          submenuItemsCtrl.setTool(attrs.wbTool)
-          scope.$emit('activateMenu', 'hide');
-        } else if (attrs.wbColor && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
+        console.log('!!!!!!!!!!!!!!!!!', attrs.wbTool, ev);
+        // if (angular.element(ev.currentTarget).hasClass('level-two-items')) { return; } 
+        if (attrs.wbColor && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
+          console.log('A')
           submenuItemsCtrl.setColors(attrs.wbColorType, attrs.wbColor);
           scope.$emit('activateMenu', 'hide');
+        } else if (attrs.wbTool && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
+          console.log('b')
+          submenuItemsCtrl.setTool(attrs.wbTool)
+          scope.$emit('activateMenu', 'hide');
         } else if (angular.element(ev.relatedTarget).hasClass('menu')) {
+          console.log('c')
           scope.$emit('toggleAllSubmenu', {action: 'hide', level: '3'});
         }
         // console.log(angular.element(ev.relatedTarget).is('svg'))

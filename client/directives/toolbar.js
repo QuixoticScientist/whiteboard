@@ -240,7 +240,7 @@ angular.module('whiteboard')
       element.bind('mouseleave', function (ev) {
         ev.stopPropagation();
         // console.log(angular.element(ev.currentTarget).hasClass('level-two-items'));
-        console.log('!!!!!!!!!!!!!!!!!', attrs.wbTool, ev);
+        // console.log('!!!!!!!!!!!!!!!!!', attrs.wbTool, ev);
         // if (angular.element(ev.currentTarget).hasClass('level-two-items')) { return; } 
         if (attrs.wbColor && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
           console.log('A')

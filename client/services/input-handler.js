@@ -129,22 +129,22 @@ angular.module('whiteboard.services.inputhandler', [])
 
         var parsedPathArray = Raphael.parsePathString(shape.pathDProps);
 
-        var tmp = parsedPathArray.map(function (coordinate) {
+        var temp = parsedPathArray.map(function (coordinate) {
           return coordinate.map(function (element) {
-            // console.log(element)
-            if (typeof element === 'number') {
-              return element + 10;
-            } else {
-              return element;
-            }
+            return typeof element === 'number' ? element + 10 : element;
           });
         });
 
-        currentShape.pathDProps = tmp;
+        var strTemp = temp.map(function (coordinate) {
+          return coordinate[0] + coordinate[1] + ',' + coordinate[2];
+        }).join('');
+
+        currentShape.pathDProps = strTemp;
       }
-      
+
       EventHandler.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);
       Broadcast.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);
+
       EventHandler.finishShape(newId, socketId, shape.tool);
       Broadcast.finishShape(newId, shape.tool);
 

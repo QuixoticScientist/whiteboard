@@ -32,7 +32,6 @@ angular.module('whiteboard.services.shapebuilder', [])
       },
       'path': function (x, y) {
         var path = BoardData.getBoard().path("M" + String(x) + "," + String(y));
-        // Do we wanna change this?
         path.pathDProps = '';
         return path;
       },
@@ -55,7 +54,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     setColor(shape, tool.colors);
     shape.myid = id;
     shape.socketId = socketId;
-    setWidth(shape, tool['stroke-width']);
+    if (tool.name !== 'arrow') setWidth(shape, tool['stroke-width']);
     BoardData.pushToStorage(id, socketId, shape);
   };
 

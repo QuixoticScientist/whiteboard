@@ -147,8 +147,6 @@ angular.module('whiteboard.services.inputhandler', [])
 
       EventHandler.finishShape(newId, socketId, shape.tool);
       shape.tool.name === 'path' ? Broadcast.finishCopiedPath(newId, shape.tool, currentShape.pathDProps) : Broadcast.finishShape(newId, shape.tool);
-
-      console.log(BoardData.getShapeStorage());
     },
     mouseHold: function (ev) {
       //

@@ -53,8 +53,8 @@ angular.module('whiteboard')
         }
       });
 
-      $scope.$on('resetAllBackgrounds', function () {
-        $scope.$broadcast('resetBackground');
+      $scope.$on('resetBackgrounds', function (ev, msg) {
+        $scope.$broadcast('resetTargetBackground', msg);
       })
 
     },
@@ -254,7 +254,7 @@ angular.module('whiteboard')
           console.log('b')
           submenuItemsCtrl.setTool(attrs.wbTool)
           scope.$emit('activateMenu', 'hide');
-        } else if (angular.element(ev.relatedTarget).hasClass('menu')) {
+        } else if (angular.element(ev.relatedTarget).hasClass('menu') || angular.element(ev.relatedTarget).hasClass('icon')) {
           console.log('c')
           scope.$emit('toggleAllSubmenu', {action: 'hide', level: '3'});
         }
@@ -270,6 +270,15 @@ angular.module('whiteboard')
     require: 'wbMenuOverHandler',
     controller: function ($scope) {
       var elemWidth;
+      // var elemLeftOffset;
+
+      // this.storeElemLeftOffset = function (leftOffset) {
+      //   elemLeftOffset = leftOffset;
+      // };
+
+      // this.getElemLeftOffset = function () {
+      //   return elemLeftOffset;
+      // };
 
       this.storeElemWidth = function (width) {
         elemWidth = width;
@@ -279,13 +288,14 @@ angular.module('whiteboard')
         return elemWidth;
       };
 
-      this.calcBg = function (mouseX) {
+      this.calcBg = function (mouseX, leftOffset) {
         var width = this.getElemWidth();
 
         //100 : elemWidth = x : mouseX 
         var bgSizes = {};
-        bgSizes.overed = mouseX * 100 / this.getElemWidth();
-        bgSizes.free = width - bgSizes.overed;
+        bgSizes.overed = (mouseX - leftOffset) * 100 / this.getElemWidth();
+        // bgSizes.free = 100 - bgSizes.overed;
+        // bgSizes.free = 0;
 
         return bgSizes;
       }; 
@@ -298,18 +308,36 @@ angular.module('whiteboard')
         ctrl.storeElemWidth(element.width())
       }
 
-      var setBg = function (el, sizes) {
-        el.css({'background': 'linear-gradient(90deg, rgba(53,53,53,0.99) ' + sizes.overed + '%, rgba(53,53,53,0.89) ' + sizes.free + '%)'})
+      // console.log(element.offset())
+      // ctrl.storeElemWidth(element.offset().left);
+
+      var setBg = function (el, sizes) { 
+        // console.log(sizes.overed, el.offset().left)
+        el.css({'background': 'linear-gradient(90deg, rgba(177,102,24,0.96) ' + (sizes.overed) + '%, rgba(53,53,53,0.93) 0%)'})
       }
+
+      element.bind('mouseover', function (ev) {
+        ev.stopPropagation();
+        // console.log(ev);
+        if (angular.element(ev.currentTarget).hasClass('level-two-items')) {
+          var $levelOne = angular.element(ev.currentTarget).parents('.level-one')
+          console.log($levelOne)
+          setBg($levelOne, {overed: 100});
+        } else if (angular.element(ev.currentTarget).hasClass('level-one')) {
+          scope.$emit('resetBackgrounds', {target: 'level-two-items'});
+        }
+
+
+      });
 
       element.bind('mousemove', function (ev) {
         ev.stopPropagation();
 
         var $el = angular.element(ev.currentTarget);
         
-        if ($el.hasClass('level-one')) {
+        if ($el.hasClass('level-one') || $el.hasClass('level-two-items')) {
           // console.log('over level one');
-          var bgSizes = ctrl.calcBg(ev.clientX);
+          var bgSizes = ctrl.calcBg(ev.clientX, $el.offset().left);
           setBg($el, bgSizes);
 
         } else if ($el.hasClass('level-two-items')) {
@@ -318,11 +346,33 @@ angular.module('whiteboard')
       });
 
       element.bind('mouseleave', function (ev) {
-        scope.$emit('resetAllBackgrounds');
+
+        var $elTarget = angular.element(ev.currentTarget);
+        var $elToElement = angular.element(ev.toElement);
+
+        console.log($elToElement)
+        if ($elTarget.hasClass('level-two-items')) {
+          // console.log(ev)
+          if ($elToElement).is('svg')) {
+            scope.$emit('resetBackgrounds', {target: 'all'});
+          } else if ($elToElement.hasClass('wb-submenu-opener')) {
+            scope.$emit('resetBackgrounds', {target: 'level-one'});
+          } else {
+            scope.$emit('resetBackgrounds', {target: 'level-two-items'});
+          }
+        } else if ($elTarget.hasClass('level-one')) {
+          // console.log('reset!')
+          scope.$emit('resetBackgrounds', {target: 'level-one'});
+        }
       })
 
-      scope.$on('resetBackground', function () {
-        setBg(element, {overed: 0, free: 0});
+      scope.$on('resetTargetBackground', function (ev, msg) {
+        if (msg.target === 'all') {
+          setBg(element, {overed: 0, free: 0});  
+        } else if (element.hasClass(msg.target)) {
+          setBg(element, {overed: 0, free: 0});
+        }
+        
       })
 
     }

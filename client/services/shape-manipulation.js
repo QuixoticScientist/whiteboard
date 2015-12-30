@@ -22,7 +22,6 @@ angular.module('whiteboard.services.shapemanipulation', [])
   function moveCircle (shape, x, y) {
     var deltaX = x - grabPoint.x;
     var deltaY = y - grabPoint.y;
-    var circleProps = shape.attr();
     shape.attr({
       cx: origin.cx + deltaX,
       cy: origin.cy + deltaY
@@ -68,13 +67,22 @@ angular.module('whiteboard.services.shapemanipulation', [])
     shape.attr('path',pathArr);
   }
 
+  function moveText (shape, x, y) {
+    var deltaX = x - grabPoint.x;
+    var deltaY = y - grabPoint.y;
+    shape.attr({
+      x: origin.x + deltaX,
+      y: origin.y + deltaY
+    });
+  }
+
   function moveShape (id, socketId, x, y) {
     var shapeHandlers = {
       'circle': moveCircle,
       'path': movePath,
       'line': movePath,
-      'rect': moveRectangle
-      // 'text': moveText
+      'rect': moveRectangle,
+      'text': moveText
     };
     var shape = BoardData.getShapeById(id, socketId).toFront();
     if (!grabPoint) {

@@ -184,9 +184,10 @@ angular.module('whiteboard.services.inputhandler', [])
       var socketId = BoardData.getSocketId();
       var currentTool = BoardData.getCurrentTool();
       var mouseXY = getMouseXY(ev);
+      var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y);
 
-      Broadcast.editShape(id, socketId, currentTool, mouseXY.x, mouseXY.y);
-      EventHandler.editShape(id, socketId, currentTool, mouseXY.x, mouseXY.y);
+      Broadcast.editShape(id, socketId, currentTool, coords[0], coords[1]);
+      EventHandler.editShape(id, socketId, currentTool, coords[0], coords[1]);
     },
     mouseUp: function (ev) {
       var id = BoardData.getCurrentShapeId();

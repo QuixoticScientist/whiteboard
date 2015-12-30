@@ -2,11 +2,11 @@ angular.module('whiteboard.services.shapeeditor', [])
 .factory('ShapeEditor', ['BoardData', 'Snap', 'ShapeManipulation', function (BoardData, Snap, ShapeManipulation) {
 
   var changeCircle = function (shape, x, y) {
-    var coords = Snap.snapToPoints(x, y);
-    if (!(shape.initX === coords[0] && shape.initY === coords[1])) {
-      x = coords[0];
-      y = coords[1];
-    }
+    // var coords = Snap.snapToPoints(x, y);
+    // if (!(shape.initX === coords[0] && shape.initY === coords[1])) {
+    //   x = coords[0];
+    //   y = coords[1];
+    // }
     var deltaX = x - shape.initX;
     var deltaY = y - shape.initY;
     var newRadius = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
@@ -26,11 +26,11 @@ angular.module('whiteboard.services.shapeeditor', [])
       }
     }
 
-    var coords = Snap.snapToPoints(x, y);
-    if (!(shape.initX === coords[0] && shape.initY === coords[1])) {
-      x = coords[0];
-      y = coords[1];
-    }
+    // var coords = Snap.snapToPoints(x, y);
+    // if (!(shape.initX === coords[0] && shape.initY === coords[1])) {
+    //   x = coords[0];
+    //   y = coords[1];
+    // }
 
     var linePathOrigin = "M" + String(shape.initX) + "," + String(shape.initY);
     var linePathEnd = "L" + String(x) + "," + String(y);
@@ -46,29 +46,29 @@ angular.module('whiteboard.services.shapeeditor', [])
   };
 
   var changeRectangle = function (shape, x, y) {
-    var coords = Snap.snapToPoints(x, y);
+    // var coords = Snap.snapToPoints(x, y);
     var left, top;
     
     if (x < shape.initX && y < shape.initY) {
-      left = coords[0];
-      top = coords[1];
+      left = x;
+      top = y;
       width = shape.initX - left;
       height = shape.initY - top;
     } else if (x < shape.initX) {
-      left = coords[0];
+      left = x;
       top = shape.initY;
       width = shape.initX - left;
-      height = coords[1] - shape.initY;
+      height = y - shape.initY;
     } else if (y < shape.initY) {
       left = shape.attr('x');
-      top = coords[1];
-      width = coords[0] - shape.initX;
+      top = y;
+      width = x - shape.initX;
       height = shape.initY - top;
     } else {
       left = shape.attr('x');
       top = shape.attr('y');
-      width = coords[0] - shape.initX;
-      height = coords[1] - shape.initY;
+      width = x - shape.initX;
+      height = y - shape.initY;
     }
     
     shape.attr({

@@ -15,3 +15,6 @@ Dockerfile
 
 whiteboard.zip
 deploy
+
+# min
+client/dist/whiteboard.*

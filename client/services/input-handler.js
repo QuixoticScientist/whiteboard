@@ -125,8 +125,8 @@ angular.module('whiteboard.services.inputhandler', [])
       Broadcast.newShape(newId, socketId, shape.tool, newInitX, newInitY);
       if (shape.tool.name === 'path') {
         BoardData.setCurrentShape(newId);
-        var currentShape = BoardData.getCurrentShape();
 
+        var currentShape = BoardData.getCurrentShape();
         var parsedPathArray = Raphael.parsePathString(shape.pathDProps);
 
         var temp = parsedPathArray.map(function (coordinate) {
@@ -146,7 +146,7 @@ angular.module('whiteboard.services.inputhandler', [])
       Broadcast.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);
 
       EventHandler.finishShape(newId, socketId, shape.tool);
-      shape.tool.name === 'path' ? Broadcast.finishPath(newId, shape.tool, stringifiedPath) : Broadcast.finishShape(newId, shape.tool);
+      shape.tool.name === 'path' ? Broadcast.finishCopiedPath(newId, shape.tool, currentShape.pathDProps) : Broadcast.finishShape(newId, shape.tool);
 
       console.log(BoardData.getShapeStorage());
     },

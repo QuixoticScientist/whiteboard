@@ -126,6 +126,15 @@ angular.module('whiteboard.services.shapeeditor', [])
     }
   };
 
+  function finishCopiedPath (id, socketId, tool, pathDProps) {
+    var shape = BoardData.getShapeById(id, socketId);
+    shape.pathDProps = pathDProps;
+    shape.attr('path', shape.pathDProps);
+    if ((shape.myid || shape.myid === 0) && tool.name === 'path') {
+      ShapeManipulation.pathSmoother(shape);
+    }
+  }
+
   function deleteShape (id, socketId) {
     var shape = BoardData.getShapeById(id, socketId);
 
@@ -136,6 +145,7 @@ angular.module('whiteboard.services.shapeeditor', [])
   return {
     editShape: editShape,
     finishShape: finishShape,
+    finishCopiedPath: finishCopiedPath,
     deleteShape: deleteShape
   };
 

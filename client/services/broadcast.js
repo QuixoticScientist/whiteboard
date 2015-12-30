@@ -34,8 +34,15 @@ angular.module('whiteboard.services.broadcast', [])
   };
 
   var finishPath = function (myid, currentTool, pathDProps) {
-    console.log(pathDProps)
     Sockets.emit('pathCompleted', {
+      myid: myid,
+      tool: currentTool,
+      pathDProps: pathDProps
+    });
+  };
+
+  var finishCopiedPath = function (myid, currentTool, pathDProps) {
+    Sockets.emit('copiedPathCompleted', {
       myid: myid,
       tool: currentTool,
       pathDProps: pathDProps
@@ -82,6 +89,7 @@ angular.module('whiteboard.services.broadcast', [])
     newShape: newShape,
     editShape: editShape,
     finishPath: finishPath,
+    finishCopiedPath: finishCopiedPath,
     finishShape: finishShape,
     deleteShape: deleteShape,
     finishMovingShape: finishMovingShape,

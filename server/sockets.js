@@ -50,6 +50,16 @@ module.exports = function(server) {
       rooms.completePath(data, socket);
     });
 
+    socket.on('copiedPathCompleted', function (data) {
+      socket.to(this.room).emit('copiedPathCompleted', {
+        socketId: socket.id,
+        myid: data.myid,
+        tool: data.tool,
+        pathDProps: data.pathDProps
+      });
+      rooms.completePath(data, socket);
+    })
+
     socket.on('moveShape', function (data) {
       rooms.moveShape(data, socket);
       socket.to(this.room).emit('shapeMoved', data);

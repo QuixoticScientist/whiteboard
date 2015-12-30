@@ -17,6 +17,10 @@ angular.module('whiteboard.services.eventhandler', [])
     ShapeEditor.finishShape(id, socketId, tool);
   }
 
+  function finishCopiedPath (id, socketId, tool, pathDProps) {
+    ShapeEditor.finishCopiedPath(id, socketId, tool, pathDProps);
+  }
+
   function deleteShape (id, socketId) {
     ShapeEditor.deleteShape(id, socketId);
   }
@@ -65,6 +69,7 @@ angular.module('whiteboard.services.eventhandler', [])
     createShape: createShape,
     editShape: editShape,
     finishShape: finishShape,
+    finishCopiedPath: finishCopiedPath,
     deleteShape: deleteShape,
     moveShape: moveShape,
     finishMovingShape: finishMovingShape,

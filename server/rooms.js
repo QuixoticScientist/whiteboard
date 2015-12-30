@@ -99,6 +99,9 @@ var roomsManager = {
       storedShape.initY = shape.attr.y;
       storedShape.mouseX = shape.attr.x + shape.attr.width;
       storedShape.mouseY = shape.attr.y + shape.attr.height;
+    } else if (shape.attr.text) {
+      storedShape.initX = shape.attr.x;
+      storedShape.initY = shape.attr.y;
     } else {
       if (shape.pathDProps) {
         storedShape.pathDProps = shape.pathDProps;

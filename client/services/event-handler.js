@@ -10,7 +10,7 @@ angular.module('whiteboard.services.eventhandler', [])
   }
 
   function editShape (id, socketId, tool, x, y) {
-  	ShapeEditor.editShape(id, socketId, tool, x, y);
+    ShapeEditor.editShape(id, socketId, tool, x, y);
   }
 
   function finishShape (id, socketId, tool) {

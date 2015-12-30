@@ -34,6 +34,7 @@ angular.module('whiteboard.services.broadcast', [])
   };
 
   var finishPath = function (myid, currentTool, pathDProps) {
+    console.log(pathDProps)
     Sockets.emit('pathCompleted', {
       myid: myid,
       tool: currentTool,

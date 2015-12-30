@@ -135,18 +135,18 @@ angular.module('whiteboard.services.inputhandler', [])
           });
         });
 
-        var strTemp = temp.map(function (coordinate) {
+        var stringifiedPath = temp.map(function (coordinate) {
           return coordinate[0] + coordinate[1] + ',' + coordinate[2];
         }).join('');
 
-        currentShape.pathDProps = strTemp;
+        currentShape.pathDProps = stringifiedPath;
       }
 
       EventHandler.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);
       Broadcast.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);
 
       EventHandler.finishShape(newId, socketId, shape.tool);
-      Broadcast.finishShape(newId, shape.tool);
+      shape.tool.name === 'path' ? Broadcast.finishPath(newId, shape.tool, stringifiedPath) : Broadcast.finishShape(newId, shape.tool);
 
       console.log(BoardData.getShapeStorage());
     },

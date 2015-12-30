@@ -30,9 +30,27 @@ module.exports = function (grunt) {
       }
     },
 
+    cssmin: {
+      options: {
+        shorthandCompacting: false,
+        roundingPrecision: -1
+      },
+      target: {
+        files: {
+          'client/dist/style.min.css': ['client/style/style.css']
+        }
+      }
+    },
+
     watch: {
-      files: ['client/app.js', 'client/directives/*.js', 'client/services/*.js'],
-      tasks: ['concat', 'uglify']
+      scripts: {
+        files: ['client/app.js', 'client/directives/*.js', 'client/services/*.js'],
+        tasks: ['concat', 'uglify']
+      },
+      css: {
+        files: ['client/styles/style.css'],
+        tasks: ['cssmin']
+      }
     }
 
   });

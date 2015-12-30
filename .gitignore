@@ -17,4 +17,4 @@ whiteboard.zip
 deploy
 
 # min
-client/dist/whiteboard.*
+client/dist/*

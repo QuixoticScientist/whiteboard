@@ -14,7 +14,7 @@ var roomsManager = {
     var roomId = socket.room;
     // var room = this.getRoom(roomId);
 
-    console.log('Member ' + socket.id + ' is leaving room ' + roomId);
+    // console.log('Member ' + socket.id + ' is leaving room ' + roomId);
     // var roomFilter = function (room, predicate) {
     //   var filteredMembers = {};
 
@@ -64,7 +64,7 @@ var roomsManager = {
       }
 
       // add member to room based on socket id
-      console.log(rooms[roomId]);
+      // console.log(rooms[roomId]);
       var socketId = socket.id;
       rooms[roomId][socketId] = {};
       socket.emit('showExisting', rooms[roomId]);
@@ -74,7 +74,7 @@ var roomsManager = {
       for (var member in rooms[roomId]) {
         count++;
       }
-      console.log('Current room ' + roomId + ' has ' + count + ' members');
+      // console.log('Current room ' + roomId + ' has ' + count + ' members');
     });
   },
 

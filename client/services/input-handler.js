@@ -115,12 +115,18 @@ angular.module('whiteboard.services.inputhandler', [])
       var socketId = BoardData.getSocketId();
       
       var newId = BoardData.generateShapeId();
-      console.log(newId);
-      console.log(shape);
 
-      EventHandler.createShape(newId, socketId, shape.tool, shape.initX + 10, shape.initY + 10);
-      EventHandler.editShape(newId, socketId, shape.tool, shape.mouseX + 10, shape.mouseY + 10);
+      var newInitX = shape.initX + 10;
+      var newInitY = shape.initY + 10;
+      var newMouseX = shape.mouseX + 10;
+      var newMouseY = shape.mouseY + 10;
+
+      EventHandler.createShape(newId, socketId, shape.tool, newInitX, newInitY);
+      Broadcast.newShape(newId, socketId, shape.tool, newInitX, newInitY);
+      EventHandler.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);
+      Broadcast.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);
       EventHandler.finishShape(newId, socketId, shape.tool);
+      Broadcast.finishShape(newId, shape.tool);
     },
     mouseHold: function (ev) {
       //

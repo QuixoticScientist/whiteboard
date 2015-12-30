@@ -13,13 +13,13 @@ angular.module('whiteboard.services.broadcast', [])
 
   Sockets.emit('idRequest');
 
-  var newShape = function (myid, socketId, tool, mouseX, mouseY) {
+  var newShape = function (myid, socketId, tool, initX, initY) {
     Sockets.emit('newShape', {
       myid: myid,
       socketId: socketId,
       tool: tool,
-      initX: mouseX,
-      initY: mouseY
+      initX: initX,
+      initY: initY
     });
   };
 

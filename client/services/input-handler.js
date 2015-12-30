@@ -121,13 +121,34 @@ angular.module('whiteboard.services.inputhandler', [])
       var newMouseX = shape.mouseX + 10;
       var newMouseY = shape.mouseY + 10;
 
-      console.log(shape);
       EventHandler.createShape(newId, socketId, shape.tool, newInitX, newInitY);
       Broadcast.newShape(newId, socketId, shape.tool, newInitX, newInitY);
+      if (shape.tool.name === 'path') {
+        BoardData.setCurrentShape(newId);
+        var currentShape = BoardData.getCurrentShape();
+
+        var parsedPathArray = Raphael.parsePathString(shape.pathDProps);
+
+        var tmp = parsedPathArray.map(function (coordinate) {
+          return coordinate.map(function (element) {
+            // console.log(element)
+            if (typeof element === 'number') {
+              return element + 10;
+            } else {
+              return element;
+            }
+          });
+        });
+
+        currentShape.pathDProps = tmp;
+      }
+      
       EventHandler.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);
       Broadcast.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);
       EventHandler.finishShape(newId, socketId, shape.tool);
       Broadcast.finishShape(newId, shape.tool);
+
+      console.log(BoardData.getShapeStorage());
     },
     mouseHold: function (ev) {
       //

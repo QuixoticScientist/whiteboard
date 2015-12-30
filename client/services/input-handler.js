@@ -121,6 +121,7 @@ angular.module('whiteboard.services.inputhandler', [])
       var newMouseX = shape.mouseX + 10;
       var newMouseY = shape.mouseY + 10;
 
+      console.log(shape);
       EventHandler.createShape(newId, socketId, shape.tool, newInitX, newInitY);
       Broadcast.newShape(newId, socketId, shape.tool, newInitX, newInitY);
       EventHandler.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);

@@ -51,6 +51,17 @@ angular.module('whiteboard.services.shapemanipulation', [])
         pathArr[seg][4] = origin.path[seg][4] + deltaY;
         pathArr[seg][5] = origin.path[seg][5] + deltaX;
         pathArr[seg][6] = origin.path[seg][6] + deltaY;
+        shape.pathDProps = origin.pathDProps.split('L').map(function (subpath, index) {
+          var xy = subpath.split(',');
+          var x;
+          if (index === 0) {
+            x = 'M' + (+xy[0].slice(1) + deltaX);
+          } else {
+            x = +xy[0] + deltaX;
+          }
+          var y = +xy[1] + deltaY;
+          return x + ',' + y;
+        }).join('L');
       }
     }
 
@@ -69,6 +80,7 @@ angular.module('whiteboard.services.shapemanipulation', [])
     if (!grabPoint) {
       grabPoint = {x: x, y: y};
       origin = shape.attr();
+      origin.pathDProps = shape.pathDProps;
     }
     shapeHandlers[shape.type](shape, x, y);
   }

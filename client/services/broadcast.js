@@ -62,7 +62,8 @@ angular.module('whiteboard.services.broadcast', [])
       socketId: shape.socketId,
       x: x,
       y: y,
-      attr: shape.attr()
+      attr: shape.attr(),
+      pathDProps: shape.pathDProps
     });
   };
 

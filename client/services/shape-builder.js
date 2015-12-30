@@ -4,6 +4,9 @@ angular.module('whiteboard.services.shapebuilder', [])
   function setColor (shape, colors) {
     if (shape.type === 'path') {
       shape.attr('stroke', colors.stroke);
+    } else if (shape.type === 'text') {
+      shape.attr('stroke', colors.stroke);
+      shape.attr('fill', colors.stroke);
     } else {
       shape.attr('stroke', colors.stroke);
       shape.attr('fill', colors.fill);
@@ -39,7 +42,11 @@ angular.module('whiteboard.services.shapebuilder', [])
         return BoardData.getBoard().rect(x, y, 0, 0);
       },
       'text': function (x, y, text) {
-        return !!text ? BoardData.getBoard().text(x, y, text) : BoardData.getBoard().text(x, y, 'Insert Text');
+        return BoardData.getBoard().text(x, y, text || 'Insert Text')
+          .attr({
+            'font-size': 18,
+            'font-family': "San Francisco"
+          });
       },
       'arrow': function (x, y) {
         var arrow = BoardData.getBoard().path("M" + String(x) + ',' + String(y));

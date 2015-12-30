@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.inputhandler', [])
-.factory('InputHandler', ['BoardData','Snap', 'EventHandler', 'Broadcast', 'Visualizer', 'Zoom', function (BoardData, Snap, EventHandler, Broadcast, Visualizer, Zoom) {
+.factory('InputHandler', ['BoardData', 'Snap', 'EventHandler', 'Broadcast', 'Visualizer', 'Zoom', function (BoardData, Snap, EventHandler, Broadcast, Visualizer, Zoom) {
   var toggleAttrs = {};
   function toggle (attr) {
     if (!toggleAttrs[attr]) {
@@ -105,6 +105,21 @@ angular.module('whiteboard.services.inputhandler', [])
       Visualizer.clearSelection();
       var selection = getClosestElementByArea(ev);
       Visualizer.visualizeSelection(selection);
+    }
+  };
+
+  actions.copy = {
+    mouseDown: function (ev) {
+      //
+    },
+    mouseHold: function (ev) {
+      //
+    },
+    mouseUp: function (ev) {
+      //
+    },
+    mouseOver: function (ev) {
+      Visualizer.visualizeSelection(ev);
     }
   };
 

@@ -48,7 +48,7 @@ angular.module('whiteboard')
       
       $scope.$on('toggleAllSubmenu', function (ev, msg) {
         if (msg.action === 'hide') {
-          console.log('wbToolbar: closing all submenus')
+          // console.log('wbToolbar: closing all submenus')
           $scope.$broadcast('toggleSubmenu', msg)
         }
       })
@@ -131,20 +131,21 @@ angular.module('whiteboard')
 
       var bindMouseEv = function () {
         element.bind('mouseover mouseleave', function (ev) {
+          // console.log(ev, attrs.wbLevel)
           if (ev.type === 'mouseover' && attrs.wbLevel === '2') {
-            console.log('Should open submenu', ev);
+            // console.log('Should open submenu', ev);
             submenuOpenerCtrl.submenuOpener({action: 'show', level: '2'});
           } else if (ev.type === 'mouseover' && attrs.wbLevel === '3') {
-            console.log('Should open the color palette!')
+            // console.log('Should open the color palette!')
             submenuOpenerCtrl.submenuOpener({action: 'show', level: '3'});
-          } else if (ev.type === 'mouseleave' && angular.element(ev.toElement).hasClass('menu-text')){
-            console.log('Should close submenu');
+          } else if (ev.type === 'mouseleave' && (angular.element(ev.toElement).hasClass('lvl1') || angular.element(ev.toElement).hasClass('level-one'))) {
+            // console.log('Should close submenu');
             submenuOpenerCtrl.submenuCloser({action: 'hide', level: '2'});
-          } else if (ev.type === 'mouseleave' && angular.element(ev.toElement).hasClass('level-three')) {
-            // console.log(ev) 
+          } else if (ev.type === 'mouseleave' && (angular.element(ev.toElement).hasClass('level-three') || angular.element(ev.toElement).hasClass('lvl2'))) {
+            // console.log('close level three') 
             submenuOpenerCtrl.submenuCloser({action: 'hide', level: '3'});
           } else if (ev.type === 'mouseleave' && angular.element(ev.toElement).hasClass('wb-submenu-opener')) {
-            console.log('Here is where i broke D:');
+            // console.log('Here is where i broke D:');
             // console.log(ev)
             submenuOpenerCtrl.submenuCloser({action: 'hide', level: attrs.wbLevel});
           }
@@ -181,7 +182,7 @@ angular.module('whiteboard')
     link: function (scope, element, attrs, ctrl) {
 
       if (attrs.wbLevel === 3) {
-        console.log('Sono qui?')
+        // console.log('Sono qui?')
       } else {
         scope.$on('toggleSubmenu', function (event, msg) {
           // console.log(msg, attrs.wbLevel);
@@ -232,13 +233,14 @@ angular.module('whiteboard')
     link: function (scope, element, attrs, submenuItemsCtrl) {
 
       element.bind('mouseover', function (ev) {
-        ev.stopPropagation();
+        //ev.stopPropagation();
         // console.log(attrs.wbTool)
       })
 
-      element.bind('mouseleave', function (ev) {
-        ev.stopPropagation();
-        console.log('!!!!!!!!!!!!!!!!!', attrs.wbTool, angular.element(ev.relatedTarget));
+      element.bind('mouseout', function (ev) {
+        // ev.stopPropagation();
+        // console.log(angular.element(ev.currentTarget).hasClass('level-two-items'));
+        // console.log('!!!!!!!!!!!!!!!!!', attrs.wbTool, ev);
         if (attrs.wbTool && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
           submenuItemsCtrl.setTool(attrs.wbTool)
           scope.$emit('activateMenu', 'hide');

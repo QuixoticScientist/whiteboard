@@ -44,10 +44,11 @@
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "matchdep": "",
-    "grunt-contrib-watch": "",
     "grunt-contrib-concat": "",
-    "grunt-contrib-uglify": ""
+    "grunt-contrib-cssmin": "^0.14.0",
+    "grunt-contrib-uglify": "",
+    "grunt-contrib-watch": "",
+    "matchdep": ""
   },
   "scripts": {
     "start": "node server/server.js",

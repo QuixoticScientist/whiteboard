@@ -1,13 +1,15 @@
 <div class="toolbar">
-  <div class="menu level-one wb-menu-opener icon icon-{{menu[0].toLowerCase()}}" ng-repeat="menu in menuStructure" style="height: {{96.7/menuStructure.length}}%">
-    <p class="menu-text lvl1 valign-text">{{menu[0]}}</p>
+  <div class="menu level-one wb-menu-opener" wb-menu-over-handler ng-repeat="menu in menuStructure" style="height: {{96.7/menuStructure.length}}%">
+    <div class="icon icon-{{menu[0].toLowerCase()}}" style="height: {{96.7/menuStructure.length}}%">
+      <p class="menu-text lvl1 valign-text">{{menu[0]}}</p>
+    </div>
     <div class="menu wb-submenu-opener" wb-level="2"></div>
     <div class="menu level-two wb-submenu {{menu[0].toLowerCase()}}" wb-level="2">
-      <div class="level-two-items wb-submenu-items valign-text icon icon-{{subMenu.toLowerCase()}}" wb-tool="{{setAttributeTool(subMenu)}}" ng-repeat="subMenu in menu[1]" style="height: {{100/menu[1].length}}%">
+      <div class="level-two-items wb-submenu-items valign-text " wb-menu-over-handler wb-tool="{{setAttributeTool(subMenu)}}" ng-repeat="subMenu in menu[1]" style="height: {{100/menu[1].length}}%">
         <div ng-if="subMenu.toUpperCase()" class="valign-text">
           <p>{{subMenu}}</p>
         </div>
-        <div ng-if="!subMenu.toUpperCase()" style="height: 100%" class="level-three icon icon-{{subMenu[0].toLowerCase()}}">
+        <div ng-if="!subMenu.toUpperCase()" style="height: 100%" class="level-three">
           <p class="menu-text lvl2 valign-text">{{subMenu[0]}}</p>
           <div class="menu wb-submenu-opener" wb-level="3"></div>
           <div class="menu level-three wb-submenu" wb-level="3">

@@ -1,5 +1,5 @@
 angular.module('whiteboard.services.inputhandler', [])
-.factory('InputHandler', ['BoardData','Snap', 'EventHandler', 'Broadcast', 'Visualizer', 'Zoom', function (BoardData, Snap, EventHandler, Broadcast, Visualizer, Zoom) {
+.factory('InputHandler', ['BoardData', 'Snap', 'EventHandler', 'Broadcast', 'Visualizer', 'Zoom', function (BoardData, Snap, EventHandler, Broadcast, Visualizer, Zoom) {
   var toggleAttrs = {};
   function toggle (attr) {
     if (!toggleAttrs[attr]) {
@@ -108,6 +108,61 @@ angular.module('whiteboard.services.inputhandler', [])
     }
   };
 
+  actions.copy = {
+    mouseDown: function (ev) {
+      Visualizer.clearSelection();
+      var shape = getClosestElementByArea(ev);
+      var socketId = BoardData.getSocketId();
+      
+      var newId = BoardData.generateShapeId();
+
+      var newInitX = shape.initX + 10;
+      var newInitY = shape.initY + 10;
+      var newMouseX = shape.mouseX + 10;
+      var newMouseY = shape.mouseY + 10;
+
+      EventHandler.createShape(newId, socketId, shape.tool, newInitX, newInitY);
+      Broadcast.newShape(newId, socketId, shape.tool, newInitX, newInitY);
+      if (shape.tool.name === 'path') {
+        BoardData.setCurrentShape(newId);
+
+        var currentShape = BoardData.getCurrentShape();
+        var parsedPathArray = Raphael.parsePathString(shape.pathDProps);
+
+        var temp = parsedPathArray.map(function (coordinate) {
+          return coordinate.map(function (element) {
+            return typeof element === 'number' ? element + 10 : element;
+          });
+        });
+
+        var stringifiedPath = temp.map(function (coordinate) {
+          return coordinate[0] + coordinate[1] + ',' + coordinate[2];
+        }).join('');
+
+        currentShape.pathDProps = stringifiedPath;
+      }
+
+      EventHandler.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);
+      Broadcast.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);
+
+      EventHandler.finishShape(newId, socketId, shape.tool);
+      shape.tool.name === 'path' ? Broadcast.finishCopiedPath(newId, shape.tool, currentShape.pathDProps) : Broadcast.finishShape(newId, shape.tool);
+
+      console.log(BoardData.getShapeStorage());
+    },
+    mouseHold: function (ev) {
+      //
+    },
+    mouseUp: function (ev) {
+      //
+    },
+    mouseOver: function (ev) {
+      Visualizer.clearSelection();
+      var selection = getClosestElementByArea(ev);
+      Visualizer.visualizeSelection(selection);
+    }
+  };
+
   actions.text = {
     mouseDown: function (ev) {
       var id = BoardData.generateShapeId();
@@ -194,9 +249,17 @@ angular.module('whiteboard.services.inputhandler', [])
       var socketId = BoardData.getSocketId();
       var currentTool = BoardData.getCurrentTool();
       var shape = BoardData.getCurrentShape();
-      shape.tool = currentTool;
 
-      EventHandler.finishShape(id, socketId, currentTool);
+      var currentToolCopy = {};
+      currentToolCopy.name = currentTool.name;
+      currentToolCopy['stroke-width'] = currentTool['stroke-width'];
+      currentToolCopy.colors = {};
+      currentToolCopy.colors.fill = currentTool.colors.fill;
+      currentToolCopy.colors.stroke = currentTool.colors.stroke;
+
+      shape.tool = currentToolCopy;
+
+      EventHandler.finishShape(id, socketId, currentToolCopy);
       BoardData.unsetCurrentShape();
       Visualizer.clearSnaps();
 

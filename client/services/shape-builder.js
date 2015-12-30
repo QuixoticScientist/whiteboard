@@ -49,9 +49,9 @@ angular.module('whiteboard.services.shapebuilder', [])
       }
     };
     var shape = !!tool.text ? shapeConstructors[tool.name](x, y, tool.text) : shapeConstructors[tool.name](x, y);
-    // shape.myid = id;
     shape.initX = x;
     shape.initY = y;
+    shape.tool = tool;
     setColor(shape, tool.colors);
     shape.myid = id;
     shape.socketId = socketId;

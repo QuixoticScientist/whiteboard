@@ -31,6 +31,10 @@ angular.module('whiteboard.services.receive', [])
     EventHandler.finishShape(data.myid, data.socketId, data.tool);
   });
 
+  Sockets.on('copiedPathCompleted', function (data) {
+    EventHandler.finishCopiedPath(data.myid, data.socketId, data.tool, data.pathDProps);
+  });
+
   Sockets.on('shapeCreated', function (data) {
     EventHandler.createShape(data.myid, data.socketId, data.tool, data.initX, data.initY);
   });

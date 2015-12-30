@@ -10,11 +10,15 @@ angular.module('whiteboard.services.eventhandler', [])
   }
 
   function editShape (id, socketId, tool, x, y) {
-  	ShapeEditor.editShape(id, socketId, tool, x, y);
+    ShapeEditor.editShape(id, socketId, tool, x, y);
   }
 
   function finishShape (id, socketId, tool) {
     ShapeEditor.finishShape(id, socketId, tool);
+  }
+
+  function finishCopiedPath (id, socketId, tool, pathDProps) {
+    ShapeEditor.finishCopiedPath(id, socketId, tool, pathDProps);
   }
 
   function deleteShape (id, socketId) {
@@ -65,6 +69,7 @@ angular.module('whiteboard.services.eventhandler', [])
     createShape: createShape,
     editShape: editShape,
     finishShape: finishShape,
+    finishCopiedPath: finishCopiedPath,
     deleteShape: deleteShape,
     moveShape: moveShape,
     finishMovingShape: finishMovingShape,

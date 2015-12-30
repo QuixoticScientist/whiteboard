@@ -98,6 +98,11 @@ angular.module('whiteboard.services.shapeeditor', [])
     };
     var shape = BoardData.getShapeById(id, socketId);
     
+    if (tool.name !== 'text') {
+      shape.mouseX = x;
+      shape.mouseY = y;
+    }
+    
     // optional tool argument for text change
     shapeHandlers[tool.name](shape, x, y, tool);
   };

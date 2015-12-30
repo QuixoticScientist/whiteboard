@@ -144,9 +144,6 @@ angular.module('whiteboard.services.snap', [])
         newSnaps.push(snap);
       }.bind(this));
     } else if (shape.type === 'path') {
-      if (shape.pathDProps !== undefined) {
-        shape.attr('path', shape.pathDProps);
-      }
       var path = shape.attr('path');
       if (path.length <= 1) {
         shape.remove();

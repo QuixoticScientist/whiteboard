@@ -12,6 +12,35 @@ angular.module('whiteboard.services.inputhandler', [])
     return toggleAttrs[attr];
   }
 
+  function getClosestElementByArea (ev) {
+    var paper = BoardData.getBoard();
+    var width = height = 5;
+    var bbox = {
+      x: ev.clientX - width / 2,
+      y: ev.clientY - height / 2,
+      x2: ev.clientX + width / 2,
+      y2: ev.clientY + height / 2,
+      width: width,
+      height: height
+    };
+    var bboxCenter = {x: bbox.x + bbox.width / 2, y: bbox.y + bbox.height / 2};
+    // var set = this.set();
+    var closest = null;
+    var closestDist;
+    paper.forEach(function (el) {
+      var elBBox = el.getBBox();
+      if (!(el.type === 'set') && Raphael.isBBoxIntersect(elBBox, bbox)) {
+        var elBBoxCenter = {x: elBBox.x + elBBox.width / 2, y: elBBox.y + elBBox.height / 2};
+        var dist = Math.sqrt(Math.pow(elBBoxCenter.x - bboxCenter.x, 2) + Math.pow(elBBoxCenter.y - bboxCenter.y, 2));
+        if (!closestDist || dist < closestDist) {
+          closest = el;
+          closestDist = dist;
+        }
+      }
+    });
+    return closest;
+  };
+
   var actions = {};
 
   actions.eraser = {
@@ -45,10 +74,13 @@ angular.module('whiteboard.services.inputhandler', [])
 
   actions.move = {
     mouseDown: function (ev) {
-      var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
-      if (shape) {
-        console.log('Shape found!')
-        BoardData.setEditorShape(shape);
+      var mouseXY = getMouseXY(ev);
+
+      Visualizer.clearSelection();
+      var target = getClosestElementByArea(ev);
+
+      if (target) {
+        BoardData.setEditorShape(target);
       } else {
         toggle('move');
       }
@@ -70,7 +102,9 @@ angular.module('whiteboard.services.inputhandler', [])
       BoardData.unsetEditorShape();
     },
     mouseOver: function (ev) {
-      Visualizer.visualizeSelection(ev);
+      Visualizer.clearSelection();
+      var selection = getClosestElementByArea(ev);
+      Visualizer.visualizeSelection(selection);
     }
   };
 

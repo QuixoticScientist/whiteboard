@@ -26,7 +26,7 @@ angular.module('whiteboard.services.eventhandler', [])
   }
 
   function finishMovingShape (id, socketId) {
-    ShapeManipulation.finishMovingShape (id, socketId);
+    ShapeManipulation.finishMovingShape(id, socketId);
   }
 
   function drawExistingPath (shape) {

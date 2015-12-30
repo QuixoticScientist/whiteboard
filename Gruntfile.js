@@ -7,97 +7,39 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: pkg,
 
-    jshint: {
-      options: pkg.jshintConfig,
-      all: [
-        'Gruntfile.js',
-        'client/app.js',
-        'client/services/*.js',
-        'client/directive/*.js'
-      ]
-    },
-
-    clean: {
-      release: [ 'dist' ]
-    },
-
-    useminPrepare: {
-      html: 'client/index.html',
-      options: {
-        dest: 'dist'
-      }
-    },
-
-    usemin: {
-      html: ['dist/*.html'],
-      css: ['dist/styles/*.css'],
-      options: {
-        assetsDirs: ['dist/assets/images', 'dist/js']
-      }
-    },
-
     concat: {
       options: {
         separator: ';'
       },
-      dist: {}
+      dist: {
+        src: ['client/app.js', 'client/directives/*.js', 'client/services/*.js'],
+        // the location of the resulting JS file
+        dest: 'client/dist/whiteboard.js'
+      }
     },
 
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+        mangle: false,
+        compress: true
       },
-      // dist configuration is provided by useminPrepare
-      dist: {}
-    },
-
-    // Copy HTML, images and fonts
-    copy: {
-      release: {
-        files: [
-          {
-            expand: true,
-            dot: true,
-            cwd: 'client',
-            src: [
-              'assets/images/*.{png,gif,jpg,jpeg,svg,ico}',
-              'styles/*.css',
-              'views/*.html',
-              '*.html'
-            ],
-            dest: 'dist'
-          }
-        ]
+      target: {
+        files: {
+          'client/dist/whiteboard.min.js': ['client/dist/whiteboard.js']
+        }
       }
     },
 
-    // Filerev
-    filerev: {
-        options: {
-          encoding: 'utf8',
-          algorithm: 'md5',
-          length: 20
-        },
-        release: {
-          files: [{
-            src: [
-              'dist/assets/images/*.{jpg,jpeg,gif,png,svg}',
-              'dist/js/*.js',
-              'dist/styles/*.css',
-            ]
-          }]
-        }
-    },
+    watch: {
+      files: ['client/app.js', 'client/directives/*.js', 'client/services/*.js'],
+      tasks: ['concat', 'uglify']
+    }
+
   });
 
-  grunt.registerTask('release', 'Creates a release in /dist', [
-      'clean',
-      'useminPrepare',
+  grunt.registerTask('release', 'Concats, Minifies', [
       'concat',
-      'uglify',
-      'copy',
-      // 'filerev',
-      'usemin'
+      'uglify'
   ]);
 };
 

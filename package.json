@@ -33,33 +33,19 @@
     }
   },
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.1",
-    "chai": "^3.4.1",
+    "compression": "^1.6.0",
     "express": "^4.13.3",
-    "jwt-simple": "^0.4.0",
     "kerberos": "0.0.17",
-    "mocha": "^2.3.4",
-    "mongoose": "^4.2.9",
     "redis": "^2.4.2",
     "serve-favicon": "^2.3.0",
     "socket.io": "^1.3.7",
-    "supertest": "^1.1.0",
-    "underscore": "^1.8.3",
-    "webshot": "^0.16.0"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
     "matchdep": "",
-    "grunt-contrib-jshint": "",
-    "grunt-contrib-less": "",
-    "grunt-contrib-copy": "",
-    "grunt-contrib-clean": "",
     "grunt-contrib-watch": "",
-    "grunt-express-server": "",
-    "grunt-contrib-cssmin": "",
-    "grunt-usemin": "",
-    "grunt-filerev": "",
     "grunt-contrib-concat": "",
     "grunt-contrib-uglify": ""
   },

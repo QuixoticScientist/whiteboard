@@ -193,6 +193,8 @@ angular.module('whiteboard.services.inputhandler', [])
       EventHandler.createShape(id, socketId, currentTool, coords[0], coords[1]);
       BoardData.setCurrentShape(id);
       Broadcast.newShape(id, socketId, currentTool, coords[0], coords[1]);
+      
+      console.log(BoardData.getShapeStorage());
     },
     mouseHold: function (ev) {
       var id = BoardData.getCurrentShapeId();
@@ -209,9 +211,17 @@ angular.module('whiteboard.services.inputhandler', [])
       var socketId = BoardData.getSocketId();
       var currentTool = BoardData.getCurrentTool();
       var shape = BoardData.getCurrentShape();
-      shape.tool = currentTool;
 
-      EventHandler.finishShape(id, socketId, currentTool);
+      var currentToolCopy = {};
+      currentToolCopy.name = currentTool.name;
+      currentToolCopy['stroke-width'] = currentTool['stroke-width'];
+      currentToolCopy.colors = {};
+      currentToolCopy.colors.fill = currentTool.colors.fill;
+      currentToolCopy.colors.stroke = currentTool.colors.stroke;
+
+      shape.tool = currentToolCopy;
+
+      EventHandler.finishShape(id, socketId, currentToolCopy);
       BoardData.unsetCurrentShape();
       Visualizer.clearSnaps();
 

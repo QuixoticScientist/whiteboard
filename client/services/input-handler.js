@@ -110,7 +110,12 @@ angular.module('whiteboard.services.inputhandler', [])
 
   actions.copy = {
     mouseDown: function (ev) {
-      //
+      var targetId = getClosestElementByArea(ev); // fix me
+      console.log(getClosestElementByArea(ev));
+      var socketId = BoardData.getSocketId();
+      var shape = BoardData.getShapeById(targetId, socketId);
+      console.log(targetId, socketId);
+      console.log(BoardData.getShapeStorage());
     },
     mouseHold: function (ev) {
       //
@@ -119,7 +124,9 @@ angular.module('whiteboard.services.inputhandler', [])
       //
     },
     mouseOver: function (ev) {
-      Visualizer.visualizeSelection(ev);
+      Visualizer.clearSelection();
+      var selection = getClosestElementByArea(ev);
+      Visualizer.visualizeSelection(selection);
     }
   };
 
@@ -193,8 +200,6 @@ angular.module('whiteboard.services.inputhandler', [])
       EventHandler.createShape(id, socketId, currentTool, coords[0], coords[1]);
       BoardData.setCurrentShape(id);
       Broadcast.newShape(id, socketId, currentTool, coords[0], coords[1]);
-      
-      console.log(BoardData.getShapeStorage());
     },
     mouseHold: function (ev) {
       var id = BoardData.getCurrentShapeId();

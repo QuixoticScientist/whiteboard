@@ -43,17 +43,31 @@ angular.module('whiteboard.services.inputhandler', [])
 
   var actions = {};
 
+  var lastEv;
   actions.eraser = {
     mouseDown: function (ev) {
     },
     mouseHold: function (ev) {
+      if (lastEv) {
+        var mousePathString = 'M' + lastEv.clientX + ',' + lastEv.clientY + 'L' + ev.clientX + ',' + ev.clientY;
+        BoardData.getBoard().forEach(function (shape) {
+          if (shape.type === 'path') {
+            if (Raphael.pathIntersection(mousePathString, shape.attr('path')).length) {
+              Broadcast.deleteShape(shape.myid, shape.socketId);
+              EventHandler.deleteShape(shape.myid, shape.socketId);
+            }
+          }
+        });
+      }
       var shape = BoardData.getBoard().getElementByPoint(ev.clientX, ev.clientY);
       if (shape) {
         Broadcast.deleteShape(shape.myid, shape.socketId);
         EventHandler.deleteShape(shape.myid, shape.socketId);
       }
+      lastEv = ev;
     },
     mouseUp: function (ev) {
+      lastEv = null;
     },
     mouseOver: function (ev) {
     }

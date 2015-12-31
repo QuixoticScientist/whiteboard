@@ -110,9 +110,9 @@ svg {
   margin-top: 120px;
 }*/
 
-.level-three .valign-text {
+/*.level-three .valign-text {
   line-height: 13;
-}
+}*/
 
 .menu .wb-submenu-opener {
   width: 40%;
@@ -152,6 +152,10 @@ svg {
 
 .toolbar .menu.level-two.draw {
   height: 94.3%;
+}
+
+.toolbar .menu.level-two.color {
+  height: 96.8%;
 }
 
 .level-two-items {
@@ -199,6 +203,14 @@ svg {
   z-index: 1;
   top: -8px;
   padding: 0 0px 8px 8px;
+}
+
+.level-three-items .thickness {
+  border-radius: 3px;
+  /*opacity: 0.9;*/
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(177,102,24,0.96) 0%, rgba(53,53,53,0.93) 0%);
 }
 
 .color-palette {
@@ -383,7 +395,28 @@ svg {
   }
 
   .toolbar .menu.level-three {
-    height: 99.5%;%;
+    height: 99.3%;
+  }  
+
+
+}
+
+@media (max-height: 850px) {
+
+/*  .toolbar .menu.level-two.tool {
+    height: 94.9%;
+  }*/
+
+  .toolbar .menu.level-two.draw {
+    height: 93.9%;
+  }
+
+  .toolbar .menu.level-two.color {
+    height: 96.7%;
+  }
+
+  .toolbar .menu.level-three {
+    height: 99%;
   }  
 
 
@@ -403,9 +436,9 @@ svg {
     line-height: 0;
   }
 
-  .level-three .valign-text {
+/*  .level-three .valign-text {
     line-height: 9;
-  }
+  }*/
 
   .toolbar .menu.level-two {
     height: 97.7%;
@@ -422,7 +455,6 @@ svg {
   .toolbar .menu.level-three {
     height: 98.5%;
   }  
-
 
 }
 
@@ -460,6 +492,14 @@ svg {
     background-size: 50px;
   }
 
+  .show .level-two-items .icon.icon-fill,
+  .show .level-two-items .icon.icon-stroke,
+  .show .level-two-items .icon.icon-thickness {
+    /*background-size: 45px;*/
+    background-size: 65px;
+    background-position: 50% 50%;
+  }
+
   .level-two-items .icon.icon-magnify {
     background-size: 40px;
   }
@@ -492,9 +532,9 @@ svg {
     line-height: 0;
   }
 
-  .level-three .valign-text {
+/*  .level-three .valign-text {
     line-height: 9;
-  }
+  }*/
 
   .toolbar .menu.level-two {
     height: 97.9%;
@@ -504,6 +544,8 @@ svg {
     /*background-size: 45px;*/
     background-position: 50% 40%;
   }
+
+
 
   .level-two-items .icon.icon-magnify {
     background-size: 35px;
@@ -551,6 +593,19 @@ svg {
 
   .level-two-items.icon {
     background-size: 50px;
+  }
+
+  .level-two .icon {
+    position: relative;
+    background-size: 65px;
+    background-position: 50% 50%;
+  }
+
+  .show .level-two-items .icon.icon-fill,
+  .show .level-two-items .icon.icon-stroke,
+  .show .level-two-items .icon.icon-thickness {
+    position: absolute;
+    /*background-size: 65px;*/
   }
 
   .level-two-items.icon.icon-magnify {

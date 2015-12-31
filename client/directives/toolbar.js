@@ -39,7 +39,7 @@ angular.module('whiteboard')
       ];
 
       $scope.menuStructure = [
-        ['Draw', ['Path', 'Line', 'Arrow', 'Rectangle', 'Circle']], 
+        ['Draw', ['Path', 'Line', 'Arrow', 'Rectangle', 'Circle', 'Text']], 
         ['Tool', ['Magnify', 'Eraser', 'Pan', 'Move', 'Copy']],
         ['Color', [['Fill', fill], ['Stroke', stroke]]]
       ];

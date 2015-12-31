@@ -117,13 +117,18 @@ angular.module('whiteboard.services.shapeeditor', [])
     }
 
     if (shape.pathDProps !== undefined) {
+      var path = shape.pathDProps;
+      var lastPoint = path.slice(path.lastIndexOf('L') + 1).split(',').map(Number);
+      if (lastPoint[0] === shape.initX && lastPoint[1] === shape.initY) {
+        shape.pathDProps = path + 'Z';
+        shape.attr('fill', tool.colors.fill);
+      } else {
+        ShapeManipulation.pathSmoother(shape);
+      }
       shape.attr('path', shape.pathDProps);
     }
     
     Snap.createSnaps(shape);
-    if ((shape.myid || shape.myid === 0) && tool.name === 'path') {
-      ShapeManipulation.pathSmoother(shape);
-    }
   };
 
   function finishCopiedPath (id, socketId, tool, pathDProps) {

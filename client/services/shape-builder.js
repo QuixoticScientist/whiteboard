@@ -1,12 +1,9 @@
 angular.module('whiteboard.services.shapebuilder', [])
-.factory('ShapeBuilder', ['BoardData', function (BoardData) {
+.factory('ShapeBuilder', ['BoardData', 'Snap', function (BoardData, Snap) {
 
   function setColor (shape, colors) {
     if (shape.type === 'path') {
       shape.attr('stroke', colors.stroke);
-    } else if (shape.type === 'text') {
-      shape.attr('stroke', colors.stroke);
-      shape.attr('fill', colors.stroke);
     } else {
       shape.attr('stroke', colors.stroke);
       shape.attr('fill', colors.fill);
@@ -61,6 +58,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     setColor(shape, tool.colors);
     shape.myid = id;
     shape.socketId = socketId;
+    if (tool.name === 'path') Snap.createSnaps(shape);
     if (tool.name !== 'arrow') setWidth(shape, tool['stroke-width']);
     BoardData.pushToStorage(id, socketId, shape);
   };

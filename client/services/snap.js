@@ -146,7 +146,8 @@ angular.module('whiteboard.services.snap', [])
     } else if (shape.type === 'path') {
       var path = shape.attr('path');
       if (path.length <= 1) {
-        shape.remove();
+        startPoint = new Point(path[0][1], path[0][2]);
+        newSnaps.push(startPoint);
       } else if (path.length === 2) {
         startPoint = new Point(path[0][1], path[0][2]);
         endPoint = new Point(path[1][1], path[1][2]);
@@ -181,7 +182,7 @@ angular.module('whiteboard.services.snap', [])
   }
 
   var createSnaps = function (shape) {
-    Visualizer.clearSnaps();
+    // Visualizer.clearSnaps();
     this.endSnaps[shape.myid] = findSnaps(shape);
     recreateKDTree(this.endSnaps);
   };

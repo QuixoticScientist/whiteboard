@@ -58,7 +58,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     setColor(shape, tool.colors);
     shape.myid = id;
     shape.socketId = socketId;
-    // if (tool.name === 'path') Snap.createSnaps(shape);
+    if (tool.name === 'path') Snap.createSnaps(shape);
     if (tool.name !== 'arrow') setWidth(shape, tool['stroke-width']);
     BoardData.pushToStorage(id, socketId, shape);
   };

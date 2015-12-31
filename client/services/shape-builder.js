@@ -39,7 +39,7 @@ angular.module('whiteboard.services.shapebuilder', [])
         return BoardData.getBoard().rect(x, y, 0, 0);
       },
       'text': function (x, y, text) {
-        return BoardData.getBoard().text(x, y, text || 'Insert Text')
+        return BoardData.getBoard().text(x, y, text)
           .attr({
             'font-size': 18,
             'font-family': "San Francisco"

@@ -174,13 +174,14 @@ angular.module('whiteboard.services.inputhandler', [])
     }
   };
 
+  var defaultText = 'Start Typing...'
   actions.text = {
     mouseDown: function (ev) {
       var id = BoardData.generateShapeId();
       var mouseXY = getMouseXY(ev);
       var socketId = BoardData.getSocketId();
       var currentTool = BoardData.getCurrentTool();
-      currentTool.text = 'Insert Text';
+      currentTool.text = defaultText;
 
       EventHandler.createShape(id, socketId, currentTool, mouseXY.x, mouseXY.y);
       BoardData.setCurrentShape(id);
@@ -190,7 +191,7 @@ angular.module('whiteboard.services.inputhandler', [])
       document.onkeypress = function (ev) {
         BoardData.setEditorShape(currentShape);
         var editorShape = BoardData.getEditorShape();
-        if (editorShape.attr('text') === 'Insert Text') {
+        if (editorShape.attr('text') === defaultText) {
           editorShape.attr('text', '');
           currentTool.text = '';
         }
@@ -198,16 +199,16 @@ angular.module('whiteboard.services.inputhandler', [])
         if (ev.keyCode === 13) {
           // enter key to complete text insertion process
           editorShape.tool = currentTool;
-          Broadcast.finishShape(id, currentTool);
           EventHandler.finishShape(id, socketId, currentTool);
+          Broadcast.finishShape(id, currentTool);
           editorShape = null;
           document.onkeydown = document.onkeypress = function () {};
         } else {
           // typing text
           editorShape.attr('text', editorShape.attr('text') + String.fromCharCode(ev.keyCode));
           currentTool.text = editorShape.attr('text');
-          Broadcast.editShape(id, socketId, currentTool, editorShape.initX, editorShape.initY);
           EventHandler.editShape(id, socketId, currentTool, editorShape.initX, editorShape.initY);
+          Broadcast.editShape(id, socketId, currentTool, editorShape.initX, editorShape.initY);
         }
       }
 
@@ -219,8 +220,8 @@ angular.module('whiteboard.services.inputhandler', [])
           if (editorShape) {
             editorShape.attr('text', editorShape.attr('text').slice(0, editorShape.attr('text').length - 1));
             currentTool.text = editorShape.attr('text');
-            Broadcast.editShape(id, socketId, currentTool, editorShape.initX, editorShape.initY);
             EventHandler.editShape(id, socketId, currentTool, editorShape.initX, editorShape.initY);
+            Broadcast.editShape(id, socketId, currentTool, editorShape.initX, editorShape.initY);
           }
         }
       }

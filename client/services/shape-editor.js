@@ -121,11 +121,10 @@ angular.module('whiteboard.services.shapeeditor', [])
       var lastPoint = path.slice(path.lastIndexOf('L') + 1).split(',').map(Number);
       if (lastPoint[0] === shape.initX && lastPoint[1] === shape.initY) {
         shape.pathDProps = path + 'Z';
-        shape.attr('fill', tool.colors.fill);
-      } else {
-        ShapeManipulation.pathSmoother(shape);
+        shape.attr('fill', shape.tool.colors.fill ? shape.tool.colors.fill : (shape.tool.colors.fill = tool.colors.fill));
+        // shape.tool.colors.fill = tool.colors.fill;
       }
-      shape.attr('path', shape.pathDProps);
+      ShapeManipulation.pathSmoother(shape);
     }
     
     Snap.createSnaps(shape);

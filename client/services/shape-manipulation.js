@@ -14,6 +14,9 @@ angular.module('whiteboard.services.shapemanipulation', [])
       }
     }, path[0][0] + path[0][1] + ',' + path[0][2] + ' ' + "R");
 
+    if (path[path.length - 1] === 'Z') {
+      newPath += 'Z';
+    }
     pathElement.attr('path', newPath);
   };
 

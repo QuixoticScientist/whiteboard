@@ -150,6 +150,10 @@ svg {
   left: 0;
 }
 
+.toolbar .menu.level-two.draw {
+  height: 94.3%;
+}
+
 .level-two-items {
   height: 100%;
   z-index: 1;
@@ -425,9 +429,9 @@ svg {
 @media (max-height: 750px) {
   
   .toolbar .menu.level-two.draw {
-    height: 93.7%;
+    height: 93.5%;
   }
-  
+
   .toolbar .menu.level-three {
     height: 97.9%;
   }
@@ -440,25 +444,32 @@ svg {
     height: 99%;
   }
 
-  .toolbar .menu.level-two {
+/*  .toolbar .menu.level-two {
     height: 97.7%;
   }
-
-  .toolbar .menu.level-two.tool,
-  .toolbar .menu.level-two.draw {
+*/
+  .toolbar .menu.level-two.tool {
     height: 94.4%;
   }
 
-  .level-two-items.icon {
-    background-size: 70px;
+  .toolbar .menu.level-two.draw {
+    height: 93.4%;
   }
 
-  .level-two-items.icon.icon-magnify {
-    background-size: 45px;
+  .show .level-two-items .icon {
+    background-size: 50px;
   }
 
-  .level-two-items.icon.icon-arrow {
-    background-size: 65px;
+  .level-two-items .icon.icon-magnify {
+    background-size: 40px;
+  }
+
+  .level-two-items .icon.icon-arrow {
+    background-size: 40px;
+  }
+
+  .level-two-items .icon.icon-text {
+    background-size: 40px;
   }
 
   .toolbar .menu.level-three {
@@ -469,6 +480,10 @@ svg {
 
 @media (max-height: 660px) {
   
+  .toolbar .menu.level-two.draw {
+    height: 93.1%;
+  }
+
   .show .menu-text {
     margin-top: 85%;
   }
@@ -483,6 +498,15 @@ svg {
 
   .toolbar .menu.level-two {
     height: 97.9%;
+  }
+
+  .show .level-two-items .icon {
+    /*background-size: 45px;*/
+    background-position: 50% 40%;
+  }
+
+  .level-two-items .icon.icon-magnify {
+    background-size: 35px;
   }
 
   .toolbar .menu.level-three {
@@ -513,9 +537,12 @@ svg {
     height: 98.1%;
   }
 
-  .toolbar .menu.level-two.tool,
+  .toolbar .menu.level-two.tool {
+    height: 94%;
+  }
+
   .toolbar .menu.level-two.draw {
-    height: 95.5%;
+    height: 92.7%;
   }
 
   .toolbar .menu.level-three {
@@ -538,9 +565,12 @@ svg {
 
 @media (max-height: 550px) {
  
-  .toolbar .menu.level-two.tool,
-  .toolbar .menu.level-two.draw {
+  .toolbar .menu.level-two.tool {
     height: 93.7%;
+  }
+
+  .toolbar .menu.level-two.draw {
+    height: 92.2%;
   }
 
   .toolbar .menu.level-three {
@@ -549,6 +579,23 @@ svg {
 
   .show .menu-text {
     margin-top: 75%;
+  }
+
+  .show .level-two-items .icon {
+    background-size: 40px;
+    background-position: 50% 35%;
+  }
+
+  .level-two-items .icon.icon-magnify {
+    background-size: 35px;
+  }
+
+  .level-two-items .icon.icon-arrow {
+    background-size: 35px;
+  }
+
+  .level-two-items .icon.icon-text {
+    background-size: 35px;
   }
 
 }
@@ -563,9 +610,12 @@ svg {
     margin-top: 70%;
   }
 
-  .toolbar .menu.level-two.tool,
+  .toolbar .menu.level-two.tool {
+    height: 93.4%;
+  }
+
   .toolbar .menu.level-two.draw {
-    height: 93.3%;
+    height: 91.8%;
   }
 
   .toolbar .menu.level-two {
@@ -580,11 +630,20 @@ svg {
     background-size: 40px;
   }
 
-  .level-two-items.icon.icon-magnify {
-    background-size: 25px;
+  .show .level-two-items .icon {
+    background-size: 38px;
+    background-position: 50% 30%;
   }
 
-  .level-two-items.icon.icon-arrow {
+  .level-two-items .icon.icon-magnify {
+    background-size: 30px;
+  }
+
+  .level-two-items .icon.icon-arrow {
+    background-size: 30px;
+  }
+
+  .level-two-items .icon.icon-text {
     background-size: 30px;
   }
 

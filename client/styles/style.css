@@ -58,11 +58,21 @@ svg {
   /*background-color: rgba(10, 10, 10, 0.7);
   background-color: rgba(31,67,134,0.90);*/
   /*background-color: rgba(62,62,62,0.97);*/
-  background-color: rgba(53,53,53,0.99);
+  background: rgba(53,53,53,0.99);
   /*padding-top: 40%;*/
   /*display: table;*/
   margin: 8px 8px;
   border-radius: 3px;
+}
+
+/*.menu.level-one.icon.icon-draw {
+  background: url('../assets/images/draw.png') no-repeat 49% / 90px, linear-gradient(90deg, rgba(53,53,53,0.99) 50%, rgba(53,53,53,0.89) 50%);
+}*/
+
+.toolbar .menu.level-one {
+  /*background: linear-gradient(90deg, rgba(53,53,53,0.999) 0%, rgba(53,53,53,0.93) 0%);*/
+  background: linear-gradient(90deg, rgba(177,102,24,0.96) 0%, rgba(53,53,53,0.93) 0%);
+  
 }
 
 .menu-text {
@@ -145,7 +155,9 @@ svg {
   z-index: 1;
   /*margin: 0px 6px;*/
   margin: 0px 0 0 6px;
-  background-color: rgba(53,53,53,0.99);
+  /*background-color: rgba(53,53,53,0.99);*/
+  /*background: linear-gradient(90deg, rgba(53,53,53,0.999) 0%, rgba(53,53,53,0.93) 0%);*/
+  background: linear-gradient(90deg, rgba(177,102,24,0.96) 0%, rgba(53,53,53,0.93) 0%);
   border-radius: 3px;
 }
 
@@ -162,6 +174,11 @@ svg {
   background-color: transparent;
   top: 0px;
   left: -600px;
+}
+
+.level-three.level-three-container {
+  height: 100%;
+  width: 100%;
 }
 
 .toolbar .level-three.icon {
@@ -182,6 +199,7 @@ svg {
 
 .color-palette {
   border-radius: 3px;
+  /*opacity: 0.9;*/
   width: 100%;
   height: 100%;
 }
@@ -199,17 +217,31 @@ svg {
  *
  */
 
-.level-one.icon {
+.level-one .icon  {
   background-repeat: no-repeat;
   background-size: 30px;
   background-position: 94%;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  width: 95.8%;
+  /*height: 33%;*/
 }
 
 .icon,
-.show .level-one.icon {
+.show .level-one .icon,
+.level-two .icon {
   background-repeat: no-repeat;
   background-size: 90px;
   background-position: 50%;
+}
+
+.level-two .icon {
+  position: relative;
+}
+
+.level-three .icon {
+  position: absolute;
 }
 
 /* Icons level one */

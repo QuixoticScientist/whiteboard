@@ -51,6 +51,17 @@ angular.module('whiteboard')
           // console.log('wbToolbar: closing all submenus')
           $scope.$broadcast('toggleSubmenu', msg)
         }
+      });
+
+      $scope.$on('resetBackgrounds', function (ev, msg) {
+
+        if (Array.isArray(msg.target)) {
+          msg.target.forEach(function (target) {
+            $scope.$broadcast('resetTargetBackground', {target: target});    
+          })
+        } else {
+          $scope.$broadcast('resetTargetBackground', msg);
+        }
       })
 
     },
@@ -243,19 +254,178 @@ angular.module('whiteboard')
         // console.log('!!!!!!!!!!!!!!!!!', attrs.wbTool, ev);
         // if (angular.element(ev.currentTarget).hasClass('level-two-items')) { return; } 
         if (attrs.wbColor && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
-          console.log('A')
+          // console.log('A')
           submenuItemsCtrl.setColors(attrs.wbColorType, attrs.wbColor);
           scope.$emit('activateMenu', 'hide');
         } else if (attrs.wbTool && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
-          console.log('b')
+          // console.log('b')
           submenuItemsCtrl.setTool(attrs.wbTool)
           scope.$emit('activateMenu', 'hide');
-        } else if (angular.element(ev.relatedTarget).hasClass('menu')) {
-          console.log('c')
+        } else if (angular.element(ev.relatedTarget).hasClass('menu') || angular.element(ev.relatedTarget).hasClass('icon')) {
+          // console.log('c')
           scope.$emit('toggleAllSubmenu', {action: 'hide', level: '3'});
         }
         // console.log(angular.element(ev.relatedTarget).is('svg'))
       })
+    }
+  };
+})
+.directive('wbMenuOverHandler', function () {
+  return {
+    restrict: 'A',
+    replace: false,
+    require: 'wbMenuOverHandler',
+    controllerAs: 'menuOver',
+    controller: function ($scope) {
+      var elemWidth;
+      // var elemLeftOffset;
+
+      // this.storeElemLeftOffset = function (leftOffset) {
+      //   elemLeftOffset = leftOffset;
+      // };
+
+      // this.getElemLeftOffset = function () {
+      //   return elemLeftOffset;
+      // };
+
+      this.storeElemWidth = function (width) {
+        elemWidth = width;
+      };
+
+      this.getElemWidth = function () {
+        return elemWidth;
+      };
+
+      this.calcBg = function (mouseX, leftOffset) {
+        var width = this.getElemWidth();
+
+        //100 : elemWidth = x : mouseX 
+        var bgSizes = {};
+        bgSizes.overed = (mouseX - leftOffset) * 100 / this.getElemWidth();
+        // bgSizes.free = 100 - bgSizes.overed;
+        // bgSizes.free = 0;
+
+        return bgSizes;
+      };
+
+      this.hexToRGBA = function (hex, opacity) {
+        opacity = opacity || 90;
+
+        hex = hex.replace('#','');
+        r = parseInt(hex.substring(0,2), 16);
+        g = parseInt(hex.substring(2,4), 16);
+        b = parseInt(hex.substring(4,6), 16);
+
+        result = 'rgba('+r+','+g+','+b+','+opacity/100+')';
+        return result;
+      }
+
+    },
+    link: function (scope, element, attrs, ctrl) {
+      // {background: linear-gradient(90deg, rgba(53,53,53,0.99) {{overed}}%, rgba(53,53,53,0.89) free%)}
+
+      if (ctrl.getElemWidth() === undefined) {
+        ctrl.storeElemWidth(element.width())
+      }
+
+      // console.log(element.offset())
+      // ctrl.storeElemWidth(element.offset().left);
+
+      var setBg = function (el, sizes) { 
+        // console.log(sizes.overed, el.offset().left)
+        el.css({'background': 'linear-gradient(90deg, rgba(177,102,24,0.96) ' + (sizes.overed) + '%, rgba(53,53,53,0.93) 0%)'})
+      }
+
+      var setColorBg = function (el, color, sizes) { 
+        // console.log(sizes.overed, el.offset().left)
+        var rgbaOver = ctrl.hexToRGBA(color, 100);
+        var rgbaFree = ctrl.hexToRGBA(color, 90);
+        el.css({'background': 'linear-gradient(90deg,  ' + rgbaOver + ' ' + (sizes.overed) + '%, ' + rgbaFree + ' 0%)'})
+      }
+
+      element.bind('mouseover', function (ev) {
+        ev.stopPropagation();
+        // console.log(ev);
+        // console.log(ev)
+        if (angular.element(ev.currentTarget).hasClass('level-two-items')) {
+          var $levelOne = angular.element(ev.currentTarget).parents('.level-one')
+          // console.log($levelOne)
+          scope.$emit('resetBackgrounds', {target: 'level-two-items'});
+          setBg($levelOne, {overed: 100});
+        } else if (angular.element(ev.currentTarget).hasClass('level-one')) {
+          scope.$emit('resetBackgrounds', {target: 'level-two-items'});
+        } else if (angular.element(ev.currentTarget).hasClass('color-palette')) {
+          // console.log('A')
+          var $levelTwo = angular.element(ev.currentTarget).parents('.level-two-items')
+          setBg($levelTwo, {overed: 100});
+          scope.$emit('resetBackgrounds', {target: 'level-three-items'});
+        }
+
+
+      });
+
+      element.bind('mousemove', function (ev) {
+        ev.stopPropagation();
+
+        var $el = angular.element(ev.currentTarget);
+        // console.log('ev');
+        if ($el.hasClass('level-one') || $el.hasClass('level-two-items')) {
+          // console.log('over level one');
+          var bgSizes = ctrl.calcBg(ev.clientX, $el.offset().left);
+          setBg($el, bgSizes);
+
+        } else if ($el.hasClass('color-palette')) {
+          var bgSizes = ctrl.calcBg(ev.clientX, $el.offset().left);
+          setColorBg($el, scope.color, bgSizes);
+
+        }
+      });
+
+      element.bind('mouseleave', function (ev) {
+
+        var $elTarget = angular.element(ev.currentTarget);
+        var $elToElement = angular.element(ev.toElement);
+
+        // console.log($elToElement)
+        if ($elTarget.hasClass('level-two-items')) {
+          // console.log(ev)
+          if ($elToElement.is('svg') || angular.element(ev.relatedTarget)[0].raphael) {
+            // console.log(1)
+            scope.$emit('resetBackgrounds', {target: 'all'});
+          } else if ($elToElement.hasClass('wb-submenu-opener')) {
+            // console.log(2)
+            scope.$emit('resetBackgrounds', {target: 'all'});
+          } else {
+            // console.log(3)
+            scope.$emit('resetBackgrounds', {target: 'level-two-items'});
+          }
+        } else if ($elTarget.hasClass('level-one')) {
+          // console.log('reset!')
+          scope.$emit('resetBackgrounds', {target: 'level-one'});
+        } else if ($elTarget.hasClass('color-palette') ) {
+          if ($elToElement.is('svg') || angular.element(ev.relatedTarget)[0].raphael) {
+            scope.$emit('resetBackgrounds', {target: 'all'});
+          } else if ($elToElement.hasClass('wb-submenu-opener') || $elToElement.hasClass('level-three-items')) {
+            // scope.$emit('resetBackgrounds', {target: 'all'});
+            scope.$emit('resetBackgrounds', {target: 'color-palette'});
+          } 
+        }
+      })
+
+      scope.$on('resetTargetBackground', function (ev, msg) {
+        // console.log('should reset color', element)
+        if (msg.target === 'all') {
+          // console.log('- ', element)
+          element.hasClass('color-palette') ? setColorBg(element, scope.color, {overed: 0}) : setBg(element, {overed: 0});  
+        } else if (element.hasClass('color-palette') && (msg.target === 'level-three-items' || msg.target === 'color-palette')) {
+          // console.log(scope.color)
+          setColorBg(element, scope.color, {overed: 0});
+        } else if (element.hasClass(msg.target)) {
+          setBg(element, {overed: 0});
+        }
+        
+      })
+
     }
   };
 })

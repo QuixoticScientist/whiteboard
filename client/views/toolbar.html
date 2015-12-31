@@ -15,9 +15,12 @@
           </div>
           <div class="menu wb-submenu-opener" wb-level="3"></div>
           <div class="menu level-three wb-submenu" wb-level="3">
-            <div class="level-three-items wb-submenu-items" wb-color-type="{{subMenu[0].toLowerCase()}}" wb-color="{{color}}" ng-repeat="color in subMenu[1]" style="height: {{93.1/subMenu[1].length}}%;">
+            <div ng-if="subMenu[1][0].charAt(0) === '#'" class="level-three-items wb-submenu-items" wb-color-type="{{subMenu[0].toLowerCase()}}" wb-color="{{color}}" ng-repeat="color in subMenu[1]" style="height: {{94.1/subMenu[1].length}}%;">
               <!-- <p>{{color}}</p> -->
               <div class="color-palette" wb-menu-over-handler ng-style="{'background-color': menuOver.hexToRGBA(color)}"></div>
+            </div>
+            <div ng-if="subMenu[1][0].charAt(0) !== '#'" class="level-three-items wb-submenu-items" wb-thickness="{{thickness}}"ng-repeat="thickness in subMenu[1]" style="height: {{94.1/subMenu[1].length}}%;">
+              <div class="thickness" wb-menu-over-handler >{{thickness}}</div>
             </div>
           </div>
         </div>

@@ -110,9 +110,9 @@ svg {
   margin-top: 120px;
 }*/
 
-.level-three .valign-text {
+/*.level-three .valign-text {
   line-height: 13;
-}
+}*/
 
 .menu .wb-submenu-opener {
   width: 40%;
@@ -148,6 +148,14 @@ svg {
 
 .toolbar .menu.level-two.show {
   left: 0;
+}
+
+.toolbar .menu.level-two.draw {
+  height: 94.3%;
+}
+
+.toolbar .menu.level-two.color {
+  height: 96.8%;
 }
 
 .level-two-items {
@@ -197,6 +205,14 @@ svg {
   padding: 0 0px 8px 8px;
 }
 
+.level-three-items .thickness {
+  border-radius: 3px;
+  /*opacity: 0.9;*/
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(177,102,24,0.96) 0%, rgba(53,53,53,0.93) 0%);
+}
+
 .color-palette {
   border-radius: 3px;
   /*opacity: 0.9;*/
@@ -229,10 +245,11 @@ svg {
 }
 
 .icon,
-.show .level-one .icon,
-.level-two .icon {
+.show .level-one .icon{
   background-repeat: no-repeat;
-  background-size: 90px;
+  /*background-size: 90px;*/
+  /*position: relative;*/
+  background-size: 65px;
   background-position: 50%;
 }
 
@@ -258,7 +275,7 @@ svg {
 }
 
 /* Icons level two/one */
-.icon-path {
+.level-two .icon.icon-path {
   background-image: url('../assets/images/path.png');
 }
 
@@ -266,9 +283,9 @@ svg {
   background-image: url('../assets/images/line.png');
 }
 
-.icon-arrow {
+.level-two .icon.icon-arrow {
   background-image: url('../assets/images/arrow.png');
-  background-size: 75px;
+  background-size: 55px;
 }
 
 .icon-rectangle {
@@ -279,10 +296,15 @@ svg {
   background-image: url('../assets/images/circle.png');
 }
 
+.level-two .icon.icon-text {
+  background-image: url('../assets/images/text.png');
+  background-size: 55px;
+}
+
 /* Icons level two/one */
-.icon-magnify {
+.level-two .icon.icon-magnify {
   background-image: url('../assets/images/magnify.png');
-  background-size: 60px;
+  background-size: 50px;
 }
 
 .icon-eraser {
@@ -340,10 +362,17 @@ svg {
 
  @media (max-height: 950px) {
 
-  .toolbar .menu.level-three {
-    height: 100%;
-  }  
+  .toolbar {
+    height: 99%;
+  }
 
+  .toolbar .draw.menu.level-two {
+    height: 94%;
+  }
+
+  .toolbar .menu.level-three {
+    height: 99.9%;
+  }  
 
 }
 
@@ -357,13 +386,37 @@ svg {
     height: 97.7%;
   }*/
 
-  .toolbar .menu.level-two.tool,
-  .toolbar .menu.level-two.draw {
+  .toolbar .menu.level-two.tool {
     height: 94.9%;
   }
 
+  .toolbar .menu.level-two.draw {
+    height: 94.1%;
+  }
+
   .toolbar .menu.level-three {
-    height: 99.5%;%;
+    height: 99.3%;
+  }  
+
+
+}
+
+@media (max-height: 850px) {
+
+/*  .toolbar .menu.level-two.tool {
+    height: 94.9%;
+  }*/
+
+  .toolbar .menu.level-two.draw {
+    height: 93.9%;
+  }
+
+  .toolbar .menu.level-two.color {
+    height: 96.7%;
+  }
+
+  .toolbar .menu.level-three {
+    height: 99%;
   }  
 
 
@@ -383,28 +436,34 @@ svg {
     line-height: 0;
   }
 
-  .level-three .valign-text {
+/*  .level-three .valign-text {
     line-height: 9;
-  }
+  }*/
 
   .toolbar .menu.level-two {
     height: 97.7%;
   }
 
-  .toolbar .menu.level-two.tool,
-  .toolbar .menu.level-two.draw {
+  .toolbar .menu.level-two.tool {
     height: 94.7%;
+  }
+
+  .toolbar .menu.level-two.draw {
+    height: 93.7%;
   }
 
   .toolbar .menu.level-three {
     height: 98.5%;
   }  
 
-
 }
 
 @media (max-height: 750px) {
   
+  .toolbar .menu.level-two.draw {
+    height: 93.5%;
+  }
+
   .toolbar .menu.level-three {
     height: 97.9%;
   }
@@ -417,25 +476,40 @@ svg {
     height: 99%;
   }
 
-  .toolbar .menu.level-two {
+/*  .toolbar .menu.level-two {
     height: 97.7%;
   }
-
-  .toolbar .menu.level-two.tool,
-  .toolbar .menu.level-two.draw {
+*/
+  .toolbar .menu.level-two.tool {
     height: 94.4%;
   }
 
-  .level-two-items.icon {
-    background-size: 70px;
+  .toolbar .menu.level-two.draw {
+    height: 93.4%;
   }
 
-  .level-two-items.icon.icon-magnify {
-    background-size: 45px;
+  .show .level-two-items .icon {
+    background-size: 50px;
   }
 
-  .level-two-items.icon.icon-arrow {
+  .show .level-two-items .icon.icon-fill,
+  .show .level-two-items .icon.icon-stroke,
+  .show .level-two-items .icon.icon-thickness {
+    /*background-size: 45px;*/
     background-size: 65px;
+    background-position: 50% 50%;
+  }
+
+  .level-two-items .icon.icon-magnify {
+    background-size: 40px;
+  }
+
+  .level-two-items .icon.icon-arrow {
+    background-size: 40px;
+  }
+
+  .level-two-items .icon.icon-text {
+    background-size: 40px;
   }
 
   .toolbar .menu.level-three {
@@ -446,6 +520,10 @@ svg {
 
 @media (max-height: 660px) {
   
+  .toolbar .menu.level-two.draw {
+    height: 93.1%;
+  }
+
   .show .menu-text {
     margin-top: 85%;
   }
@@ -454,12 +532,23 @@ svg {
     line-height: 0;
   }
 
-  .level-three .valign-text {
+/*  .level-three .valign-text {
     line-height: 9;
-  }
+  }*/
 
   .toolbar .menu.level-two {
     height: 97.9%;
+  }
+
+  .show .level-two-items .icon {
+    /*background-size: 45px;*/
+    background-position: 50% 40%;
+  }
+
+
+
+  .level-two-items .icon.icon-magnify {
+    background-size: 35px;
   }
 
   .toolbar .menu.level-three {
@@ -490,9 +579,12 @@ svg {
     height: 98.1%;
   }
 
-  .toolbar .menu.level-two.tool,
+  .toolbar .menu.level-two.tool {
+    height: 94%;
+  }
+
   .toolbar .menu.level-two.draw {
-    height: 95.5%;
+    height: 92.7%;
   }
 
   .toolbar .menu.level-three {
@@ -501,6 +593,19 @@ svg {
 
   .level-two-items.icon {
     background-size: 50px;
+  }
+
+  .level-two .icon {
+    position: relative;
+    background-size: 65px;
+    background-position: 50% 50%;
+  }
+
+  .show .level-two-items .icon.icon-fill,
+  .show .level-two-items .icon.icon-stroke,
+  .show .level-two-items .icon.icon-thickness {
+    position: absolute;
+    /*background-size: 65px;*/
   }
 
   .level-two-items.icon.icon-magnify {
@@ -515,9 +620,12 @@ svg {
 
 @media (max-height: 550px) {
  
-  .toolbar .menu.level-two.tool,
-  .toolbar .menu.level-two.draw {
+  .toolbar .menu.level-two.tool {
     height: 93.7%;
+  }
+
+  .toolbar .menu.level-two.draw {
+    height: 92.2%;
   }
 
   .toolbar .menu.level-three {
@@ -526,6 +634,23 @@ svg {
 
   .show .menu-text {
     margin-top: 75%;
+  }
+
+  .show .level-two-items .icon {
+    background-size: 40px;
+    background-position: 50% 35%;
+  }
+
+  .level-two-items .icon.icon-magnify {
+    background-size: 35px;
+  }
+
+  .level-two-items .icon.icon-arrow {
+    background-size: 35px;
+  }
+
+  .level-two-items .icon.icon-text {
+    background-size: 35px;
   }
 
 }
@@ -540,9 +665,12 @@ svg {
     margin-top: 70%;
   }
 
-  .toolbar .menu.level-two.tool,
+  .toolbar .menu.level-two.tool {
+    height: 93.4%;
+  }
+
   .toolbar .menu.level-two.draw {
-    height: 93.3%;
+    height: 91.8%;
   }
 
   .toolbar .menu.level-two {
@@ -557,11 +685,20 @@ svg {
     background-size: 40px;
   }
 
-  .level-two-items.icon.icon-magnify {
-    background-size: 25px;
+  .show .level-two-items .icon {
+    background-size: 38px;
+    background-position: 50% 30%;
   }
 
-  .level-two-items.icon.icon-arrow {
+  .level-two-items .icon.icon-magnify {
+    background-size: 30px;
+  }
+
+  .level-two-items .icon.icon-arrow {
+    background-size: 30px;
+  }
+
+  .level-two-items .icon.icon-text {
     background-size: 30px;
   }
 

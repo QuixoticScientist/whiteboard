@@ -38,10 +38,23 @@ angular.module('whiteboard')
         '#bdc3c7',
       ];
 
+      var thickness = [
+        '10',
+        '9',
+        '8',
+        '7',
+        '6',
+        '5',
+        '4',
+        '3',
+        '2',
+        '1'
+      ];
+
       $scope.menuStructure = [
         ['Draw', ['Path', 'Line', 'Arrow', 'Rectangle', 'Circle', 'Text']], 
         ['Tool', ['Magnify', 'Eraser', 'Pan', 'Move', 'Copy']],
-        ['Color', [['Fill', fill], ['Stroke', stroke]]]
+        ['Color', [['Fill', fill], ['Stroke', stroke], ['Stroke Size', thickness]]]
       ];
 
       
@@ -148,6 +161,7 @@ angular.module('whiteboard')
             submenuOpenerCtrl.submenuOpener({action: 'show', level: '2'});
           } else if (ev.type === 'mouseover' && attrs.wbLevel === '3') {
             // console.log('Should open the color palette!')
+            // console.log('Should open third level')
             submenuOpenerCtrl.submenuOpener({action: 'show', level: '3'});
           } else if (ev.type === 'mouseleave' && (angular.element(ev.toElement).hasClass('lvl1') || angular.element(ev.toElement).hasClass('level-one'))) {
             // console.log('Should close submenu');
@@ -238,6 +252,10 @@ angular.module('whiteboard')
         } else {
           BoardData.setColors(null, color); 
         }
+      } 
+
+      this.setThickness = function (thickness) {
+        BoardData.setStrokeWidth(thickness);
       }
 
     },
@@ -256,6 +274,10 @@ angular.module('whiteboard')
         if (attrs.wbColor && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
           // console.log('A')
           submenuItemsCtrl.setColors(attrs.wbColorType, attrs.wbColor);
+          scope.$emit('activateMenu', 'hide');
+        } else if (attrs.wbThickness && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
+          // console.log('SET THICKNESS')
+          submenuItemsCtrl.setThickness(attrs.wbThickness);
           scope.$emit('activateMenu', 'hide');
         } else if (attrs.wbTool && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
           // console.log('b')
@@ -346,7 +368,7 @@ angular.module('whiteboard')
       element.bind('mouseover', function (ev) {
         ev.stopPropagation();
         // console.log(ev);
-        // console.log(ev)
+        // console.log(ev.currentTarget)
         if (angular.element(ev.currentTarget).hasClass('level-two-items')) {
           var $levelOne = angular.element(ev.currentTarget).parents('.level-one')
           // console.log($levelOne)
@@ -359,6 +381,12 @@ angular.module('whiteboard')
           var $levelTwo = angular.element(ev.currentTarget).parents('.level-two-items')
           setBg($levelTwo, {overed: 100});
           scope.$emit('resetBackgrounds', {target: 'level-three-items'});
+        } else if (angular.element(ev.currentTarget).hasClass('thickness')) {
+          // console.log('A')
+          var $levelTwo = angular.element(ev.currentTarget).parents('.level-two-items');
+          // console.log($levelTwo)
+          setBg($levelTwo, {overed: 100});
+          scope.$emit('resetBackgrounds', {target: 'level-three-items'});
         }
 
 
@@ -369,7 +397,7 @@ angular.module('whiteboard')
 
         var $el = angular.element(ev.currentTarget);
         // console.log('ev');
-        if ($el.hasClass('level-one') || $el.hasClass('level-two-items')) {
+        if ($el.hasClass('level-one') || $el.hasClass('level-two-items') || $el.hasClass('thickness')) {
           // console.log('over level one');
           var bgSizes = ctrl.calcBg(ev.clientX, $el.offset().left);
           setBg($el, bgSizes);
@@ -386,7 +414,7 @@ angular.module('whiteboard')
         var $elTarget = angular.element(ev.currentTarget);
         var $elToElement = angular.element(ev.toElement);
 
-        // console.log($elToElement)
+        // console.log($elTarget)
         if ($elTarget.hasClass('level-two-items')) {
           // console.log(ev)
           if ($elToElement.is('svg') || angular.element(ev.relatedTarget)[0].raphael) {
@@ -402,12 +430,12 @@ angular.module('whiteboard')
         } else if ($elTarget.hasClass('level-one')) {
           // console.log('reset!')
           scope.$emit('resetBackgrounds', {target: 'level-one'});
-        } else if ($elTarget.hasClass('color-palette') ) {
+        } else if ($elTarget.hasClass('color-palette') || $elTarget.hasClass('thickness')) {
           if ($elToElement.is('svg') || angular.element(ev.relatedTarget)[0].raphael) {
             scope.$emit('resetBackgrounds', {target: 'all'});
           } else if ($elToElement.hasClass('wb-submenu-opener') || $elToElement.hasClass('level-three-items')) {
             // scope.$emit('resetBackgrounds', {target: 'all'});
-            scope.$emit('resetBackgrounds', {target: 'color-palette'});
+            scope.$emit('resetBackgrounds', {target: ['color-palette', 'thickness']});
           } 
         }
       })
@@ -420,7 +448,10 @@ angular.module('whiteboard')
         } else if (element.hasClass('color-palette') && (msg.target === 'level-three-items' || msg.target === 'color-palette')) {
           // console.log(scope.color)
           setColorBg(element, scope.color, {overed: 0});
+        } else if (element.hasClass('thickness') && (msg.target === 'level-three-items' || msg.target === 'thickness')) {
+          setBg(element, {overed: 0});
         } else if (element.hasClass(msg.target)) {
+          // console.log('here', msg.target)
           setBg(element, {overed: 0});
         }
         

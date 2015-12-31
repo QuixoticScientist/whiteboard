@@ -229,10 +229,11 @@ svg {
 }
 
 .icon,
-.show .level-one .icon,
-.level-two .icon {
+.show .level-one .icon{
   background-repeat: no-repeat;
-  background-size: 90px;
+  /*background-size: 90px;*/
+  /*position: relative;*/
+  background-size: 65px;
   background-position: 50%;
 }
 
@@ -258,7 +259,7 @@ svg {
 }
 
 /* Icons level two/one */
-.icon-path {
+.level-two .icon.icon-path {
   background-image: url('../assets/images/path.png');
 }
 
@@ -266,9 +267,9 @@ svg {
   background-image: url('../assets/images/line.png');
 }
 
-.icon-arrow {
+.level-two .icon.icon-arrow {
   background-image: url('../assets/images/arrow.png');
-  background-size: 75px;
+  background-size: 55px;
 }
 
 .icon-rectangle {
@@ -279,10 +280,15 @@ svg {
   background-image: url('../assets/images/circle.png');
 }
 
+.level-two .icon.icon-text {
+  background-image: url('../assets/images/text.png');
+  background-size: 55px;
+}
+
 /* Icons level two/one */
-.icon-magnify {
+.level-two .icon.icon-magnify {
   background-image: url('../assets/images/magnify.png');
-  background-size: 60px;
+  background-size: 50px;
 }
 
 .icon-eraser {
@@ -340,10 +346,17 @@ svg {
 
  @media (max-height: 950px) {
 
-  .toolbar .menu.level-three {
-    height: 100%;
-  }  
+  .toolbar {
+    height: 99%;
+  }
 
+  .toolbar .draw.menu.level-two {
+    height: 94%;
+  }
+
+  .toolbar .menu.level-three {
+    height: 99.9%;
+  }  
 
 }
 
@@ -357,9 +370,12 @@ svg {
     height: 97.7%;
   }*/
 
-  .toolbar .menu.level-two.tool,
-  .toolbar .menu.level-two.draw {
+  .toolbar .menu.level-two.tool {
     height: 94.9%;
+  }
+
+  .toolbar .menu.level-two.draw {
+    height: 94.1%;
   }
 
   .toolbar .menu.level-three {
@@ -391,9 +407,12 @@ svg {
     height: 97.7%;
   }
 
-  .toolbar .menu.level-two.tool,
-  .toolbar .menu.level-two.draw {
+  .toolbar .menu.level-two.tool {
     height: 94.7%;
+  }
+
+  .toolbar .menu.level-two.draw {
+    height: 93.7%;
   }
 
   .toolbar .menu.level-three {
@@ -404,6 +423,10 @@ svg {
 }
 
 @media (max-height: 750px) {
+  
+  .toolbar .menu.level-two.draw {
+    height: 93.7%;
+  }
   
   .toolbar .menu.level-three {
     height: 97.9%;

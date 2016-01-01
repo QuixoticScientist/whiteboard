@@ -227,6 +227,142 @@ svg {
 }
 */
 
+
+/*
+ *
+ * MENU STROKE SIZES
+ *
+ */
+
+.thickness.stroke10:after {
+  width: 165px;
+  top: 5px;
+  border-bottom: 10px solid;
+
+  content: '';
+  height: 50%;
+  position: relative;
+  display: block;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.thickness.stroke9:after {
+  width: 150px;
+  top: 4.5px;
+  border-bottom: 9px solid;
+  
+  content: '';
+  height: 50%;
+  position: relative;
+  display: block;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.thickness.stroke8:after {
+  width: 135px;
+  top: 4px;
+  border-bottom: 8px solid;
+  
+  content: '';
+  height: 50%;
+  position: relative;
+  display: block;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.thickness.stroke7:after {
+  width: 120px;
+  top: 3.5px;
+  border-bottom: 7px solid;
+  
+  content: '';
+  height: 50%;
+  position: relative;
+  display: block;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.thickness.stroke6:after {
+  width: 105px;
+  top: 3px;
+  border-bottom: 6px solid;
+  
+  content: '';
+  height: 50%;
+  position: relative;
+  display: block;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.thickness.stroke5:after {
+  width: 90px;
+  top: 2.5px;
+  border-bottom: 5px solid;
+  
+  content: '';
+  height: 50%;
+  position: relative;
+  display: block;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.thickness.stroke4:after {
+  width: 75px;
+  top: 2px;
+  border-bottom: 4px solid;
+  
+  content: '';
+  height: 50%;
+  position: relative;
+  display: block;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.thickness.stroke3:after {
+  width: 50px;
+  top: 1.5px;
+  border-bottom: 3px solid;
+  
+  content: '';
+  height: 50%;
+  position: relative;
+  display: block;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.thickness.stroke2:after {
+  width: 35px;
+  top: 1px;
+  border-bottom: 2px solid;
+  
+  content: '';
+  height: 50%;
+  position: relative;
+  display: block;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.thickness.stroke1:after {
+  width: 20px;
+  /*top: 0px;*/
+  border-bottom: 1px solid;
+  
+  content: '';
+  height: 50%;
+  position: relative;
+  display: block;
+  margin: auto;
+  box-sizing: border-box;
+}
 /*
  *
  * ICONS
@@ -330,6 +466,10 @@ svg {
 
 .icon-fill {
   background-image: url('../assets/images/fill.png');
+}
+
+.icon-thickness {
+  background-image: url('../assets/images/thickness.png');
 }
 
 /*

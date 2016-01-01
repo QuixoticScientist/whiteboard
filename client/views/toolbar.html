@@ -20,7 +20,7 @@
               <div class="color-palette" wb-menu-over-handler ng-style="{'background-color': menuOver.hexToRGBA(color)}"></div>
             </div>
             <div ng-if="subMenu[1][0].charAt(0) !== '#'" class="level-three-items wb-submenu-items" wb-thickness="{{thickness}}"ng-repeat="thickness in subMenu[1]" style="height: {{94.1/subMenu[1].length}}%;">
-              <div class="thickness" wb-menu-over-handler >{{thickness}}</div>
+              <div class="thickness stroke{{thickness}}" wb-menu-over-handler ></div>
             </div>
           </div>
         </div>

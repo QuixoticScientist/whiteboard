@@ -54,7 +54,7 @@ angular.module('whiteboard')
       $scope.menuStructure = [
         ['Draw', ['Path', 'Line', 'Arrow', 'Rectangle', 'Circle', 'Text']], 
         ['Tool', ['Magnify', 'Eraser', 'Pan', 'Move', 'Copy']],
-        ['Color', [['Fill', fill], ['Stroke', stroke], ['Stroke Size', thickness]]]
+        ['Color', [['Fill', fill], ['Stroke', stroke], ['Thickness', thickness]]]
       ];
 
       
@@ -284,7 +284,7 @@ angular.module('whiteboard')
           submenuItemsCtrl.setTool(attrs.wbTool)
           scope.$emit('activateMenu', 'hide');
         } else if (angular.element(ev.relatedTarget).hasClass('menu') || angular.element(ev.relatedTarget).hasClass('icon')) {
-          // console.log('c')
+          // console.log(ev)
           scope.$emit('toggleAllSubmenu', {action: 'hide', level: '3'});
         }
         // console.log(angular.element(ev.relatedTarget).is('svg'))

@@ -15,11 +15,12 @@ angular.module('whiteboard.services.inputhandler', [])
   function getClosestElementByArea (ev) {
     var paper = BoardData.getBoard();
     var width = height = 5;
+    var mouseXY = getMouseXY(ev);
     var bbox = {
-      x: ev.clientX - width / 2,
-      y: ev.clientY - height / 2,
-      x2: ev.clientX + width / 2,
-      y2: ev.clientY + height / 2,
+      x: mouseXY.x - width / 2,
+      y: mouseXY.y - height / 2,
+      x2: mouseXY.x + width / 2,
+      y2: mouseXY.y + height / 2,
       width: width,
       height: height
     };
@@ -88,8 +89,6 @@ angular.module('whiteboard.services.inputhandler', [])
 
   actions.move = {
     mouseDown: function (ev) {
-      var mouseXY = getMouseXY(ev);
-
       Visualizer.clearSelection();
       var target = getClosestElementByArea(ev);
 

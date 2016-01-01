@@ -35,10 +35,16 @@ angular.module('whiteboard.services.shapebuilder', [])
         return BoardData.getBoard().circle(x, y, 0);
       },
       'line': function (x, y) {
-        return BoardData.getBoard().path("M" + String(x) + "," + String(y));
+        return BoardData.getBoard().path("M" + String(x) + "," + String(y))
+          .attr({
+            'stroke-linecap': 'round'
+          });
       },
       'path': function (x, y) {
-        var path = BoardData.getBoard().path("M" + String(x) + "," + String(y));
+        var path = BoardData.getBoard().path("M" + String(x) + "," + String(y))
+          .attr({
+            'stroke-linecap': 'round'
+          });
         path.pathDProps = '';
         return path;
       },

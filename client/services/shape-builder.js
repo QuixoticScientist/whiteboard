@@ -35,10 +35,16 @@ angular.module('whiteboard.services.shapebuilder', [])
         return BoardData.getBoard().circle(x, y, 0);
       },
       'line': function (x, y) {
-        return BoardData.getBoard().path("M" + String(x) + "," + String(y));
+        return BoardData.getBoard().path("M" + String(x) + "," + String(y))
+          .attr({
+            'stroke-linecap': 'round'
+          });
       },
       'path': function (x, y) {
-        var path = BoardData.getBoard().path("M" + String(x) + "," + String(y));
+        var path = BoardData.getBoard().path("M" + String(x) + "," + String(y))
+          .attr({
+            'stroke-linecap': 'round'
+          });
         path.pathDProps = '';
         return path;
       },
@@ -66,7 +72,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     shape.myid = id;
     shape.socketId = socketId;
     if (tool.name === 'path') Snap.createSnaps(shape);
-    if (tool.name !== 'arrow') setWidth(shape, tool['stroke-width']);
+    if (tool.name !== 'arrow' && tool.name !== 'text') setWidth(shape, tool['stroke-width']);
     BoardData.pushToStorage(id, socketId, shape);
   };
 

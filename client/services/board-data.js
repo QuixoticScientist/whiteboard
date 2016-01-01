@@ -26,7 +26,7 @@ angular.module('whiteboard.services.boarddata', [])
 
   var tool = {
     name: 'path',
-    'stroke-width': 1,
+    'stroke-width': 3,
     colors: {
       fill: 'transparent',
       stroke: '#000000'

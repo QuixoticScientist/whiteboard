@@ -199,8 +199,14 @@ angular.module('whiteboard.services.inputhandler', [])
         if (ev.keyCode === 13) {
           // enter key to complete text insertion process
           editorShape.tool = currentTool;
-          EventHandler.finishShape(id, socketId, currentTool);
-          Broadcast.finishShape(id, currentTool);
+          editorShape.tool.colors.fill = editorShape.trueColors.fill;
+          editorShape.tool.colors.stroke = editorShape.trueColors.stroke;
+          editorShape.attr({
+            'fill': editorShape.trueColors.fill,
+            'stroke': editorShape.trueColors.stroke
+          })
+          EventHandler.finishShape(id, socketId, editorShape.tool);
+          Broadcast.finishShape(id, editorShape.tool);
           editorShape = null;
           document.onkeydown = document.onkeypress = function () {};
         } else {

@@ -122,7 +122,7 @@ var roomsManager = {
 
   completeShape: function (shape, socket) {
     if (shape.tool && shape.tool.text) {
-      rooms[socket.room][socket.id][shape.myid]['tool']['text'] = shape.tool.text;
+      rooms[socket.room][socket.id][shape.myid]['tool'] = shape.tool;
     }
     client.set(socket.room, JSON.stringify(rooms[socket.room]));
   },

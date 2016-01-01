@@ -4,6 +4,13 @@ angular.module('whiteboard.services.shapebuilder', [])
   function setColor (shape, colors) {
     if (shape.type === 'path') {
       shape.attr('stroke', colors.stroke);
+    } else if (shape.type === 'text' && shape.attr('text') === 'Start Typing...') {
+      shape.attr('stroke', '#b3b3b3');
+      shape.attr('fill', '#b3b3b3');
+      shape.trueColors = {
+        stroke: colors.stroke,
+        fill: colors.fill
+      };
     } else {
       shape.attr('stroke', colors.stroke);
       shape.attr('fill', colors.fill);

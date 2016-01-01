@@ -111,9 +111,13 @@ angular.module('whiteboard.services.shapeeditor', [])
     var shape = BoardData.getShapeById(id, socketId);
 
     if (shape.type === 'text') {
-      shape.attr({
-        text: tool.text
-      });
+      if (shape.attr('text') === 'Start Typing...') {
+        shape.attr('text', '');
+      } else {
+        shape.attr({
+          text: tool.text
+        });
+      }
     }
 
     if (shape.pathDProps !== undefined) {

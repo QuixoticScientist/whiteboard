@@ -7,7 +7,8 @@
 - path autofill upon closing;
 - infinite board panning and zooming
 
-![alt tag](https://raw.githubusercontent.com/QuixoticScientist/whiteboard/master/client/assets/images/albus-screenshot-new.png)
+![alt tag](https://raw.githubusercontent.com/QuixoticScientist/whiteboard/dev/client/assets/images/albus-screenshot-1.png)
+![alt tag](https://raw.githubusercontent.com/QuixoticScientist/whiteboard/dev/client/assets/images/albus-screenshot-2.png)
 
 Data flows onto the board in the following path:
 

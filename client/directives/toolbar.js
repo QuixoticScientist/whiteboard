@@ -128,10 +128,10 @@ angular.module('whiteboard')
     link: function (scope, element, attrs, ctrl) {
       
       element.bind('mouseover mouseleave', function (ev) {
-        if (ev.type === 'mouseover' && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
+        if (ev.buttons === 0 && ev.type === 'mouseover' && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
           // console.log(angular.element(ev.relatedTarget).is('svg'))
           // console.log('add class show');
-
+          console.log(ev.buttons)
           ctrl.menuHandler('show');
           // element.addClass('show');
         } else {

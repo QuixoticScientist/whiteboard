@@ -26,6 +26,7 @@ angular.module('whiteboard.services.shapebuilder', [])
     var existingPath = BoardData.getShapeById(shape.myid, shape.socketId);
     existingPath.customSetPathD(shape.pathDProps);
     existingPath.pathDProps = shape.pathDProps;
+    existingPath.attr('fill', existingPath.tool.colors.fill);
     BoardData.pushToStorage(shape.myid, shape.socketId, existingPath);
   }
 

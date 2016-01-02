@@ -9,32 +9,6 @@ var roomsManager = {
   getRoom: function (roomId) {
     return rooms[roomId];
   },
-
-  handleMemberDisconnect: function (socket) {
-    var roomId = socket.room;
-    // var room = this.getRoom(roomId);
-
-    // console.log('Member ' + socket.id + ' is leaving room ' + roomId);
-    // var roomFilter = function (room, predicate) {
-    //   var filteredMembers = {};
-
-    //   for (member in room) {
-    //     if (room.hasOwnProperty(member) && member !== socket.id) {
-    //       filteredMembers[member] = room[member];
-    //     }
-    //   }
-
-    //   return filteredMembers;
-    // };
-
-    // if (room) {
-    //   //remove a player from the room
-    //   var newRoom = roomFilter(room);
-    //   rooms[roomId] = newRoom;
-    // } else {
-    //   return;
-    // }
-  },
   
   addMember: function (socket, roomId) {
 

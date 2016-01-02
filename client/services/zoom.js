@@ -34,8 +34,6 @@ angular.module('whiteboard.services.zoom', [])
       var newOffset = {
         x: offset.x,
         y: offset.y
-        // x: mouseXY.x - newViewBoxDims.width / 2,
-        // y: mouseXY.y - newViewBoxDims.height / 2
       };
     } else {
       var newOffset = {

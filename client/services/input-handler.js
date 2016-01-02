@@ -166,12 +166,6 @@ angular.module('whiteboard.services.inputhandler', [])
       EventHandler.finishShape(newId, socketId, shape.tool);
       shape.tool.name === 'path' ? Broadcast.finishCopiedPath(newId, shape.tool, currentShape.pathDProps) : Broadcast.finishShape(newId, shape.tool);
     },
-    mouseHold: function (ev) {
-      //
-    },
-    mouseUp: function (ev) {
-      //
-    },
     mouseOver: function (ev) {
       Visualizer.clearSelection();
       var selection = getClosestElementByArea(ev);
@@ -378,10 +372,6 @@ angular.module('whiteboard.services.inputhandler', [])
     }
   }
 
-  function doubleClick (ev) {
-    //just in case
-  }
-
   function keyPress (ev) {
     var toolName = parseToolName(BoardData.getCurrentTool().name);
 
@@ -397,7 +387,6 @@ angular.module('whiteboard.services.inputhandler', [])
     mousedown: mouseDown,
     mousemove: mouseMove,
     mouseup: mouseUp,
-    dblclick: doubleClick,
     keypress: keyPress
   };
 }]);

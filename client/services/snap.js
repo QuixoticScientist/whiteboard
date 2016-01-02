@@ -96,20 +96,20 @@ angular.module('whiteboard.services.snap', [])
       }
       var returnArr = [];
       var subtreeNodes;
-      /*check if left region is fully contained in range*/
+      // check if left region is fully contained in range
       if (regionContainedInRange(leftRange, range)) {
         subtreeNodes = reportSubtree(node.left);
         if (subtreeNodes) returnArr = returnArr.concat(subtreeNodes);
-      /*else check if left region intersects range*/
+      // else check if left region intersects range
       } else if (regionIntersection(leftRange, range)) {
         subtreeNodes = searchKDTree(node.left, range, leftRange, depth + 1);
         if (subtreeNodes) returnArr = returnArr.concat(subtreeNodes);
       }
-      /*check if right region is fully contained in range*/
+      // check if right region is fully contained in range
       if (regionContainedInRange(rightRange, range)) {
         subtreeNodes = reportSubtree(node.right);
         if (subtreeNodes) returnArr = returnArr.concat(subtreeNodes);
-      /*else check if right region intersects range*/
+      // else check if right region intersects range
       } else if (regionIntersection(rightRange, range)) {
         subtreeNodes = searchKDTree(node.right, range, rightRange, depth + 1);
         if (subtreeNodes) returnArr = returnArr.concat(subtreeNodes);

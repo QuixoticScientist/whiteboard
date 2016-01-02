@@ -86,6 +86,10 @@ Each time a change is made, run the following to update the minified files:
 grunt release
 ```
 
+### Step 4: Issuing a Pull Request
+
+Feel free to add contributions by issuing a pull request to the dev branch of this repo.
+
 ### Visiting the server
 
 While node is running, visit the locally running server at [127.0.0.1:3000](127.0.0.1:3000)

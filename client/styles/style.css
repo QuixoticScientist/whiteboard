@@ -149,6 +149,7 @@ svg.strokeColor {
 .show .menu-text {
   width: 96%;
   left: 8px;
+  height: 66%;
   /*margin-top: 110%;*/
 }
 
@@ -625,7 +626,7 @@ svg.strokeColor {
   }
 
   .show .menu-text {
-    margin-top: 100%;
+    margin-top: 10%;
   }
 
   .valign-text {
@@ -720,9 +721,9 @@ svg.strokeColor {
     height: 93.1%;
   }
 
-  .show .menu-text {
+  /*.show .menu-text {
     margin-top: 85%;
-  }
+  }*/
 
   .valign-text {
     line-height: 0;
@@ -829,7 +830,7 @@ svg.strokeColor {
   }
 
   .show .menu-text {
-    margin-top: 75%;
+    margin-top: 15%;
   }
 
   .show .level-two-items .icon {
@@ -857,9 +858,9 @@ svg.strokeColor {
     height: 97%;
   }
 
-  .show .menu-text {
-    margin-top: 70%;
-  }
+/*  .show .menu-text {
+    margin-top: 15%;
+  }*/
 
   .toolbar .menu.level-two.tool {
     height: 93.4%;
@@ -899,11 +900,3 @@ svg.strokeColor {
   }
 
 }
-
-
-
-
-
-
-
-

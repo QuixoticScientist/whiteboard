@@ -10,8 +10,8 @@
 - color and fill customization; and
 - responsive marching menu
 
-![alt tag](https://raw.githubusercontent.com/QuixoticScientist/whiteboard/dev/client/assets/images/albus-screenshot-1.png)
-![alt tag](https://raw.githubusercontent.com/QuixoticScientist/whiteboard/dev/client/assets/images/albus-screenshot-2.png)
+<img src="https://raw.githubusercontent.com/QuixoticScientist/whiteboard/dev/client/assets/images/albus-screenshot-1.png" width="410">
+<img src="https://raw.githubusercontent.com/QuixoticScientist/whiteboard/dev/client/assets/images/albus-screenshot-2.png" width="410">
 
 Data flows onto the board in the following path:
 

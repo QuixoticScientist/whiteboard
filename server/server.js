@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var favicon = require('serve-favicon');
 var http = require('http');
 var bodyParser = require('body-parser');
 var util = require('./utils/util');
@@ -14,7 +13,6 @@ app.use(express.static(__dirname + '/../client'));
 app.use(express.static(__dirname + '/lib'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(favicon(__dirname + '/favicon.ico'));
 
 var port = process.env.PORT || '3000';
 app.set('port', port);

@@ -79,6 +79,13 @@ svg.copy {
   cursor: url('../assets/images/cursors/copy.png'), auto;
 }
 
+svg.fill {
+  cursor: url('../assets/images/cursors/fill.png'), auto;
+}
+
+svg.strokeColor {
+  cursor: url('../assets/images/cursors/strokeColor.png'), auto;
+}
 /*
  *
  * TOOLBAR 

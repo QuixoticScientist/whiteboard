@@ -23,14 +23,16 @@ angular.module('whiteboard')
         boardCtrl.handleEvent(ev);
       });
 
-      // Required for menu handling
-      // BoardData.getCanvas().bind('mouseover', function (ev) {
-      //   console.log('mouseover')
-      //   scope.$broadcast('menu', {
-      //     action: 'close',
-      //     ev: ev
-      //   });
-      // });      
+      scope.$on('setCursorClass', function (evt, msg) {
+        // console.log('A')
+        // var oldTool = BoardData.getCurrentTool();
+        var svg = BoardData.getCanvas();
+
+        // svg.addClass('A');
+        svg.attr("class", msg.tool);
+        // console.log('> ', svg.attr("class").split(' '));
+      });
+   
     }
   }
 }]);

@@ -281,7 +281,8 @@ angular.module('whiteboard')
           scope.$emit('activateMenu', 'hide');
         } else if (attrs.wbTool && (angular.element(ev.relatedTarget).is('svg') || angular.element(ev.relatedTarget)[0].raphael)) {
           // console.log('b')
-          submenuItemsCtrl.setTool(attrs.wbTool)
+          scope.$emit('setCursorClass', {tool: attrs.wbTool});
+          submenuItemsCtrl.setTool(attrs.wbTool);
           scope.$emit('activateMenu', 'hide');
         } else if (angular.element(ev.relatedTarget).hasClass('menu') || angular.element(ev.relatedTarget).hasClass('icon')) {
           // console.log(ev)

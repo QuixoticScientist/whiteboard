@@ -12,6 +12,14 @@ module.exports = function(server) {
 
   io.on('connection', function (socket) {
 
+    setInterval(function() {
+      socket.emit('heartbeat');
+    }, 5000);
+
+    socket.on('heartbeat', function () {
+      console.log('hb');
+    })
+
     socket.on('idRequest', function () {
       socket.emit('socketId', {socketId: socket.id});
     });

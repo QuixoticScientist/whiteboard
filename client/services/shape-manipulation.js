@@ -4,6 +4,7 @@ angular.module('whiteboard.services.shapemanipulation', [])
   var pathSmoother = function (pathElement) {
     var path = pathElement.attr('path');
     path = path.length > 1 ? path : Raphael.parsePathString(pathElement.pathDProps);
+    if (!path) return;
     var interval = 5;
 
     var newPath = path.reduce(function (newPathString, currentPoint, index, path) {

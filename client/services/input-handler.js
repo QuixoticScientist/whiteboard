@@ -254,6 +254,10 @@ angular.module('whiteboard.services.inputhandler', [])
       var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y);
       var id = BoardData.generateShapeId();
 
+      if (currentTool.name !== 'text' && currentTool.text) {
+        delete currentTool.text;
+      }
+
       EventHandler.createShape(id, socketId, currentTool, coords[0], coords[1]);
       BoardData.setCurrentShape(id);
       Broadcast.newShape(id, socketId, currentTool, coords[0], coords[1]);

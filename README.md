@@ -1,7 +1,17 @@
-# whiteboard
----------------------------------
+# Albus
 
-> [description of whiteboard goes here]
+> Albus is a real-time collaborative whiteboard. Key features include:
+
+- suggested snapping points to shape corners and midpoints using k-d trees;
+- automatic path smoothing for freehand drawing;
+- path autofill upon closing;
+- infinite board panning and zooming
+
+[!alt tag](https://raw.githubusercontent.com/QuixoticScientist/whiteboard/master/client/assets/images/albus-screenshot-new.png)
+
+Data flows onto the board in the following path:
+
+[!alt tag](https://raw.githubusercontent.com/QuixoticScientist/whiteboard/master/client/assets/images/frontend-dataflow.png)
 
 ## Team
 
@@ -12,8 +22,8 @@
 ## Table of Contents
 
 1. [Usage](#Usage)
-1. [Requirements](#requirements)
 1. [Technologies Used](#technologies-used)
+1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Tasks](#tasks)
@@ -21,7 +31,7 @@
 
 ## Usage
 
-Visit the page, currently hosted on [qswb.herokuapp.com](http://qswb.herokuapp.com/)
+Visit the page, currently hosted on [albus.io](http://albus.io)
 
 ## Technologies Used
 
@@ -36,6 +46,7 @@ Visit the page, currently hosted on [qswb.herokuapp.com](http://qswb.herokuapp.c
 ## Requirements
 
 - [Node 0.10.x](https://nodejs.org/en/download/)
+- [Redis](http://redis.io/download)
 
 ## Development Process
 
@@ -46,40 +57,31 @@ Visit the page, currently hosted on [qswb.herokuapp.com](http://qswb.herokuapp.c
 Run the following in the command line, from within the repository:
 
 ```sh
-sudo npm install -g bower
+bower install
 npm install
-```
-
-[optional] For convenience with running the server:
-```sh
-npm install nodemon
 ```
 
 ### Step 2: Running Locally
 
-Run the mongo database from the command line, in one tab:
+Run the Redis database from the command line, in one tab:
 ```sh
-mongod
+redis-server
 ```
 
 Run the server in the other tab using node:
 
 ```sh
-node server/server.js
+npm run server
 ```
 
-[optional] run the server in nodemon instead (if installed) to automatically restart the server after changing files:
+### Step 3: Making Local Changes
+
+Each time a change is made, run the following to update the minified files:
 
 ```sh
-nodemon server/server.js
+grunt release
 ```
 
 ### Visiting the server
 
 While node is running, visit the locally running server at [127.0.0.1:3000](127.0.0.1:3000)
-
-### Testing
-
-```sh
-npm test
-```

@@ -258,7 +258,7 @@ angular.module('whiteboard.services.inputhandler', [])
       var socketId = BoardData.getSocketId();
       var currentTool = BoardData.getCurrentTool();
       var mouseXY = getMouseXY(ev);
-      var coords = currentTool.name === 'arrow' ? [mouseXY.x, mouseXY.y] : Snap.snapToPoints(mouseXY.x, mouseXY.y);
+      var coords = Snap.snapToPoints(mouseXY.x, mouseXY.y);
 
       Broadcast.editShape(id, socketId, currentTool, coords[0], coords[1]);
       EventHandler.editShape(id, socketId, currentTool, coords[0], coords[1]);

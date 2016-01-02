@@ -83,7 +83,8 @@ angular.module('whiteboard.services.shapeeditor', [])
     shape.attr({
       x: x,
       y: y,
-      text: tool.text
+      text: tool.text,
+      'stroke-width': 1
     });
   };
 

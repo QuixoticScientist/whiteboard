@@ -64,7 +64,7 @@ angular.module('whiteboard.services.shapebuilder', [])
         return arrow;
       }
     };
-    var shape = !!tool.text ? shapeConstructors[tool.name](x, y, tool.text) : shapeConstructors[tool.name](x, y);
+    var shape = !!tool.text ? shapeConstructors['text'](x, y, tool.text) : shapeConstructors[tool.name](x, y);
     shape.initX = x;
     shape.initY = y;
     shape.tool = tool;

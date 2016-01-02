@@ -104,7 +104,7 @@ angular.module('whiteboard.services.shapeeditor', [])
     }
     
     // optional tool argument for text change
-    shapeHandlers[tool.name](shape, x, y, tool);
+    !!tool.text ? shapeHandlers['text'](shape, x, y, tool) : shapeHandlers[tool.name](shape, x, y);
   };
 
   function finishShape (id, socketId, tool) {
@@ -115,7 +115,8 @@ angular.module('whiteboard.services.shapeeditor', [])
         shape.attr('text', '');
       } else {
         shape.attr({
-          text: tool.text
+          text: tool.text,
+          stroke: tool.colors.stroke
         });
       }
     }

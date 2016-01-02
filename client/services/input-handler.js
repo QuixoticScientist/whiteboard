@@ -131,8 +131,8 @@ angular.module('whiteboard.services.inputhandler', [])
 
       var newInitX = shape.initX + 10;
       var newInitY = shape.initY + 10;
-      var newMouseX = shape.mouseX + 10;
-      var newMouseY = shape.mouseY + 10;
+      var newMouseX = shape.mouseX + 10 || newInitX;
+      var newMouseY = shape.mouseY + 10 || newInitY;
 
       EventHandler.createShape(newId, socketId, shape.tool, newInitX, newInitY);
       Broadcast.newShape(newId, socketId, shape.tool, newInitX, newInitY);
@@ -155,7 +155,12 @@ angular.module('whiteboard.services.inputhandler', [])
         currentShape.pathDProps = stringifiedPath;
       }
 
-      EventHandler.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);
+      if (!!shape.tool.text) {
+        EventHandler.editShape(newId, socketId, shape.tool, newInitX, newInitY);
+      } else {
+        EventHandler.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);
+      }
+
       Broadcast.editShape(newId, socketId, shape.tool, newMouseX, newMouseY);
 
       EventHandler.finishShape(newId, socketId, shape.tool);

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#find . -type f \( -name "*.js" ! -name "*-min*" \) -exec awk '1' {} + > compiled.js
+
+zip_file="whiteboard.zip"    # /   (root directory)
+if [ -e "$zip_file" ]
+then
+  rm $zip_file
+fi
+
+#git pull --rebase upstream dev
+grunt release
+zip -r whiteboard.zip .
+scp -i ~/.ssh/qs2keys.pem whiteboard.zip ec2-user@52.35.39.88:

@@ -1,0 +1,5 @@
+<div class="layers" ng-model="wbLayers">
+  <div ng-repeat="(socket, display) in members">
+    <input type="checkbox" ng-model="checked" ng-init='checked=true' ng-change="change(socket)">{{socket}}</input>
+  </div>
+</div>

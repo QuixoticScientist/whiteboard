@@ -1,4 +1,20 @@
 .DS_Store
 node_modules
-bower_modules
+
+# Bower
+bower_components
+client/lib
+
 sandbox.js
+dump.rdb
+/ssh
+.elasticbeanstalk
+Dockerfile
+
+*.log
+
+whiteboard.zip
+deploy
+
+# min
+client/dist/*

@@ -9,5 +9,6 @@ then
 fi
 
 #git pull --rebase upstream dev
+grunt release
 zip -r whiteboard.zip .
 scp -i ~/.ssh/qs2keys.pem whiteboard.zip ec2-user@52.35.39.88:

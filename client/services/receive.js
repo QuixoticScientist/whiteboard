@@ -19,6 +19,10 @@ angular.module('whiteboard.services.receive', [])
     }
   });
 
+  Sockets.on('heartbeat', function () {
+    Sockets.emit('heartbeat');
+  })
+
   Sockets.on('socketId', function (data) {
     EventHandler.setSocketId(data.socketId);
   });

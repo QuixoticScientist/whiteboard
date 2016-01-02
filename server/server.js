@@ -18,7 +18,7 @@ var port = process.env.PORT || '3000';
 app.set('port', port);
 
 var server = http.createServer(app);
-var io = require('./sockets')(server, { serveClient: true });
+var io = require('./sockets')(server);
 
 app.get('/:id', function (req, res) {
   res.sendfile('./client/index.html');

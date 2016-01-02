@@ -81,7 +81,7 @@ angular.module('whiteboard.services.broadcast', [])
       socketId: shape.socketId,
       attr: shape.attr()
     })
-  }
+  };
 
   return {
     getSocketId: getSocketId,

@@ -10,11 +10,13 @@ html{
 }
 
 h1.title {
-  /*position: relative;
-  float: right;
-  margin-right: 20px;*/
   position: absolute;
+  background-image: url('../assets/images/logo.png');
+  background-size: cover;
+  background-repeat: no-repeat;
   right: 20px;
+  width: 100px;
+  height: 36px;
 }
 
 .app-container {
@@ -29,7 +31,6 @@ h1.title {
 svg {
   height: 100%;
   width: 100%;
-  /*border: 1px solid black;*/
   position: absolute;
   cursor: url('../assets/images/cursors/path.png'), auto;
 }

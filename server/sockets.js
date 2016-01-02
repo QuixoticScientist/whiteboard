@@ -17,7 +17,6 @@ module.exports = function(server) {
     }, 5000);
 
     socket.on('heartbeat', function () {
-      console.log('hb');
     })
 
     socket.on('idRequest', function () {
